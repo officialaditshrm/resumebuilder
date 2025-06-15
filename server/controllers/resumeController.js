@@ -1,9 +1,10 @@
 import resumeModel from '../models/resumeModel.js'
+import userModel from '../models/userModel.js'
 
 const addResume = async (req, res) => {
     const id = req.body.user_id
     try{
-        const userExists = await resumeModel.findOne({ _id: id })
+        const userExists = await userModel.findOne({ _id: id })
 
         if (!userExists) {
             console.log("User doesn't exist")

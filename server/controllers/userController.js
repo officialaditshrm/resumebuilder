@@ -209,6 +209,7 @@ const listUsers = async (req, res) => {
         console.log("Users listed successfully")
         return res.json({
             success: true,
+            message: "Users listed Successfully",
             data: users
         })
     } catch (error) {

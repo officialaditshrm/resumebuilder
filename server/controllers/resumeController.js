@@ -1,10 +1,20 @@
 import resumeModel from '../models/resumeModel.js'
 
 const addResume = async (req, res) => {
+    const id = req.body.user_id
     try{
+        const userExists = await resumeModel.findOne({ _id: id })
+
+        if (!userExists) {
+            console.log("User doesn't exist")
+            return res.json({
+                success: false,
+                messasge: "User doesn't exist"
+            })
+        }
+
         const newResume = new resumeModel(req.body)
         const resume = await newResume.save()
-
         console.log("Resume Added Successfully")
         return res.json({
             success: true,
@@ -32,6 +42,7 @@ const updateResume = async (req, res) => {
             })
         }
         resume.name = req.body.name || resume.name
+        resume.private = req.body.private || resume.private
         resume.summary = req.body.summary || resume.summary
         resume.username = req.body.username || resume.username
         resume.city = req.body.city || resume.city

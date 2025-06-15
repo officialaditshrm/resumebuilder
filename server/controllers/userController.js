@@ -1,10 +1,10 @@
 import userModel from '../models/userModel.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
-import resumeModel from '../models/resumeModel.js'
+import validator from 'validator'
 
 const createToken = (id) => {
-    jwt.sign({id}, process.env.JWT_SECRET)
+    return jwt.sign({id}, process.env.JWT_SECRET)
 }
 
 const registerUser = async(req, res) => {
@@ -42,9 +42,8 @@ const registerUser = async(req, res) => {
         const user = new userModel({
             name: newUser.name,
             email: newUser.email,
-            resumes: newUser.resumes || [],
             password: hashedPassword,
-            lastLog: new Date()
+            last_log: new Date()
         })
         const registeredUser = await user.save()
         const token = createToken(registeredUser._id)
@@ -170,7 +169,7 @@ const updateUser = async (req, res) => {
                     message: "Password must contain atleast 8 characters with atleast 1 Capital letter, small letter, digit and special character"
                 })
             }
-            hashedPassword = await bcrypt.hash(newPassword, 10)
+            const hashedPassword = await bcrypt.hash(newPassword, 10)
             user.password = hashedPassword
         }
          
@@ -186,7 +185,6 @@ const updateUser = async (req, res) => {
             }
         }
 
-        user.resumes = req.body.resumes || user.resumes
         user.name = req.body.name || user.name
 
         await user.save()

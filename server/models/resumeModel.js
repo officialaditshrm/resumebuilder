@@ -10,34 +10,41 @@ const miniSectionSchema = new mongoose.Schema({
     content: {type: String, required: true}
 })
 
-const subSectionSchema = new mongoose.Schema({
-    head: {type: String, required: true},
-    subhead: {type: String},
-    start: {type: Date},
-    end: {type: Date},
-    ongoing: {type: Boolean, required: true}, 
+const subsubSectionSchema = new mongoose.Schema({
+    head: {type: String},
     points: [
         {type: String}
     ],
     urls: [ urlSchema ]
 })
 
+const subSectionSchema = new mongoose.Schema({
+    head: {type: String, required: true},
+    start: {type: Date},
+    end: {type: Date},
+    ongoing: {type: Boolean, required: true},
+    urls: [ urlSchema ],
+    subsubsections : [ subsubSectionSchema ]
+})
+
 const sectionSchema = new mongoose.Schema({
     head: {type: String, required: true},
-    subsections: [ subSectionSchema ]
+    subsections: [ subSectionSchema ],
+    miniSections: [ miniSectionSchema ]
 })
 
 const resumeSchema = new mongoose.Schema({
     name: {type: String, required: true},
+    user_id: {type: mongoose.Schema.Types.ObjectId, required: true},
+    private: {type: Boolean, required: true},
     summary: {type: String},
-    username: {type: String, require: true},
+    username: {type: String, required: true},
     city: {type: String},
     state: {type: String},
     country: {type: String},
     pincode: {type: String},
     header_urls: [ urlSchema ],
-    sections: [ sectionSchema ],
-    miniSections: [ miniSectionSchema ]
+    sections: [ sectionSchema ]
 }, {minimize: false})
 
 const resumeModel = mongoose.models.resumes || mongoose.model("resumes", resumeSchema)

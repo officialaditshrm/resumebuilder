@@ -2,6 +2,8 @@ import express from 'express'
 import cors from 'cors'
 import 'dotenv/config'
 import {connectDB} from './config/db.js'
+import userRouter from './routes/userRoute.js'
+import resumeRouter from './routes/resumeRoute.js'
 
 // App configuration
 const app = express()
@@ -15,6 +17,8 @@ app.use(cors())
 connectDB()
 
 // API Endpoints
+app.use('/api/users', userRouter)
+app.use('/api/resumes', resumeRouter)
 app.use('/', (req, res) => {
     res.json({success: true, message: "API Working"})
 })

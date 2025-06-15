@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
+
+* {
+  @apply transition duration-300;
+}

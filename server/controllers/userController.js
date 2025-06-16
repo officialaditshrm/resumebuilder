@@ -119,7 +119,7 @@ const deleteUser = async (req, res) => {
         }
         
 
-        await userModel.deleteOne(user)
+        await userModel.deleteOne({ _id : id})
         console.log("User deleted Successfully")
         return res.json({
             success: true,

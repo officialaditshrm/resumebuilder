@@ -15,8 +15,11 @@ const subsubSectionSchema = new mongoose.Schema({
     points: [
         {type: String}
     ],
-    urls: [ urlSchema ]
-})
+    start: {type: Date},
+    end: {type: Date},
+    urls: [ urlSchema ],
+    ongoing: {type: Boolean, require: true}
+}, {minimize: false})
 
 const subSectionSchema = new mongoose.Schema({
     head: {type: String, required: true},
@@ -25,13 +28,13 @@ const subSectionSchema = new mongoose.Schema({
     ongoing: {type: Boolean, required: true},
     urls: [ urlSchema ],
     subsubsections : [ subsubSectionSchema ]
-})
+}, {minimize: false})
 
 const sectionSchema = new mongoose.Schema({
     head: {type: String, required: true},
     subsections: [ subSectionSchema ],
     miniSections: [ miniSectionSchema ]
-})
+}, {minimize: false})
 
 const resumeSchema = new mongoose.Schema({
     name: {type: String, required: true},
@@ -45,7 +48,7 @@ const resumeSchema = new mongoose.Schema({
     pincode: {type: String, default: ""},
     header_urls: [ urlSchema ],
     sections: [ sectionSchema ]
-}, {minimize: false})
+}, {timestamps: true}, {minimize: false})
 
 const resumeModel = mongoose.models.resumes || mongoose.model("resumes", resumeSchema)
 export default resumeModel

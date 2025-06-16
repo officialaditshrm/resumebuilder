@@ -86,7 +86,7 @@ const deleteResume = async(req, res) => {
             })
         }
 
-        await resumeModel.deleteOne({ resume })
+        await resumeModel.deleteOne({ _id : id })
 
         console.log("Resume deleted successfully")
         return res.json({

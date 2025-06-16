@@ -17,6 +17,7 @@ function App() {
   const [loggedInUser, setLoggedInUser] = useState(null)
   const [loggedInUserData, setLoggedInUserData] = useState(null)
   const [allResumes, setallResumes] = useState([])
+  const [currResumeData, setCurrResumeData] = useState(null)
 
 
   // DECODING TOKEN IF THE USER IS ALREADY LOGGED IN TO LOAD USER-DATA
@@ -56,12 +57,6 @@ function App() {
     }
     console.log("Logged in User is:", loggedInUser)
   }, [loggedInUser])
-
-  useEffect(() => {
-    if (loggedInUserData) {
-      console.log(loggedInUserData)
-    }
-  }, [loggedInUserData])
 
   // DEFINING OTHER CONTEXT-FUCTIONS TO FETCH RESUMES AND USERS APIs
 
@@ -117,6 +112,22 @@ function App() {
     }
   }
 
+  const displayResume = async(resumeID) => {
+    try {
+      const response = await fetch(`${url}/api/resumes/${resumeID}`, {
+        method: "GET",
+        headers: {
+          "Content-Type" : "application/json"
+        }
+      })
+      const data = await response.json()
+      setCurrResumeData(data.data)
+    } catch (error) {
+      setCurrResumeData(null)
+      alert(error.message)
+    }
+  }
+
   return (
     <div className = "bg-black text-white">
       <Header 
@@ -136,7 +147,7 @@ function App() {
 
       <Routes>
         <Route path = "/" element = {<Landing />} />
-        <Route path = "/myresumes" element = {<MyResumes allResumes = {allResumes} loggedInUser = {loggedInUser}/>} />
+        <Route path = "/myresumes" element = {<MyResumes currResumeData = {currResumeData} setCurrResumeData = {setCurrResumeData} displayResume = {displayResume} fetchResumes = {fetchResumes} allResumes = {allResumes} loggedInUser = {loggedInUser}/>} />
         <Route path = "/listusers" element = {<ListUsers allResumes = {allResumes} setallResumes={setallResumes} fetchResumes={fetchResumes} listUsers = {listUsers} url = {url} users = {users} />} />
       </Routes>
 

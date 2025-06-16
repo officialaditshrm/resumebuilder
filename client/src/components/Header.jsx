@@ -19,25 +19,25 @@ function Header ({token, setToken, fetchResumes, listUsers, setLoggedInUser, set
     }
     
     return (
-        <div className = "fixed backdrop-blur-md top-3 right-5 left-5 flex rounded-2xl h-20">
-            <div className = "top-[3px] right-[3px] bottom-[3px] left-[3px] bg-white/50 flex rounded-2xl fixed text-black justify-evenly">
+        <div className = "fixed z-10 backdrop-blur-md top-3 right-5 left-5 flex rounded-2xl h-20">
+            <div className = "top-[3px] right-[3px] bottom-[3px] left-[3px] bg-white/20 flex rounded-2xl fixed justify-evenly">
                 <div className = "flex flex-1 px-10">
                     <button
                     onClick={handleHome}
                     className = "flex flex-col items-center justify-center rounded-2xl hover:bg-neutral-950/10 px-10">
-                        <img className = "h-1/2" src = "homeblack.svg"/>
+                        <img className = "h-1/2" src = "home.svg"/>
                         <label className = "text-sm">Home</label>
                     </button>
                     <button
                     onClick={handleShowUsers}
                     className = "flex flex-col items-center justify-center rounded-2xl hover:bg-neutral-950/10 px-10">
-                        <img className = "h-1/2" src = "communityblack.svg"/>
+                        <img className = "h-1/2" src = "community.svg"/>
                         <label className = "text-sm">Community</label>
                     </button>
                     <button
                     onClick={handleMyResumes}
                     className = "flex flex-col items-center justify-center rounded-2xl hover:bg-neutral-950/10 px-10">
-                        <img className = "h-1/2" src = "adddocblack.svg"/>
+                        <img className = "h-1/2" src = "adddoc.svg"/>
                         <label className = "text-sm">My Resumes</label>
                     </button>
                 </div>
@@ -46,7 +46,7 @@ function Header ({token, setToken, fetchResumes, listUsers, setLoggedInUser, set
                     <button
                     onClick = {() => setShowLogin(true)}
                     className = "flex flex-col justify-center items-center rounded-2xl hover:bg-neutral-950/10 px-10">
-                        <img className = "h-1/2" src = "loginblack.svg"/>
+                        <img className = "h-1/2" src = "login.svg"/>
                         <label className = "text-sm">Login</label>
                     </button>
                     }
@@ -54,7 +54,7 @@ function Header ({token, setToken, fetchResumes, listUsers, setLoggedInUser, set
                         <button
                         onClick = {(event) => {event.preventDefault()}}
                         className = "flex flex-col justify-center items-center rounded-2xl hover:bg-neutral-950/10 px-10">
-                            <img className = "h-1/2" src = "profileblack.svg"/>
+                            <img className = "h-1/2" src = "profile.svg"/>
                             <label className = "text-sm">Profile</label>
                         </button>
                     }
@@ -62,7 +62,7 @@ function Header ({token, setToken, fetchResumes, listUsers, setLoggedInUser, set
                         <button
                         onClick = {() => {setToken(""); localStorage.removeItem("resumeBuilderToken"); setLoggedInUser(null)}}
                         className = "flex flex-col justify-center items-center rounded-2xl hover:bg-neutral-950/10 px-10">
-                            <img className = "h-1/2" src = "logoutblack.svg"/>
+                            <img className = "h-1/2" src = "logout.svg"/>
                             <label className = "text-sm">Logout</label>
                         </button>
                     }

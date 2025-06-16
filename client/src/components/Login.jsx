@@ -75,7 +75,7 @@ function Login({setShowLogin, setToken, url}) {
 
     return (
         <div 
-        className = "text-white fixed top-0 left-0 text-arial bg-white/20 backdrop-blur h-screen w-screen flex flex-col justify-center items-center">
+        className = "text-white z-10 fixed top-0 left-0 text-arial bg-white/20 backdrop-blur h-screen w-screen flex flex-col justify-center items-center">
             {!showRegister &&
             <form 
             id = "loginform"

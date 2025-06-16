@@ -15,7 +15,7 @@ function ShowUser ({allResumes, currProfileToDisplay, setCurrProfileToDisplay, s
                     <ol>
                         {currProfileToDisplay.public_resumes.map((resumeID) => {
                             const matchingResume = allResumes.find((element) => element._id === resumeID)
-                            return matchingResume ? <li key = {resumeID}>{matchingResume.name}</li> : null
+                            return <li key = {resumeID}>{matchingResume.name}</li>
                         })}
                     </ol>
                 </div>

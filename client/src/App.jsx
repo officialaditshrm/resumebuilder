@@ -1,20 +1,102 @@
 import { useState, useEffect } from 'react'
+import { Routes, Route } from 'react-router-dom'
+
 import Login from './components/Login.jsx'
-import ListUsers from './components/ListUsers.jsx'
+import ListUsers from './pages/ListUsers.jsx'
+import Header from './components/Header.jsx'
+import Landing from './pages/Landing.jsx'
+import MyResumes from './pages/MyResumes.jsx'
+
 
 const url = 'http://localhost:6500'
 
 function App() {
   const [showLogin, setShowLogin] = useState(false)
-  const [token, setToken] = useState(localStorage.getItem("resumeBuilderToken"))
+  const [token, setToken] = useState(null)
   const [users, setUsers] = useState([])
-  const [showUserList, setShowUserList] = useState(false)
+  const [loggedInUser, setLoggedInUser] = useState(null)
+  const [loggedInUserData, setLoggedInUserData] = useState(null)
+  const [allResumes, setallResumes] = useState([])
+
+
+  // DECODING TOKEN IF THE USER IS ALREADY LOGGED IN TO LOAD USER-DATA
+
+  function decodeJWT(token) {
+      try {
+          const base64Url = token.split('.')[1]; // Get the payload part of the JWT
+          const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+          const jsonPayload = decodeURIComponent(
+              atob(base64)
+                  .split('')
+                  .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+                  .join('')
+          );
+          return JSON.parse(jsonPayload);
+      } catch (error) {
+          alert('Error decoding JWT:', error.message);
+          return null;
+      }
+  }
 
   useEffect (() => {
-    console.log(token)
+    const savedToken = localStorage.getItem("resumeBuilderToken")
+    console.log(savedToken)
+    if (savedToken) {
+      setToken(savedToken)
+      const decodedToken = decodeJWT(savedToken)
+      setLoggedInUser(decodedToken.id)
+    } else {
+      setLoggedInUser(null)
+    }
   }, [token])
 
-  
+  useEffect(() => {
+    if (loggedInUser) {
+      displayUser()
+    }
+    console.log("Logged in User is:", loggedInUser)
+  }, [loggedInUser])
+
+  useEffect(() => {
+    if (loggedInUserData) {
+      console.log(loggedInUserData)
+    }
+  }, [loggedInUserData])
+
+  // DEFINING OTHER CONTEXT-FUCTIONS TO FETCH RESUMES AND USERS APIs
+
+  const fetchResumes = async () => {
+      try{
+          const response = await fetch(`${url}/api/resumes`)
+          if (!response.ok) {
+              throw new Error("Could not list resumes")
+          }
+          const jsonresponse = await response.json()
+          setallResumes(jsonresponse.data)
+      } catch(error) {
+          setallResumes([])
+          alert(error)
+      }
+  }
+
+  const displayUser = async () => {
+    try {
+      const response = await fetch(`${url}/api/users/${loggedInUser}`, {
+        method: 'GET',
+        headers : {
+          "Content-Type" : "application/json"
+        }
+      })
+      if (!response.ok) {
+        throw new Error(`Failed to Display User: `)
+      }
+      const data = await response.json()
+      setLoggedInUserData(data.data)
+    } catch(error) {
+      setLoggedInUserData(null)
+      alert(error.message)
+    }
+  }
 
   const listUsers = async () => {
     try {
@@ -24,48 +106,40 @@ function App() {
           "Content-Type" : "application/json"
         }
       })
-      console.log(response)
       if (!response.ok) {
         throw new Error(`Failed to list users`)
       }
       const data = await response.json()
-      console.log(data)
       setUsers(data.data)
-      setShowUserList(true)
     } catch (error) {
+      setUsers([])
       alert(error.message)
     }
   }
 
   return (
-    <div className = "bg-black h-screen text-white">
-
-      {token == "" &&
-      <button 
-      className = {`bg-neutral-800 py-2 px-3 rounded-md`}
-      onClick = {() => setShowLogin(true)}>
-        Login
-      </button>
-      }
-
-      {token != "" &&
-      <button 
-      className = {`bg-neutral-800 py-2 px-3 rounded-md`}
-      onClick = {() => {setToken(""); localStorage.setItem("resumeBuilderToken", "")}}>
-        Logout
-      </button>
-      }     
-
-      <button 
-      className = {`bg-neutral-800 py-2 px-3 rounded-md`}
-      onClick = {listUsers}>
-        Show Users
-      </button>
-
+    <div className = "bg-black text-white">
+      <Header 
+        fetchResumes={fetchResumes}
+        showLogin = {showLogin}
+        setShowLogin = {setShowLogin}
+        token = {token}
+        setToken = {setToken}
+        loggedInUser = {loggedInUser}
+        setLoggedInUser = {setLoggedInUser}
+        listUsers = {listUsers}
+      />
+      
       {showLogin && 
         <Login url = {url} setToken = {setToken} setShowLogin = {setShowLogin}/>
       }
-      {showUserList && <ListUsers listUsers = {listUsers} setShowUserList = {setShowUserList} url = {url} users = {users} />}
+
+      <Routes>
+        <Route path = "/" element = {<Landing />} />
+        <Route path = "/myresumes" element = {<MyResumes allResumes = {allResumes} loggedInUser = {loggedInUser}/>} />
+        <Route path = "/listusers" element = {<ListUsers allResumes = {allResumes} setallResumes={setallResumes} fetchResumes={fetchResumes} listUsers = {listUsers} url = {url} users = {users} />} />
+      </Routes>
+
     </div>
   )
 }

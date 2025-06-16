@@ -37,12 +37,12 @@ const resumeSchema = new mongoose.Schema({
     name: {type: String, required: true},
     user_id: {type: mongoose.Schema.Types.ObjectId, required: true},
     private: {type: Boolean, required: true},
-    summary: {type: String},
+    summary: {type: String, default : ""},
     username: {type: String, required: true},
-    city: {type: String},
-    state: {type: String},
-    country: {type: String},
-    pincode: {type: String},
+    city: {type: String, default : ""},
+    state: {type: String, default: ""},
+    country: {type: String, default: ""},
+    pincode: {type: String, default: ""},
     header_urls: [ urlSchema ],
     sections: [ sectionSchema ]
 }, {minimize: false})

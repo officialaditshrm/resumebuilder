@@ -4,9 +4,9 @@ import userModel from '../models/userModel.js'
 const addResume = async (req, res) => {
     const id = req.body.user_id
     try{
-        const userExists = await userModel.findOne({ _id: id })
+        const user = await userModel.findOne({ _id: id })
 
-        if (!userExists) {
+        if (!user) {
             console.log("User doesn't exist")
             return res.json({
                 success: false,
@@ -16,6 +16,9 @@ const addResume = async (req, res) => {
 
         const newResume = new resumeModel(req.body)
         const resume = await newResume.save()
+        resume.private ? user.private_resumes.push(resume._id) : user.public_resumes.push(resume._id)
+        await user.save()
+
         console.log("Resume Added Successfully")
         return res.json({
             success: true,

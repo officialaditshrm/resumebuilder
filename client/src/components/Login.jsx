@@ -37,7 +37,6 @@ function Login({setShowLogin, setToken, url}) {
                 throw new Error(`Login failed: ${response.status}`)
             }
             const data = await response.json()
-            console.log("Login Response:", data)
             setToken(data.token)
             localStorage.setItem("resumeBuilderToken", data.token)
             alert(data.message)
@@ -65,7 +64,6 @@ function Login({setShowLogin, setToken, url}) {
                 throw new Error(`Signup failed: ${response.status}`)
             }
             const data = await response.json()
-            console.log("Signup Response:", data)
             setToken(data.token)
             localStorage.setItem("resumeBuilderToken", data.token)
             alert(data.message)

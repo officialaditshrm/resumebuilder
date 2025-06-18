@@ -58,8 +58,11 @@ function App() {
     console.log("Logged in User is:", loggedInUser)
   }, [loggedInUser])
 
-  // DEFINING OTHER CONTEXT-FUCTIONS TO FETCH RESUMES AND USERS APIs
+  useEffect(() => {
+    console.log(allResumes)
+  }, [allResumes])
 
+  // DEFINING OTHER CONTEXT-FUCTIONS TO FETCH RESUMES AND USERS APIs
   const fetchResumes = async () => {
       try{
           const response = await fetch(`${url}/api/resumes`)
@@ -72,6 +75,54 @@ function App() {
           setallResumes([])
           alert(error)
       }
+  }
+
+  const postResume = async(resumeBody) => {
+    try {
+      const response = await fetch(`${url}/api/resumes`, {
+        method: "POST",
+        headers: {
+          "Content-Type" : "application/json"
+        },
+        body: resumeBody
+      })
+      const data = await response.json()
+      console.log(data)
+    } catch(error) {
+      alert(error.message)
+    }
+  }
+
+  const updateResume = async(resumeID, resumeBody) => {
+    try {
+      const response = await fetch(`${url}/api/resumes/${resumeID}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type" : "application/json"
+        },
+        body: resumeBody
+      })
+      const data = await response.json()
+      console.log(data)
+    } catch(error) {
+      alert(error.message)
+    }
+  }
+
+  const displayResume = async(resumeID) => {
+    try {
+      const response = await fetch(`${url}/api/resumes/${resumeID}`, {
+        method: "GET",
+        headers: {
+          "Content-Type" : "application/json"
+        }
+      })
+      const data = await response.json()
+      setCurrResumeData(data.data)
+    } catch (error) {
+      setCurrResumeData(null)
+      alert(error.message)
+    }
   }
 
   const displayUser = async () => {
@@ -112,24 +163,8 @@ function App() {
     }
   }
 
-  const displayResume = async(resumeID) => {
-    try {
-      const response = await fetch(`${url}/api/resumes/${resumeID}`, {
-        method: "GET",
-        headers: {
-          "Content-Type" : "application/json"
-        }
-      })
-      const data = await response.json()
-      setCurrResumeData(data.data)
-    } catch (error) {
-      setCurrResumeData(null)
-      alert(error.message)
-    }
-  }
-
   return (
-    <div className = "bg-black text-white">
+    <div className = "bg-black font-calibri text-white">
       <Header 
         fetchResumes={fetchResumes}
         showLogin = {showLogin}
@@ -147,7 +182,7 @@ function App() {
 
       <Routes>
         <Route path = "/" element = {<Landing />} />
-        <Route path = "/myresumes" element = {<MyResumes currResumeData = {currResumeData} setCurrResumeData = {setCurrResumeData} displayResume = {displayResume} fetchResumes = {fetchResumes} allResumes = {allResumes} loggedInUser = {loggedInUser}/>} />
+        <Route path = "/myresumes" element = {<MyResumes updateResume = {updateResume} postResume = {postResume} currResumeData = {currResumeData} setCurrResumeData = {setCurrResumeData} displayResume = {displayResume} fetchResumes = {fetchResumes} allResumes = {allResumes} loggedInUser = {loggedInUser}/>} />
         <Route path = "/listusers" element = {<ListUsers allResumes = {allResumes} setallResumes={setallResumes} fetchResumes={fetchResumes} listUsers = {listUsers} url = {url} users = {users} />} />
       </Routes>
 

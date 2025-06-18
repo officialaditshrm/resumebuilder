@@ -1,51 +1,62 @@
 import mongoose from 'mongoose'
 
 const urlSchema = new mongoose.Schema({
-    name: {type: String, required: true},
+    name: {type: String},
     url: {type: String, required: true}
 })
 
 const miniSectionSchema = new mongoose.Schema({
-    head: {type: String, required: true},
-    content: {type: String, required: true}
+    head: {type: String},
+    content: {type: String}
 })
 
 const subsubSectionSchema = new mongoose.Schema({
-    head: {type: String},
+    head: {type: String, required: true},
+    summary: {type: String},
     points: [
         {type: String}
     ],
     start: {type: Date},
     end: {type: Date},
+    extras: [
+        {type: String}
+    ],
     urls: [ urlSchema ],
-    ongoing: {type: Boolean, require: true}
 }, {minimize: false})
 
 const subSectionSchema = new mongoose.Schema({
     head: {type: String, required: true},
+    summary: {type: String},
     start: {type: Date},
     end: {type: Date},
-    ongoing: {type: Boolean, required: true},
+    points: [
+        {type: String}
+    ],
+    extras: [
+        {type: String}
+    ],
     urls: [ urlSchema ],
-    subsubsections : [ subsubSectionSchema ]
+    subsubsections : [ subsubSectionSchema ],
+    minisections: [ miniSectionSchema ]
 }, {minimize: false})
 
 const sectionSchema = new mongoose.Schema({
+    summary: {type: String},
     head: {type: String, required: true},
     subsections: [ subSectionSchema ],
-    miniSections: [ miniSectionSchema ]
+    minisections: [ miniSectionSchema ],
 }, {minimize: false})
 
 const resumeSchema = new mongoose.Schema({
     name: {type: String, required: true},
     user_id: {type: mongoose.Schema.Types.ObjectId, required: true},
     private: {type: Boolean, required: true},
-    summary: {type: String, default : ""},
+    summary: {type: String},
     username: {type: String, required: true},
-    city: {type: String, default : ""},
-    state: {type: String, default: ""},
-    country: {type: String, default: ""},
-    pincode: {type: String, default: ""},
+    city: {type: String},
+    state: {type: String},
+    country: {type: String},
+    pincode: {type: String},
     header_urls: [ urlSchema ],
     sections: [ sectionSchema ]
 }, {timestamps: true}, {minimize: false})

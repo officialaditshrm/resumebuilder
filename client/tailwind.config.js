@@ -6,7 +6,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        times: ['"Times New Roman"', 'serif'],
+        calibri: ['"Calibri"', 'serif']
+      }
+    },
   },
   plugins: [],
 }

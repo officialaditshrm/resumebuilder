@@ -16,7 +16,6 @@ const addResume = async (req, res) => {
 
         const newResume = new resumeModel(req.body)
         const resume = await newResume.save()
-        resume.private ? user.private_resumes.push(resume._id) : user.public_resumes.push(resume._id)
         await user.save()
 
         console.log("Resume Added Successfully")
@@ -28,7 +27,7 @@ const addResume = async (req, res) => {
     } catch(error){
         console.log("Error adding resume")
         return res.json({
-            success: true,
+            success: false,
             message: error.message
         })
     }
@@ -45,17 +44,20 @@ const updateResume = async (req, res) => {
                 message: "Cannot find the resume"
             })
         }
-        resume.name = req.body.name || resume.name
-        resume.private = req.body.private || resume.private
-        resume.summary = req.body.summary || resume.summary
-        resume.username = req.body.username || resume.username
-        resume.city = req.body.city || resume.city
-        resume.state = req.body.state || resume.state
-        resume.country = req.body.country || resume.country
-        resume.pincode = req.body.pincode || resume.pincode
-        resume.header_urls = req.body.header_urls || resume.header_urls
-        resume.sections = req.body.sections || resume.sections
-        resume.miniSections = req.body.miniSections || resume.miniSections
+        resume.name = req.body.name
+        resume.private = req.body.private
+        resume.resumesummary = req.body.summary
+        resume.username = req.body.username
+        resume.city = req.body.city
+        resume.state = req.body.state
+        resume.country = req.body.country
+        resume.pincode = req.body.pincode
+        resume.header_urls = req.body.header_urls
+        resume.extrasections = req.body.sections
+        resume.education = req.body.education
+        resume.experience = req.body.experience
+        resume.projects = req.body.projects
+        resume.skills = req.body.skills
 
         await resume.save()
 
@@ -95,7 +97,7 @@ const deleteResume = async(req, res) => {
             data: resume
         })
     } catch(error) {
-        console.log("Error updating resume")
+        console.log("Error deleting resume")
         return res.json({
             success: false,
             message: error.message

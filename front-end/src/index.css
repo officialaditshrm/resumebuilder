@@ -6,3 +6,7 @@
 * {
   @apply transition duration-300;
 }
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}

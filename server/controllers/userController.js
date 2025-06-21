@@ -2,6 +2,7 @@ import userModel from '../models/userModel.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import validator from 'validator'
+import fs from 'fs'
 
 const createToken = (id) => {
     return jwt.sign({id}, process.env.JWT_SECRET)
@@ -148,19 +149,39 @@ const updateUser = async (req, res) => {
             })
         }
 
-        const password = req.body.password
-        const passwordCorrect = await bcrypt.compare(password, user.password)
-        if(!passwordCorrect) {
-            console.log("Incorrect Password")
-            return res.json({
-                success: false,
-                message: "Incorrect Password"
+        if (req.file) {
+            console.log("yoooooo")
+            fs.unlink(`pfpuploads/${user.profileimg}`, (err)=> {
+                if (err) {
+                    console.log("Error deleting previous image:", err)
+                }
             })
-
+            user.profileimg = req.file.filename
         }
-        
-        if (req.body.newPassword) {
+
+        if (req.body.password && req.body.newPassword) {
+            const password = req.body.password
             const newPassword = req.body.newPassword
+            console.log("new password request: ", req.body.newPassword)
+            const passwordCorrect = await bcrypt.compare(password, user.password)
+            if(!passwordCorrect) {
+                console.log("Incorrect Password")
+                return res.json({
+                    success: false,
+                    message: "Incorrect Password"
+                })
+
+            }
+
+            const passwordNoChange = await bcrypt.compare(newPassword, user.password)
+            if (passwordNoChange) {
+                console.log("You can't make the same password again")
+                return res.json({
+                    success: false,
+                    message: "You can't make the same password again"
+                })
+            }
+
             const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!^#%*?&])[A-Za-z\d@$!^#%*?&]{8,}$/
             if (!passwordPattern.test(newPassword)){
                 console.log("Invalid New Password")
@@ -178,20 +199,23 @@ const updateUser = async (req, res) => {
             const emailInUse = await userModel.findOne({ email })
             if (emailInUse) {
                 console.log("Email already in use")
+
                 return res.json({
                     success: false,
                     message: "Email is already in use"
                 })
+            } else {
+                user.email = req.body.email || user.email
             }
         }
 
         user.name = req.body.name || user.name
 
         await user.save()
-        console.log("User updated successfully")
+        console.log("Profile updated successfully")
         return res.json({
             success: true,
-            message: "User updated successfully", 
+            message: "Profile updated successfully", 
             data: user
         })
     } catch(error) {

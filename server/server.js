@@ -19,6 +19,7 @@ connectDB()
 // API Endpoints
 app.use('/api/users', userRouter)
 app.use('/api/resumes', resumeRouter)
+app.use('/pfpimages', express.static('pfpuploads'))
 app.use('/', (req, res) => {
     res.json({success: true, message: "API Working"})
 })

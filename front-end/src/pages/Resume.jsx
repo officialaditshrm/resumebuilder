@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
-function Resume ({currResumeData, setCurrResumeData, loggedInUser, updateResume, deleteResume, fetchResumes}) {
+function Resume ({smallScreen, currResumeData, setCurrResumeData, loggedInUser, updateResume, deleteResume, fetchResumes}) {
     const [showDeleteWarning, setShowDeleteWarning] = useState(false)
     const navigate = useNavigate()
 
@@ -10,34 +10,36 @@ function Resume ({currResumeData, setCurrResumeData, loggedInUser, updateResume,
     }, [])
 
     return(
-        <div className = "mt-[25vh] ml-[20vw] items-center flex flex-col">
+        <div className = {`${!smallScreen ? "ml-60 mt-[25vh]" : "mt-[15vh]"} min-h-screen flex flex-col items-center`}>
             {currResumeData &&
-                <div className = "w-full flex flex-col items-center gap-10">
-                    <div className = "w-full relative flex justify-center items-center">
-                        <h1 className = "font-extrabold text-3xl">{currResumeData.name}</h1>
-                        {loggedInUser && loggedInUser._id === currResumeData.user_id &&
-                            <div className = "absolute left-20  flex items-center justify-center gap-2">
+                <div className = "w-full flex flex-col items-center gap-10 p-5">
+                    <div className = "w-full relative flex flex-col justify-center items-center">
+                        <h1 className = "font-extrabold text-3xl max-sm:text-xl">{currResumeData.name}</h1>
+                        <div className = "flex w-full justify-between p-5 max-sm:flex-col items-center gap-10">
+                            {loggedInUser && loggedInUser._id === currResumeData.user_id &&
+                                <div className = "flex items-center justify-center gap-2">
+                                    <button
+                                    onClick = {() => {const resumeCopy = {...currResumeData}; resumeCopy.private = !currResumeData.private; updateResume(currResumeData._id, resumeCopy); fetchResumes(); setCurrResumeData(resumeCopy)}}
+                                    className = {`w-[50px] shadow-[0_0_3px_1px_rgba(0,0,0,0.25)] rounded-full h-[30px] flex ${currResumeData.private ? "bg-green-400" : "bg-red-400"} items-center`}>
+                                        <div className = {`${currResumeData.private && "translate-x-[20px]"} rounded-full w-[26px] ml-[2px] h-[26px] bg-white shadow-[0_0_3px_1px_rgba(0,0,0,0.15)]`}></div>
+                                    </button>
+                                    <label className = "font-bold text-sm text-neutral-500">{currResumeData.private ? "PRIVATE" : "PUBLIC"}</label>
+                                </div>
+                            }
+                            {loggedInUser && loggedInUser._id === currResumeData.user_id &&
                                 <button
-                                onClick = {() => {const resumeCopy = {...currResumeData}; resumeCopy.private = !currResumeData.private; updateResume(currResumeData._id, resumeCopy); fetchResumes(); setCurrResumeData(resumeCopy)}}
-                                className = {`w-[50px] shadow-[0_0_3px_1px_rgba(0,0,0,0.25)] rounded-full h-[30px] flex ${currResumeData.private ? "bg-green-400" : "bg-red-400"} items-center`}>
-                                    <div className = {`${currResumeData.private && "translate-x-[20px]"} rounded-full w-[26px] ml-[2px] h-[26px] bg-white shadow-[0_0_3px_1px_rgba(0,0,0,0.15)]`}></div>
+                                className = "max-sm:text-xs items-center text-white py-2 px-3 font-extrabold flex gap-1 rounded-md bg-blue-900">
+                                    <img src = "/edit.svg"/>
+                                    EDIT RESUME
                                 </button>
-                                <label className = "font-bold text-sm text-neutral-500">{currResumeData.private ? "PRIVATE" : "PUBLIC"}</label>
-                            </div>
-                        }
-                        {loggedInUser && loggedInUser._id === currResumeData.user_id &&
-                            <button
-                            className = "absolute right-20 text-white py-2 px-3 font-extrabold flex gap-1 rounded-md bg-blue-900">
-                                <img src = "/edit.svg"/>
-                                EDIT RESUME
-                            </button>
-                        }
+                            }
+                        </div>
                     </div>
                     <label className = "text-sm text-neutral-500 font-extrabold">{currResumeData._id}</label>
                     {loggedInUser && loggedInUser._id === currResumeData.user_id &&
                         <button
                         onClick = {() => setShowDeleteWarning(true)}
-                        className = "text-white py-2 px-3 font-extrabold flex gap-1 rounded-md bg-red-900">
+                        className = "max-sm:text-xs text-white py-2 px-3 font-extrabold flex gap-1 rounded-md bg-red-900">
                             DELETE RESUME
                         </button>
                     }

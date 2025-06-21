@@ -17,14 +17,12 @@ function Resume ({currResumeData, setCurrResumeData, loggedInUser, updateResume,
                         <h1 className = "font-extrabold text-3xl">{currResumeData.name}</h1>
                         {loggedInUser && loggedInUser._id === currResumeData.user_id &&
                             <div className = "absolute left-20  flex items-center justify-center gap-2">
-                                <label className = "font-bold text-neutral-500">PRIVATE</label>
                                 <button
                                 onClick = {() => {const resumeCopy = {...currResumeData}; resumeCopy.private = !currResumeData.private; updateResume(currResumeData._id, resumeCopy); fetchResumes(); setCurrResumeData(resumeCopy)}}
                                 className = {`w-[50px] shadow-[0_0_3px_1px_rgba(0,0,0,0.25)] rounded-full h-[30px] flex ${currResumeData.private ? "bg-green-400" : "bg-red-400"} items-center`}>
-                                    <div className = {`${currResumeData.private && "translate-x-[20px]"} rounded-full w-[26px] ml-[2px] h-[26px] bg-white shadow-[0_0_3px_1px_rgba(0,0,0,0.15)]`}>
-                                        
-                                    </div>
+                                    <div className = {`${currResumeData.private && "translate-x-[20px]"} rounded-full w-[26px] ml-[2px] h-[26px] bg-white shadow-[0_0_3px_1px_rgba(0,0,0,0.15)]`}></div>
                                 </button>
+                                <label className = "font-bold text-sm text-neutral-500">{currResumeData.private ? "PRIVATE" : "PUBLIC"}</label>
                             </div>
                         }
                         {loggedInUser && loggedInUser._id === currResumeData.user_id &&

@@ -17,6 +17,20 @@ function App() {
   const [showLogin, setShowLogin] = useState(false)
   const [allResumes, setAllResumes] = useState(null)
   const [allUsers, setAllUsers] = useState(null)
+  const [smallScreen, setSmallScreen] = useState(false)
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 768) {
+                setSmallScreen(true)
+            } else {
+                setSmallScreen(false)
+            }
+        }
+        handleResize()
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
+    }, [])
 
   function decodeJWT(token) {
       try {
@@ -182,8 +196,9 @@ function App() {
 
   return (
     <div className = {`${darkMode ? "bg-black text-white": "bg-white"} min-h-screen font-calibri`}>
-      <Header darkMode = {darkMode} setDarkMode = {setDarkMode} loggedInUser = {loggedInUser}/>
+      <Header smallScreen = {smallScreen} darkMode = {darkMode} setDarkMode = {setDarkMode} loggedInUser = {loggedInUser}/>
       <SidePanel 
+        smallScreen = {smallScreen}
         setShowLogin = {setShowLogin} 
         loggedInUser = {loggedInUser}
         allResumes = {allResumes}
@@ -192,12 +207,12 @@ function App() {
       />
       
       {showLogin &&
-        <Login setLoggedInUser = {setLoggedInUser} url = {url} setShowLogin = {setShowLogin} setToken = {setToken}/>
+        <Login smallScreen = {smallScreen} setLoggedInUser = {setLoggedInUser} url = {url} setShowLogin = {setShowLogin} setToken = {setToken}/>
       }
       <Routes>
 
-        <Route path = "/resume" element = {<Resume fetchResumes = {fetchResumes} updateResume = {updateResume} deleteResume={deleteResume} loggedInUser={loggedInUser} currResumeData = {currResumeData} setCurrResumeData = {setCurrResumeData}/>} />
-        <Route path = "/" element = {<MyResumes deleteResume = {deleteResume} currResumeData = {currResumeData} createResume = {createResume} setCurrResumeData = {setCurrResumeData} loggedInUser = {loggedInUser} allResumes={allResumes} fetchResumes = {fetchResumes}/>} />
+        <Route path = "/resume" element = {<Resume smallScreen = {smallScreen} fetchResumes = {fetchResumes} updateResume = {updateResume} deleteResume={deleteResume} loggedInUser={loggedInUser} currResumeData = {currResumeData} setCurrResumeData = {setCurrResumeData}/>} />
+        <Route path = "/" element = {<MyResumes smallScreen = {smallScreen} deleteResume = {deleteResume} currResumeData = {currResumeData} createResume = {createResume} setCurrResumeData = {setCurrResumeData} loggedInUser = {loggedInUser} allResumes={allResumes} fetchResumes = {fetchResumes}/>} />
       </Routes>
     </div>
   )

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-function MyResumes ({allResumes, loggedInUser, fetchResumes, setCurrResumeData, createResume, currResumeData, deleteResume}) {
+function MyResumes ({smallScreen, allResumes, loggedInUser, fetchResumes, setCurrResumeData, createResume, currResumeData, deleteResume}) {
     const navigate = useNavigate()
     const [showDeleteWarning, setShowDeleteWarning] = useState(false)
 
@@ -12,7 +12,7 @@ function MyResumes ({allResumes, loggedInUser, fetchResumes, setCurrResumeData, 
 
     const buildResume = () => {
         const untitledresume = {
-            name : "Untitled" + new Date().toLocaleString(),
+            name : "Untitled " + new Date().toLocaleString(),
             private : true,
             user_id : loggedInUser._id,
             username : loggedInUser.name
@@ -22,35 +22,35 @@ function MyResumes ({allResumes, loggedInUser, fetchResumes, setCurrResumeData, 
 
 
     return (
-        <div className = "mt-[25vh] flex flex-col items-center ml-[20vw]">
-            <div className = "flex items-center justify-evenly w-full">   
-                <h1 className = "text-3xl font-extrabold">YOUR RESUMES</h1>
+        <div className = {`${!smallScreen ? "ml-60 mt-[25vh]" : "mt-[15vh]"}  flex flex-col items-center`}>
+            <div className = "flex max-[540px]:flex-col max-[540px]:gap-6 items-center justify-evenly w-full">   
+                <h1 className = "text-3xl font-extrabold max-sm:text-2xl">YOUR RESUMES</h1>
                 <button
                 onClick = {() => buildResume()}
-                className = "flex items-center gap-1 text-white font-bold bg-neutral-800 px-3 py-2 rounded-md">
+                className = "flex items-center gap-1 text-white max-sm:text-xs font-bold bg-neutral-800 px-3 py-2 rounded-md">
                     <img src = "/edit.svg"/>
                     BUILD NEW
                 </button>
             </div>
-            <div className = "flex flex-col gap-10 items-center p-10 w-full">
+            <div className = {`flex flex-col gap-10 items-center max-md:px-10 py-10 w-full`}>
                 {allResumes && loggedInUser && allResumes
                 .filter(oneresume => oneresume.user_id === loggedInUser._id)
                 .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
                 .map((resume, index) => {
-                    return <div key = {index} className = "flex w-4/5 bg-neutral-200 shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)] rounded-xl">
-                        <div className = "flex flex-1 flex-col p-2">
-                            <div className = "flex flex-1 justify-center items-center gap-5">
-                                <h1 className = "font-bold text-xl">{resume.name.toUpperCase()}</h1>
-                                <label className = "text-neutral-500">{resume.username}</label>
+                    return <div key = {index} className = {`max-md:flex-col p-3 flex w-4/5 bg-neutral-200 shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)] rounded-xl`}>
+                        <div className = "flex flex-1 flex-col gap-5 p-2">
+                            <div className = {`flex flex-1 justify-center md:items-center gap-2 sm:gap-5 max-lg:flex-col text-wrap overflow-hidden`}>
+                                <h1 className = "font-bold text-sm sm:text-xl">{resume.name.toUpperCase()}</h1>
+                                <label className = "max-md:text-xs text-neutral-500">{resume.username}</label>
                             </div>
-                            <div className = "text-sm font-bold flex flex-1 items-center justify-evenly w-full">
-                                <label className = "text-neutral-500">CREATED AT: {new Date(resume.createdAt).toLocaleDateString("en-IN", ({
+                            <div className = {`max-lg:flex-col text-xs sm:text-sm gap-2 flex flex-1 items-center justify-evenly w-full`}>
+                                <label className = "text-neutral-500">Created at: {new Date(resume.createdAt).toLocaleDateString("en-IN", ({
                                     month: "long",
                                     day : "2-digit",
                                     year : "numeric"
                                 }))}
                                 </label>
-                                <label className = "text-neutral-500">LAST UPDATED: {new Date(resume.updatedAt).toLocaleDateString("en-IN", ({
+                                <label className = "text-neutral-500">Last updated: {new Date(resume.updatedAt).toLocaleDateString("en-IN", ({
                                     month: "long",
                                     day : "2-digit",
                                     year : "numeric"
@@ -58,7 +58,7 @@ function MyResumes ({allResumes, loggedInUser, fetchResumes, setCurrResumeData, 
                                 </label>
                             </div>
                         </div>
-                        <div className = "flex flex-col gap-5 p-5 border-l h-full items-center justify-center border-neutral-950/30">
+                        <div className = {`flex max-sm:flex-col max-sm:text-xs max-md:flex-row flex-col gap-2 sm:gap-5 p-5 md:border-l h-full items-center justify-center border-neutral-950/30`}>
                             <label className = "text-neutral-500 font-bold">{resume.private ? "PRIVATE" : "PUBLIC"}</label>
                             <button
                             onClick = {() => {navigate("/resume"); setCurrResumeData(resume)}}

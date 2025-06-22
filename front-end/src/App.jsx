@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
+import Community from './pages/Community.jsx'
 import MyResumes from './pages/MyResumes.jsx'
 import Header from './components/Header.jsx'
 import SidePanel from "./components/SidePanel"
@@ -19,7 +20,6 @@ function App() {
   const [currResumeData, setCurrResumeData] = useState(null)
   const [showLogin, setShowLogin] = useState(false)
   const [allResumes, setAllResumes] = useState(null)
-  const [allUsers, setAllUsers] = useState(null)
   const [smallScreen, setSmallScreen] = useState(false)
   const [hamburgerOpen, setHamburgerOpen] = useState(false)
   const [it, setIt] = useState(false)
@@ -29,6 +29,7 @@ function App() {
   const [footerShow, setFooterShow] = useState(false)
   const [nameAlert, setNameAlert] = useState(null)
   const [pfp, setPfp] = useState(null)
+  const [particularUser, setParticularUser] = useState(false)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -87,12 +88,12 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (resumeBegin || showLogin || it || hamburgerOpen) {
+    if (resumeBegin || particularUser || showLogin || it || hamburgerOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
     }
-  }, [resumeBegin, showLogin, it, hamburgerOpen]);
+  }, [resumeBegin, showLogin, it, hamburgerOpen, particularUser]);
 
   useEffect (() => {
     console.log("All Resumes are:", allResumes)
@@ -128,7 +129,7 @@ function App() {
   const buildResume = () => {
         setUntitledResume({
             name : "Untitled " + new Date().toLocaleString(),
-            private : true,
+            private : false,
             user_id : loggedInUser._id,
             username : loggedInUser.name
         })
@@ -215,26 +216,6 @@ function App() {
       }
   }
 
-
-  const fetchUsers = async () => {
-    try {
-      const response = await fetch(`${url}/api/users`, {
-        method: "GET",
-        headers: {
-          "Content-Type" : "application/json"
-        }
-      })
-      if (!response.ok) {
-        throw new Error("Could not fetch users")
-      }
-      const actualresponse = await response.json()
-      setAllUsers(actualresponse.data)
-    } catch(error) {
-      setAllResumes(null)
-      console.error(error.message)
-    }
-  }
-
   const displayLoggedInUser = async (id) => {
     try {
       const response = await fetch(`${url}/api/users/${id}`, {
@@ -254,24 +235,6 @@ function App() {
     }
   }
 
-  
-
-  const displayParticularUser = async (id) => {
-    try {
-      const response = await fetch(`${url}/api/users/${id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type" : "application/json"
-        }
-      })
-      if (!response.ok) {
-        throw new Error("Could not display user")
-      }
-      const actualresponse = await response.json()
-    } catch(error) {
-      console.error(error.message)
-    }
-  }
 
   const updateUser = async (id, user) => {
     try {
@@ -279,6 +242,10 @@ function App() {
 
       if (user.profileimg) {
         formData.append("profileimg", user.profileimg)
+      }
+
+      if (user.bio) {
+        formData.append("bio", user.bio)
       }
 
       if (user.name) {
@@ -293,7 +260,7 @@ function App() {
         formData.append("password", user.password)
       }
 
-      if (user.password) {
+      if (user.newPassword) {
         formData.append("newPassword", user.newPassword)
       }
 
@@ -319,7 +286,7 @@ function App() {
         method: "GET",
       })
       if (!response.ok) {
-        throw new Error("dikkat ho gyi bhai")
+        throw new Error("Error Fetching PFP")
       }
 
       const blob = await response.blob()
@@ -340,11 +307,11 @@ function App() {
 
   return (
     <div>
-      <div className = {`${darkMode ? "bg-black text-white": "border"} font-calibri`}>
+      <div className = {`${darkMode ? "dark border-black bg-zinc-900 text-white": "border-black"} border font-calibri`}>
 
         <Header 
         smallScreen = {smallScreen} 
-        darkMode = {darkMode} 
+        darkMode = {darkMode}
         setHamburgerOpen={setHamburgerOpen}
         hamburgerOpen={hamburgerOpen}
         setDarkMode = {setDarkMode} 
@@ -353,6 +320,8 @@ function App() {
 
         <SidePanel 
           pfp = {pfp}
+          darkMode = {darkMode}
+          setPfp = {setPfp}
           footerShow = {footerShow}
           buildResume = {buildResume}
           it = {it}
@@ -369,6 +338,7 @@ function App() {
 
         {resumeBegin &&
           <ResumeBegin
+          darkMode = {darkMode}
           setUntitledResume = {setUntitledResume}
           untitledResume={untitledResume}
           setResumeBegin = {setResumeBegin}
@@ -376,11 +346,12 @@ function App() {
         }
         
         {showLogin &&
-          <Login smallScreen = {smallScreen} setLoggedInUser = {setLoggedInUser} url = {url} setShowLogin = {setShowLogin} setToken = {setToken}/>
+          <Login darkMode = {darkMode} smallScreen = {smallScreen} setLoggedInUser = {setLoggedInUser} url = {url} setShowLogin = {setShowLogin} setToken = {setToken}/>
         }
         <Routes>
           <Route path = "/" element = {
-            <MyResumes 
+            <MyResumes
+            darkMode = {darkMode}
             buildResume = {buildResume} 
             setShowLogin = {setShowLogin} 
             smallScreen = {smallScreen} 
@@ -395,6 +366,7 @@ function App() {
           } />
           <Route path = "/resume" element = {
             <Resume 
+            darkMode = {darkMode}
             smallScreen = {smallScreen} 
             fetchResumes = {fetchResumes} 
             updateResume = {updateResume} 
@@ -406,6 +378,10 @@ function App() {
           } />
           <Route path = "/profile" element = {
             <Profile
+            darkMode = {darkMode}
+            setPfp = {setPfp}
+            displayLoggedInUser = {displayLoggedInUser}
+            url = {url}
             setShowLogin = {setShowLogin}
             nameAlert={nameAlert}
             flashNameAlert={flashNameAlert}
@@ -416,6 +392,19 @@ function App() {
             fetchResumes = {fetchResumes}
             loggedInUser={loggedInUser}
             pfp = {pfp}
+            />
+          } />
+          <Route path = "/community" element = {
+            <Community
+            darkMode = {darkMode}
+            particularUser = {particularUser}
+            setParticularUser = {setParticularUser}
+            currResumeData = {currResumeData}
+            setCurrResumeData = {setCurrResumeData}
+            loggedInUser = {loggedInUser}
+            fetchResumes = {fetchResumes}
+            allResumes = {allResumes}
+            url = {url}
             />
           } />
           

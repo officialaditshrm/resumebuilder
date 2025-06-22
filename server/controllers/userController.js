@@ -137,6 +137,43 @@ const deleteUser = async (req, res) => {
     }
 }
 
+
+const deletePfp = async (req, res) => {
+    const id = req.params.id
+    try {
+        const user = await userModel.findOne({_id : id})
+        if (!user) {
+            console.log("User doesn't exist")
+            return res.json({
+                succcess: false,
+                message: "User doesn't exist"
+            })
+        }
+        console.log("user Profile image:", user.profileimg)
+        if (user.profileimg !== "" || user.profileimg) {
+            fs.unlink(`pfpuploads/${user.profileimg}`, (err)=> {
+            if (err) {
+                console.log("Error deleting previous image:", err)
+            }
+        })
+        user.profileimg = ""
+        user.save()
+        console.log("new user.profileimg", user.profileimg)
+        console.log("pfp deleted")
+        return res.json({
+            success: true,
+            message: "pfp deleted"
+        })}
+    } catch(error) {
+
+        console.log(error.message)
+        return res.json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
 const updateUser = async (req, res) => {
     const id = req.params.id
     try {
@@ -148,14 +185,13 @@ const updateUser = async (req, res) => {
                 message: "User doesn't exist"
             })
         }
-
         if (req.file) {
-            console.log("yoooooo")
-            fs.unlink(`pfpuploads/${user.profileimg}`, (err)=> {
+            if (user.profileimg !== "" || user.profileimg) {
+                fs.unlink(`pfpuploads/${user.profileimg}`, (err)=> {
                 if (err) {
                     console.log("Error deleting previous image:", err)
                 }
-            })
+            })}
             user.profileimg = req.file.filename
         }
 
@@ -210,6 +246,11 @@ const updateUser = async (req, res) => {
         }
 
         user.name = req.body.name || user.name
+        if (req.body.bio && req.body.bio.trim() === "") {
+            user.bio = ""
+        } else {
+            user.bio = req.body.bio || user.bio
+        }
 
         await user.save()
         console.log("Profile updated successfully")
@@ -271,4 +312,4 @@ const displayUser = async (req, res) => {
 }
 
 
-export { registerUser, loginUser, deleteUser, updateUser, listUsers, displayUser }
+export { registerUser, loginUser, deleteUser, updateUser, listUsers, displayUser, deletePfp }

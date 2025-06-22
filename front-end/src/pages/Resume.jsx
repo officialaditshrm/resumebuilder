@@ -6,21 +6,23 @@ function Resume ({smallScreen, currResumeData, setCurrResumeData, loggedInUser, 
     const navigate = useNavigate()
 
     useEffect(() => {
-        !currResumeData && navigate("/")
+        if (!currResumeData || !loggedInUser) {
+            navigate("/")
+        }
     }, [])
 
     return(
-        <div className = {`${!smallScreen ? "ml-60 mt-[25vh]" : "mt-[15vh]"} min-h-screen flex flex-col items-center`}>
+        <div className = {`${!smallScreen ? "ml-72 mt-[25vh]" : "mt-[10vh]"} min-h-screen flex flex-col items-center`}>
             {currResumeData &&
                 <div className = "w-full flex flex-col items-center gap-10 p-5">
                     <div className = "w-full relative flex flex-col justify-center items-center">
-                        <h1 className = "font-extrabold text-3xl max-sm:text-xl">{currResumeData.name}</h1>
+                        <h1 className = "font-extrabold break-all text-3xl max-sm:text-xl">{currResumeData.name}</h1>
                         <div className = "flex w-full justify-between p-5 max-sm:flex-col items-center gap-10">
                             {loggedInUser && loggedInUser._id === currResumeData.user_id &&
                                 <div className = "flex items-center justify-center gap-2">
                                     <button
                                     onClick = {() => {const resumeCopy = {...currResumeData}; resumeCopy.private = !currResumeData.private; updateResume(currResumeData._id, resumeCopy); fetchResumes(); setCurrResumeData(resumeCopy)}}
-                                    className = {`w-[50px] shadow-[0_0_3px_1px_rgba(0,0,0,0.25)] rounded-full h-[30px] flex ${currResumeData.private ? "bg-green-400" : "bg-red-400"} items-center`}>
+                                    className = {`w-[50px] shadow-[0_0_3px_1px_rgba(0,0,0,0.25)] rounded-full h-[30px] flex ${currResumeData.private ? "bg-green-500" : "bg-red-500"} items-center`}>
                                         <div className = {`${currResumeData.private && "translate-x-[20px]"} rounded-full w-[26px] ml-[2px] h-[26px] bg-white shadow-[0_0_3px_1px_rgba(0,0,0,0.15)]`}></div>
                                     </button>
                                     <label className = "font-bold text-sm text-neutral-500">{currResumeData.private ? "PRIVATE" : "PUBLIC"}</label>
@@ -55,7 +57,7 @@ function Resume ({smallScreen, currResumeData, setCurrResumeData, loggedInUser, 
 export default Resume
 
 
-function DeleteWarning ({deleteResume, setShowDeleteWarning, id}) {
+function DeleteWarning ({deleteResume, navigate, setShowDeleteWarning, id}) {
     return (
         <div className = "bg-neutral-100/50 backdrop-blur-sm fixed top-0 bottom-0 left-0 right-0 z-50 flex flex-col items-center justify-center">
             <div className = "rounded-xl flex flex-col gap-8 bg-neutral-100 p-10 shadow-[0_0_10px_1px_rgba(0,0,0,0.25)]">

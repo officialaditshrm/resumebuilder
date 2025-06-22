@@ -1,5 +1,5 @@
 import express from 'express'
-import { registerUser, loginUser, updateUser, deleteUser, listUsers, displayUser } from '../controllers/userController.js'
+import { registerUser, loginUser, updateUser, deleteUser, listUsers, deletePfp, displayUser } from '../controllers/userController.js'
 import multer from 'multer'
 
 const userRouter = express.Router()
@@ -21,5 +21,6 @@ userRouter.put("/:id", upload.single('profileimg'), updateUser)
 userRouter.delete("/:id", deleteUser)
 userRouter.get("/", listUsers)
 userRouter.get("/:id", displayUser)
+userRouter.delete("/deletepfp/:id", deletePfp)
 
 export default userRouter

@@ -25,8 +25,9 @@ function MyResumes ({buildResume, setShowLogin, smallScreen, allResumes, loggedI
                     </button>
                 </div>
                 <div className = {`flex flex-col gap-10 items-center md:px-10 py-10 w-full`}>
-                    {allResumes && loggedInUser && allResumes
-                    .filter(oneresume => oneresume.user_id === loggedInUser._id)
+                    {allResumes &&  allResumes
+                    .filter(oneresume => oneresume.user_id === loggedInUser._id).length > 0 ?
+                    allResumes.filter(oneresume => oneresume.user_id === loggedInUser._id)
                     .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
                     .map((resume, index) => {
                         return <div key = {index} className = {`max-md:flex-col p-3 flex w-4/5 bg-zinc-200 dark:bg-zinc-800 shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)] rounded-xl`}>
@@ -61,7 +62,10 @@ function MyResumes ({buildResume, setShowLogin, smallScreen, allResumes, loggedI
                             </div>
                         </div>
                     }
-                    )}
+                    )
+                    :
+                    <p className = "font-bold italic text-zinc-500">No resumes yet.</p>
+                    }
                 </div>
                 {showDeleteWarning &&
                     <DeleteWarning navigate = {navigate} deleteResume = {deleteResume} id = {currResumeData._id} setShowDeleteWarning = {setShowDeleteWarning}/>
@@ -88,9 +92,9 @@ export default MyResumes
 function DeleteWarning ({deleteResume, setShowDeleteWarning, navigate, id}) {
     return (
         <div className = "bg-neutral-100/50 backdrop-blur-sm fixed top-0 bottom-0 left-0 right-0 z-50 flex flex-col items-center justify-center">
-            <div className = "rounded-xl flex flex-col gap-8 bg-neutral-100 p-10 shadow-[0_0_10px_1px_rgba(0,0,0,0.25)]">
-                <p className = "text-xl">Are you sure you want to delete this Resume?</p>
-                <div className = "w-full flex justify-evenly items-center">
+            <div className = "rounded-xl max-w-[80%] flex flex-col gap-8 bg-neutral-100 p-10 shadow-[0_0_10px_1px_rgba(0,0,0,0.25)]">
+                <p className = "text-xl max-sm:text-sm">Are you sure you want to delete this Resume?</p>
+                <div className = "w-full max-sm:flex-col gap-3 flex justify-evenly items-center">
                     <button
                     onClick = {() => {deleteResume(id); setShowDeleteWarning(false); navigate("/")}}
                     className = "rounded-md bg-red-600 text-white px-3 py-2 font-bold">DELETE</button>

@@ -36,10 +36,8 @@ function App() {
       ([entry]) => {
         if (entry.intersectionRatio > 0){
           setFooterShow(true)
-          console.log("Footer is showing")
         } else {
           setFooterShow(false)
-          console.log("Footer is not showing")
         }
       }
     )
@@ -87,6 +85,7 @@ function App() {
     fetchResumes()
   }, [])
 
+
   useEffect(() => {
     if (resumeBegin || particularUser || showLogin || it || hamburgerOpen) {
       document.body.style.overflow = 'hidden';
@@ -95,19 +94,16 @@ function App() {
     }
   }, [resumeBegin, showLogin, it, hamburgerOpen, particularUser]);
 
-  useEffect (() => {
-    console.log("All Resumes are:", allResumes)
-  }, [allResumes])
-  
-
   useEffect(() => {
     console.log("Logged in user is:", loggedInUser)
   }, [loggedInUser])
 
   useEffect(() => {
     console.log("token changed to", token)
-    if (!token || typeof token !== 'string' || token.trim() === '')
-      return;
+    if (!token || typeof token !== 'string' || token.trim() === '') {
+      setLoggedInUser(null)
+      return
+    }
     else {
       const id = (decodeJWT(token).id)
       displayLoggedInUser(id)
@@ -169,7 +165,6 @@ function App() {
           throw new Error("Could not create new resume")
       }
       const actualresponse = await response.json()
-      console.log(actualresponse.message)
       fetchResumes()
     } catch(error) {
       console.error(error.message)
@@ -190,7 +185,6 @@ function App() {
           throw new Error("Could not update resume")
       }
       const actualresponse = await response.json()
-      console.log(actualresponse.message)
       fetchResumes()
       } catch(error) {
       console.error(error.message)
@@ -209,7 +203,6 @@ function App() {
           throw new Error("Could not delete resume")
       }
       const actualresponse = await response.json()
-      console.log(actualresponse.message)
       fetchResumes()
       } catch(error) {
       console.error(error.message)
@@ -291,7 +284,6 @@ function App() {
 
       const blob = await response.blob()
       setPfp(URL.createObjectURL(blob))
-      console.log("bhayakakkkkkk", response)
     } catch(error) {
       setPfp(null)
       console.log(error.message)
@@ -300,14 +292,13 @@ function App() {
 
   useEffect(() => {
     if ( loggedInUser && loggedInUser.profileimg) {
-      console.log("pfpimage is :", loggedInUser.profileimg)
       fetchpfp(loggedInUser.profileimg)
     }
   }, [loggedInUser])
 
   return (
     <div>
-      <div className = {`${darkMode ? "dark border-black bg-zinc-900 text-white": "border-black"} border font-calibri`}>
+      <div className = {`${darkMode ? "dark bg-zinc-900 text-white": "bg-zinc-100"} border-black border font-calibri`}>
 
         <Header 
         smallScreen = {smallScreen} 
@@ -346,7 +337,7 @@ function App() {
         }
         
         {showLogin &&
-          <Login darkMode = {darkMode} smallScreen = {smallScreen} setLoggedInUser = {setLoggedInUser} url = {url} setShowLogin = {setShowLogin} setToken = {setToken}/>
+          <Login fetchResumes = {fetchResumes} darkMode = {darkMode} smallScreen = {smallScreen} setLoggedInUser = {setLoggedInUser} url = {url} setShowLogin = {setShowLogin} setToken = {setToken}/>
         }
         <Routes>
           <Route path = "/" element = {
@@ -378,6 +369,7 @@ function App() {
           } />
           <Route path = "/profile" element = {
             <Profile
+            setToken = {setToken}
             darkMode = {darkMode}
             setPfp = {setPfp}
             displayLoggedInUser = {displayLoggedInUser}

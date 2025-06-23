@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import imageCompression from 'browser-image-compression'
 
-function Profile ({smallScreen, setPfp, darkMode, displayLoggedInUser, loggedInUser, url, pfp, setShowLogin, updateUser, flashNameAlert, nameAlert, setNameAlert, setLoggedInUser}) {
+function Profile ({smallScreen, setPfp, darkMode, setToken, displayLoggedInUser, loggedInUser, url, pfp, setShowLogin, updateUser, flashNameAlert, nameAlert, setNameAlert, setLoggedInUser}) {
     const [userToShow, setUserToShow] = useState(null)
+    const [showDeleteUser, setShowDeleteUser] = useState(false)
+    const navigate = useNavigate()
 
     const deletePfp = async (id)  => {
         try{
@@ -19,6 +22,39 @@ function Profile ({smallScreen, setPfp, darkMode, displayLoggedInUser, loggedInU
             console.log(error.message)
         }
     }
+
+
+    const deleteUser = async (id, user) => {
+        try {
+            console.log(user)
+            const response = await fetch(`${url}/api/users/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify(user)
+            })
+            if (!response.ok) {
+                throw new Error("couldn't delete user")
+            }
+            const actualresponse = await response.json()
+            localStorage.removeItem("resoluteToken")
+            setToken("")
+            navigate("/")
+        } catch (error) {
+            setDeletionAlert(error.message)
+            flashDeletionAlert()
+        }
+    }
+
+    const [deletionAlert, setDeletionAlert] = useState(null)
+
+    const flashDeletionAlert = () => {
+        setTimeout(() => {
+            setDeletionAlert(null)
+        }, 5000)
+    }
+
 
     useEffect(() => {
         setUserToShow(loggedInUser)
@@ -365,6 +401,55 @@ function Profile ({smallScreen, setPfp, darkMode, displayLoggedInUser, loggedInU
                                 <img src = {darkMode ? "edit.svg" : "/editblack.svg"}/>
                             </button>
                         </div>
+                    }
+                </div>
+                <button
+                onClick = {() => {setToken(""); localStorage.removeItem("resoluteToken"); navigate("/")}}
+                className = "px-3 py-2 flex gap-2 rounded-md bg-red-900 text-white font-bold">
+                    <img src = "/logout.svg" />LOGOUT
+                </button>
+                <div className = "w-full sm:w-4/5 md:w-3/5">
+                    {!showDeleteUser ? 
+                        <button
+                        onClick = {() => setShowDeleteUser(true)}
+                        className = "font-bold text-red-800/70 px-3 py-2 rounded-md text-xs">
+                            DELETE PROFILE
+                        </button>
+                        :
+                        <form
+                        onSubmit = {(event) => {
+                            event.preventDefault()
+                            const password = event.target.elements.password.value
+                            if (password === "") {
+                                setDeletionAlert("Please enter a valid password")
+                                flashDeletionAlert()
+                                return
+                            }
+                            if (event.target.elements.verifier.value !== "I am going to regret this") {
+                                setDeletionAlert("Invalid verification input")
+                                flashDeletionAlert()
+                                return
+                            }
+                            console.log("Password is", password)
+                            deleteUser(loggedInUser._id, {password: password})
+
+                        }}
+                        className = "w-full dark:bg-zinc-800 bg-zinc-200 p-5 rounded-xl dark:text-white flex flex-col gap-3">
+                            <h1 className = "font-bold text-red-600">PROFILE DELETION</h1>
+                            <div className = "flex flex-col gap-2">
+                                <label className = "text-sm">Enter your Password:</label>
+                                <input type = "password" className = "text-black border border-black p-2 rounded-xl" name = "password"/>
+                            </div>
+                            <div className = "flex flex-col gap-2">
+                                <label className = "text-sm">Write "<b>I am going to regret this</b>"</label>
+                                <input type = "text" className = "text-black border border-black p-2 rounded-xl" name = "verifier"/>
+                            </div>
+                            {deletionAlert && <p className = "text-xs text-red-600">{deletionAlert}</p>}
+                            <div className = "flex gap-3">
+                                <button onClick = {() => {setShowDeleteUser(false)}} type = "button" className = "font-bold rounded-md px-3 py-2 text-white text-xs bg-neutral-600">CANCEL</button>
+                                <button type = "submit" className = "font-bold rounded-md px-3 py-2 text-white text-xs bg-red-800">DELETE</button>
+                            </div>
+                        </form>
                     }
                 </div>
             </div>

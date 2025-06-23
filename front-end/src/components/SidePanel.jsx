@@ -3,8 +3,6 @@ import { useState, useEffect } from 'react'
 
 export default function SidePanel ({footerShow, pfp, setPfp, darkMode, buildResume, it, setIt, smallScreen, setToken, token, setShowLogin, loggedInUser, allResumes, setLoggedInUser, setCurrResumeData})  {
     const navigate = useNavigate()
-    
-
     if ((!smallScreen && !footerShow) || !loggedInUser) {
         return (
             <div className = {`z-30 fixed md:w-100 p-5 gap-5 max-w-72 md:left-0 text-sm flex flex-col top-0 justify-between ${loggedInUser && 'h-screen'}`}>
@@ -24,12 +22,15 @@ export default function SidePanel ({footerShow, pfp, setPfp, darkMode, buildResu
                     <h1 className = "text-neutral-500">Resumes</h1>
                     <ul className = "flex flex-col text-xs font-bold gap-3 overflow-y-auto px-2 h-4/5 hide-scrollbar">
                         {allResumes && 
-                        allResumes
-                        .filter(resume => resume.user_id === loggedInUser._id)
+                        allResumes.filter(oneresume => oneresume.user_id === loggedInUser._id).length > 0 ?
+                        allResumes.filter(oneresume => oneresume.user_id === loggedInUser._id)
                         .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
                         .map((resume, index) => (
                             <Link className = "break-all" onClick = {() => setCurrResumeData(resume)} key={index} to="/resume">{resume.name}</Link>
-                        ))}
+                        ))
+                        :
+                        <p className = "italic text-zinc-500">No resumes yet.</p>
+                        }
                     </ul>
                     <button
                     onClick = {() => buildResume()}
@@ -84,12 +85,15 @@ export default function SidePanel ({footerShow, pfp, setPfp, darkMode, buildResu
                         <h1 className = "text-neutral-500">Resumes</h1>
                         <ul className = "flex flex-col text-xs font-bold gap-3 overflow-y-auto px-2 h-4/5 hide-scrollbar">
                             {allResumes && 
-                            allResumes
-                            .filter(resume => resume.user_id === loggedInUser._id)
+                            allResumes.filter(oneresume => oneresume.user_id === loggedInUser._id).length > 0 ?
+                            allResumes.filter(oneresume => oneresume.user_id === loggedInUser._id)
                             .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
                             .map((resume, index) => (
-                                <Link className = "break-all" onClick = {() => {setCurrResumeData(resume); setIt(false)}} key={index} to="/resume">{resume.name}</Link>
-                            ))}
+                                <Link className = "break-all" onClick = {() => setCurrResumeData(resume)} key={index} to="/resume">{resume.name}</Link>
+                            ))
+                            :
+                            <p className = "italic text-zinc-500">No resumes yet.</p>
+                            }
                         </ul>
                         <button
                         onClick = {() => {buildResume(); setIt(false)}}

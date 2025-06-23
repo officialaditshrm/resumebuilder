@@ -15,12 +15,11 @@ function Header ({setDarkMode, darkMode, loggedInUser, smallScreen, hamburgerOpe
                 <div className = "border-l border-black/25 dark:border-white/25 h-full w-1/4 flex items-center justify-center">
                     <button
                     onClick = {() => {setDarkMode(!darkMode)}}
-                    className = "text-sm hover:font-bold">
-                        {darkMode ?
-                            "DARKMODE"
-                            :
-                            "LIGHTMODE"
-                        }
+                    className = "relative text-sm w-[12vh] h-[6vh]">
+                        <div className = "h-[1.5vh] flex items-center left-0 w-full bg-zinc-400 rounded-md shadow-[0_3px_5px_1px_rgba(0,0,0,0.25)]"></div>
+                        <div className = {`${darkMode && "translate-x-[6vh]"} h-[5vh] w-[5vh] border border-black/20 flex items-center justify-center absolute bg-zinc-300 left-[0.5vh] top-[0.5vh] shadow-[0_0_5px_1px_rgba(0,0,0,0.25)] rounded-full`}>
+                            <img className = "object-cover w-[70%]" src = {darkMode ? "darkblack.svg" : "lightblack.svg"} />
+                        </div>
                     </button>
                 </div>
             </header>

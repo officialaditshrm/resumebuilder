@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 
-function Login ({setLoggedInUser, darkMode, setShowLogin, url, setToken}) {
+function Login ({setLoggedInUser, fetchResumes, darkMode, setShowLogin, url, setToken}) {
     const [showSignUp, setShowSignUp] = useState(false)
     const [alertmessage, setalertmessage] = useState(null)
 
@@ -19,9 +19,10 @@ function Login ({setLoggedInUser, darkMode, setShowLogin, url, setToken}) {
             setToken(actualresponse.token)
             setalertmessage(actualresponse.message)
             localStorage.setItem("resoluteToken", actualresponse.token)
-            {actualresponse.success === true && 
+            if (actualresponse.success === true) { 
                 setShowLogin(false)
                 setShowSignUp(false)
+                fetchResumes()
             }
         } catch (error) {
             setToken("")
@@ -46,6 +47,7 @@ function Login ({setLoggedInUser, darkMode, setShowLogin, url, setToken}) {
                 setalertmessage(null)
                 setShowLogin(false)
                 setShowSignUp(false)
+                fetchResumes()
             }
         } catch (error) {
             setToken("")
@@ -72,7 +74,7 @@ function Login ({setLoggedInUser, darkMode, setShowLogin, url, setToken}) {
                 <button
                 onClick = {() => {setShowLogin(false); setShowSignUp(false)}}
                 className = "absolute right-5 top-5"><img src = {darkMode ? "/closewhite.svg" : "/close.svg"}/></button>
-                {!showSignUp ?
+                {!showSignUp &&
                     <form onSubmit = {(event) => {event.preventDefault(); handleLogin(event)}} className = "w-full flex flex-col gap-4 items-center">
                         <h1 className = "font-extrabold text-3xl text-neutral-500">LOGIN</h1>
                         <div className = "flex flex-col gap-2 w-full">
@@ -86,7 +88,8 @@ function Login ({setLoggedInUser, darkMode, setShowLogin, url, setToken}) {
                         <input type = "submit" value = "LOGIN" className = "cursor-pointer bg-blue-900 text-white py-2 px-4 font-bold rounded-md "/>
                         <button type = "button" className = "hover:text-blue-600" onClick = {() => setShowSignUp(true)}>Sign-up Instead?</button>
                     </form>
-                    :
+                }
+                {showSignUp &&
                     <form onSubmit = {(event) => {event.preventDefault(); handleSignUp(event)}} className = "w-full flex flex-col gap-4 items-center">
                         <h1 className = "font-extrabold text-3xl text-neutral-500">SIGNUP</h1>
                         <div className = "flex flex-col gap-2 w-full">
@@ -105,7 +108,7 @@ function Login ({setLoggedInUser, darkMode, setShowLogin, url, setToken}) {
                         <button type = "button" className = "hover:text-blue-600" onClick = {() => setShowSignUp(false)}>Log-in Instead?</button>
                     </form>
                 }
-                <p className = "flex flex-wrap text-red-500">{alertmessage}</p>
+                <p className = "flex flex-wrap text-red-500 text-xs">{alertmessage}</p>
             </div>
         </div>
     )

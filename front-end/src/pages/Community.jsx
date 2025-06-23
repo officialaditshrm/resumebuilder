@@ -17,28 +17,24 @@ function Community ({url, darkMode, allResumes, fetchResumes, setCurrResumeData,
     
     useEffect(() => {
     if (!allResumes || !allUsers) return;
-
-    // Build a map of userId -> public resume count
-    const publicCounts = {};
+    const publicCounts = {}
 
     allResumes.forEach(resume => {
         if (!resume.private) {
-            publicCounts[resume.user_id] = (publicCounts[resume.user_id] || 0) + 1;
+            publicCounts[resume.user_id] = (publicCounts[resume.user_id] || 0) + 1
         }
-    });
-
-    // Update users with the public resume count
+    })
     const updatedUsers = allUsers.map(user => ({
         ...user,
         publiccount: publicCounts[user._id] || 0
-    }));
+    }))
 
     setAllUsers(updatedUsers);
 }, [allResumes]);
 
 
     useEffect(() => {
-        // setParticularUser(null)
+        setParticularUser(null)
         fetchResumes()
         fetchUsers()
     }, [])
@@ -103,13 +99,13 @@ function Community ({url, darkMode, allResumes, fetchResumes, setCurrResumeData,
                         </div>
                         <div className = "px-5 pb-5 sm:pt-5 gap-4 flex flex-col overflow-hidden max-sm:text-center max-sm:items-center">
                             <h1
-                            className = "font-bold break-all line-clamp-1 text-xl sm:text-2xl">
+                            className = "font-bold break-all line-clamp-1 text-md sm:text-2xl">
                                 {user.name.toUpperCase()}
                             </h1>
                             <div>
-                                {user.bio ? <p className = "italic line-clamp-4 overflow-hidden text-sm break-all">{user.bio}</p> : <p className = "italic font-bold text-neutral-500">No bio</p>}
+                                {user.bio ? <p className = "italic line-clamp-4 overflow-hidden max-sm:text-xs text-sm break-all">{user.bio}</p> : <p className = "italic font-bold max-sm:text-xs text-neutral-500">No bio</p>}
                             </div>
-                            {user.publiccount ? <p className = "italic text-neutral-500 font-bold">{user.publiccount} public resume{user.publiccount > 1 && "s"}</p> : <p className = "italic text-neutral-500 font-bold">No public Resume</p>}
+                            {user.publiccount ? <p className = "italic text-blue-600/50 max-sm:text-xs font-bold">{user.publiccount} public resume{user.publiccount > 1 && "s"}</p> : <p className = "italic max-sm:text-xs text-neutral-500 font-bold">No public Resume</p>}
                         </div>
                     </div> 
                 })}
@@ -135,36 +131,39 @@ function ParticularUser ({particularUser, setParticularUser, darkMode, loggedInU
     return (
         <div className = "fixed z-20 dark:bg-neutral-900/50 bg-neutral-100/50 backdrop-blur top-0 left-0 h-screen w-screen">
             <div className = {`absolute top-0 left-0 right-0 bottom-0 md:ml-64 flex items-center justify-center md:p-10 sm:p-6 lg:p-16 p-5`}>
-                <div className = "relative rounded-2xl w-full mt-[10vh] bg-zinc-100 dark:bg-zinc-800 max-sm:flex-col flex shadow-[0_0_3px_1px_rgba(0,0,0,0.15)] sm:p-10 p-5">
+                <div className = "relative rounded-2xl w-full mt-[10vh] max-h-[80%] overflow-hidden overflow-y-auto hide-scrollbar bg-zinc-100 dark:bg-zinc-800 flex-col items-center flex shadow-[0_0_3px_1px_rgba(0,0,0,0.15)] sm:p-10 p-5">
                     <button onClick = {() => {setParticularUser(null); setUserPublicResumes([])}} className = 'absolute top-1 right-1 sm:top-2 sm:right-2 w-[30px] h-[30px]'><img src = {darkMode ? "/closewhite.svg" : "/close.svg"} /></button>
-                    <div className = "flex items-center justify-center p-5 sm:w-min">
-                        <div className = "w-[20vh] h-[20vh] rounded-full bg-violet-300 flex items-center justify-center">
-                            {particularUser.profileimg ? 
-                                (particularUser.profilesrc &&  <img src = {particularUser.profilesrc} className = "object-cover w-full h-full rounded-full"/>)
-                                :
-                                <img src = "/profileblack.svg" className = "w-[70%] h-[70%]" />
-                            }
+                    <div className = "flex max-sm:flex-col">
+                        <div className = "flex items-center justify-center p-5 sm:w-min">
+                            <div className = "w-[20vh] h-[20vh] rounded-full bg-violet-300 flex items-center justify-center">
+                                {particularUser.profileimg ? 
+                                    (particularUser.profilesrc &&  <img src = {particularUser.profilesrc} className = "object-cover w-full h-full rounded-full"/>)
+                                    :
+                                    <img src = "/profileblack.svg" className = "w-[70%] h-[70%]" />
+                                }
+                            </div>
+                        </div>
+                        <div className = "max-sm:px-1 px-5 pb-5 sm:pt-5 gap-5 flex  flex-col max-sm:items-center">
+                            <h1
+                            className = "font-bold overflow-y-auto break-all line-clamp-1 text-md sm:text-2xl">
+                                {particularUser.name && particularUser.name.toUpperCase()}
+                            </h1>
+                            <div className = "">
+                                <h1 className = "font-bold text-neutral-500">Bio</h1>
+                                {particularUser.bio ? <p className = "text-xs italic break-all">{particularUser.bio}</p> : <p className = "italic text-neutral-500">No bio</p>}
+                            </div>
+                            
                         </div>
                     </div>
-                    <div className = "max-sm:px-1 px-5 pb-5 sm:pt-5 gap-5 flex overflow-hidden flex-col max-sm:items-center">
-                        <h1
-                        className = "font-bold overflow-y-auto break-all line-clamp-1 text-xl sm:text-2xl">
-                            {particularUser.name.toUpperCase()}
-                        </h1>
-                        <div className = "max-h-[13vh] overflow-hidden overflow-y-auto text-xs italic">
-                            <h1 className = "font-bold text-neutral-500">Bio</h1>
-                            {particularUser.bio ? <p className = "break-all">{particularUser.bio}</p> : <p className = "italic text-neutral-500">No bio</p>}
-                        </div>
-                        <div className = "w-full text-xs font-semibold p-2">
-                            <h1 className = "text-neutral-500">Public Resumes:</h1>
-                            <div className = "flex flex-col gap-2  overflow-hidden max-h-[15vh] overflow-y-auto">
-                                {userPublicResumes && (userPublicResumes.length > 0 ? userPublicResumes.map((resume, index) => {
-                                    return <Link key = {index} onClick = {() => {setParticularUser(null); setUserPublicResumes([]); setCurrResumeData(resume)}} to = "/resume" className = "hover:underline break-all cursor-pointer">{resume.name}</Link>
-                                    })
-                                    :
-                                    "~"
-                                )}
-                            </div>
+                    <div className = "w-full rounded-xl dark:bg-zinc-100/10 bg-zinc-950/10 text-xs font-semibold p-2">
+                        <h1 className = "text-neutral-500">Public Resumes:</h1>
+                        <div className = "flex flex-col gap-2 ">
+                            {userPublicResumes && (userPublicResumes.length > 0 ? userPublicResumes.map((resume, index) => {
+                                return <Link key = {index} onClick = {() => {setParticularUser(null); setUserPublicResumes([]); setCurrResumeData(resume)}} to = "/resume" className = "hover:underline break-all cursor-pointer">{resume.name}</Link>
+                                })
+                                :
+                                "~"
+                            )}
                         </div>
                     </div>
                 </div>

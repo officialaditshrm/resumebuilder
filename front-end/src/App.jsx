@@ -12,7 +12,7 @@ import ResumeBegin from './components/ResumeBegin.jsx'
 import Footer from './components/Footer.jsx'
 import Profile from './pages/Profile.jsx'
 
-const url = 'http://localhost:6500'
+const url = 'https://resolute-back-end.onrender.com'
 
 function App() {
   const [darkMode, setDarkMode] = useState(false)

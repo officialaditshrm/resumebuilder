@@ -247,12 +247,12 @@ function HiddenResume ({resumeInView}) {
 
                 {/* SKILLS */}
 
-                <section id = "skills" className = "pt-[1%]">
+                <section id = "skills" className = "pt-[1%] break-inside-avoid-page">
                     <h1 className = "font-extrabold border-b-[1.5px] pb-[7.2px] border-black whitespace-nowrap w-min text-[110%]">PROFESSIONAL SKILLS</h1>
                     {resumeInView.skills &&
                         <ul className = "pl-[1.5%] text-[90%] flex flex-col gap-[1px]">
                             {resumeInView.skills.map((minisection, minisectionindex) => {
-                                return <li key = {minisectionindex} className = "flex break-inside-avoid flex-wrap">
+                                return <li key = {minisectionindex} className = "flex flex-wrap">
                                     {minisection.head && <h1 className = "font-bold">{minisection.head}</h1>}
                                     {minisection.content && <p className = "mr-[4px]">:</p>}
                                     {minisection.content && <p>{minisection.content}</p>}

@@ -25,7 +25,7 @@ function EditResume({setCurrResumeData, currResumeData, darkMode, updateResume})
 
     if (resumeToEdit) {
         return (
-            <div className = "mt-[25vh] flex gap-8 flex-col min-h-screen sm:p-10 p-5 max-sm:[20vh] sm:ml-72">
+            <div className = "mt-[25vh] flex gap-8 flex-col min-h-screen sm:p-10 p-5 max-md:[20vh] md:ml-72">
                 <h1 className = "text-4xl font-extrabold text-center">Edit Resume</h1>
                 <form
                 onSubmit = {(event) => {
@@ -37,7 +37,7 @@ function EditResume({setCurrResumeData, currResumeData, darkMode, updateResume})
                     {/* META */}
                     <div id = "meta" className = "flex relative overflow-y-auto flex-col gap-4 dark:bg-zinc-700 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
                         <h1 className = "font-extrabold text-2xl">Meta Info</h1>
-                        <div className = "grid grid-cols-2 gap-4">
+                        <div className = "grid grid-cols-2 max-sm:grid-cols-1 gap-4">
                             <div className = "flex flex-col w-full gap-1 items-start">
                                 <label className = "font-bold">Resume Name</label>
                                 <input
@@ -70,7 +70,7 @@ function EditResume({setCurrResumeData, currResumeData, darkMode, updateResume})
                             </div>
                         </div>
                     </div>
-                    <div className = "grid grid-cols-2 gap-4">
+                    <div className = "grid sm:grid-cols-2 grid-cols-1 gap-4">
                         <button
                         type = "button"
                         onClick = {() => setHeaderEdit(true)}
@@ -155,7 +155,7 @@ function HeaderDetails ({resumeToEdit, setHeaderEdit, setResumeToEdit}) {
     return (
         <div className = "fixed top-0 left-0 z-50 h-screen flex flex-col items-center justify-center w-screen bg-zinc-100/30 dark:bg-zinc-950/30 backdrop-blur">
             {/* HEADER DETAILS */}
-            <div className = "max-h-[90%] min-w-[40%] overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
+            <div className = "max-h-[90%] min-w-[40%] max-sm:w-4/5 max-sm:pt-12 max-sm:p-2 overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
                 <button
                 onClick={() => setHeaderEdit(false)}
                 type = "button"
@@ -163,9 +163,9 @@ function HeaderDetails ({resumeToEdit, setHeaderEdit, setResumeToEdit}) {
                     DONE
                 </button>
                 <h1 className = "font-extrabold text-2xl">Header Details</h1>
-                <div className = "flex flex-col gap-2 p-4 rounded-md">
+                <div className = "flex flex-col gap-2 p-4 max-sm:p-2 rounded-md">
                     <h2 className = "font-bold text-xl">Location</h2>
-                    <div className = "grid grid-cols-3 gap-2">
+                    <div className = "grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-2">
                         <div className = "flex flex-col gap-1 items-start">
                             <label className = "font-semibold">City</label>
                             <input
@@ -224,9 +224,9 @@ function HeaderDetails ({resumeToEdit, setHeaderEdit, setResumeToEdit}) {
                         </div>
                     </div>
                 </div>
-                <div className = "flex flex-col gap-2 p-4 rounded-md">
+                <div className = "flex flex-col gap-2 p-4 max-sm:p-2 rounded-md">
                     <h2 className = "font-bold text-xl">Contact Details</h2>
-                    <div className = "grid grid-cols-2 gap-4">
+                    <div className = "grid sm:grid-cols-2 grid-cols-1 gap-4">
                         <div className = "flex flex-col gap-1 items-start">
                             <label className = "font-semibold">Phone</label>
                             <input
@@ -267,19 +267,19 @@ function EducationDetails ({resumeToEdit, setResumeToEdit, setEducationEdit}) {
     return (
         <div className = "fixed top-0 left-0 z-50 h-screen flex flex-col items-center justify-center w-screen bg-zinc-100/30 dark:bg-zinc-950/30 backdrop-blur">
             {/* EDUCATION DETAILS */}
-            <div className = "max-h-[90%] min-w-[60%] overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
+            <div className = "max-h-[90%] max-sm:text-sm min-w-[60%] max-sm:p-2 overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
                 <button
                 onClick={() => setEducationEdit(false)}
                 type = "button"
                 className = "absolute top-3 right-3 py-1 px-2 rounded-md text-blue-700 font-bold">
                     DONE
                 </button>
-                <h1 className = "font-extrabold text-2xl">Education Details</h1>
+                <h1 className = "font-extrabold max-sm:text-lg text-2xl">Education Details</h1>
                 <div className = "flex flex-col gap-4">
-                    <h1 className = "font-bold text-xl">Institutions</h1>
+                    <h1 className = "font-bold sm:text-xl">Institutions</h1>
                     <div className = "flex flex-col gap-4">
                         {resumeToEdit?.education.map((edu, eduindex) => {
-                            return <div key = {eduindex} className = " relative p-8 gap-4 flex flex-col bg-zinc-800 dark:bg-zinc-100 shadow-[0_2px_2px_1px_rgba(0,0,0,0.15)] text-zinc-100 dark:text-zinc-950 rounded-md">
+                            return <div key = {eduindex} className = "relative max-sm:pt-6 max-sm:p-2 p-8 gap-4 flex flex-col bg-zinc-800 dark:bg-zinc-100 shadow-[0_2px_2px_1px_rgba(0,0,0,0.15)] text-zinc-100 dark:text-zinc-950 rounded-md">
                                 <button
                                 type = "button"
                                 onClick = {() => {
@@ -293,7 +293,7 @@ function EducationDetails ({resumeToEdit, setResumeToEdit, setEducationEdit}) {
                                 <div className = "flex flex-col gap-1 items-start">
                                     <label className = "font-semibold">Institution Name</label>
                                     <input
-                                    className = "p-2 w-full text-black rounded-md border border-black/20 shadow-[0_1px_1px_1px_rgba(0,0,0,0.15)]"
+                                    className = "p-2 max-sm:p-1 w-full text-black rounded-md border border-black/20 shadow-[0_1px_1px_1px_rgba(0,0,0,0.15)]"
                                     onChange = {(event) => {
                                         const newrn = event.target.value
                                         const copy = {...resumeToEdit}
@@ -302,10 +302,10 @@ function EducationDetails ({resumeToEdit, setResumeToEdit, setEducationEdit}) {
                                     }}
                                     type = "text" value = {edu.institution}/>
                                 </div>
-                                <h1 className = "font-semibold text-xl">Qualifications</h1>
+                                <h1 className = "font-semibold sm:text-xl">Qualifications</h1>
                                 <div className = "flex flex-col gap-4">
                                     {edu.qualifications?.map((qual, qindex) => {
-                                        return <div key = {qindex} className = "relative rounded-md dark:text-zinc-100 text-zinc-950 flex flex-col gap-2 p-8 dark:bg-zinc-950/70 bg-zinc-100/70">
+                                        return <div key = {qindex} className = "relative rounded-md  dark:text-zinc-100 text-zinc-950 flex flex-col gap-2 p-8 max-sm:p-4 max-sm:pt-10 dark:bg-zinc-950/70 bg-zinc-100/70">
                                             <button
                                             type = "button"
                                             onClick = {() => {
@@ -381,7 +381,7 @@ function EducationDetails ({resumeToEdit, setResumeToEdit, setEducationEdit}) {
                                             
                                             <div className = 'flex flex-col gap-2'>
                                                 {qual.extras?.map((extra, extraindex) => {
-                                                    return <div key = {extraindex} className = "flex gap-1 w-full items-center">
+                                                    return <div key = {extraindex} className = "flex max-sm:flex-col gap-1 w-full items-center">
                                                         <input 
                                                         placeholder = "Distance Learning Programme"
                                                         className = "p-2 rounded-md text-black shadow-[0_2px_2px_1px_rgba(0,0,0,0.15)]" type = "text" value = {extra} onChange = {(event) => {
@@ -446,18 +446,18 @@ function ExperienceDetails ({resumeToEdit, setResumeToEdit, setExperienceEdit}) 
     return (
         <div className = "fixed top-0 left-0 z-50 h-screen flex flex-col items-center justify-center w-screen bg-zinc-100/30 dark:bg-zinc-950/30 backdrop-blur">
             {/* PROFESSIOINAL EXPERIENCE DETAILS */}
-            <div className = "max-h-[90%] min-w-[60%] overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
+            <div className = "max-h-[90%] min-w-[60%] max-sm:p-2 max-sm:text-sm max-sm:pt-12 overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
                 <button
                 onClick={() => setExperienceEdit(false)}
                 type = "button"
                 className = "absolute top-3 right-3 py-1 px-2 rounded-md text-blue-700 font-bold">
                     DONE
                 </button>
-                <h1 className = "font-extrabold text-2xl">Professional Experience Details</h1>
+                <h1 className = "font-extrabold max-sm:text-lg text-2xl">Professional Experience Details</h1>
                 <div className = "flex flex-col gap-4 items-center">
-                    <h2 className = "font-semibold text-2xl">Organizations</h2>
+                    <h2 className = "font-bold sm:text-xl">Organizations</h2>
                     {resumeToEdit.experience?.map((org, orgindex) => {
-                        return <div key = {orgindex} className = "flex gap-2 relative flex-col text-zinc-950 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-950 p-8 rounded-md w-full">
+                        return <div key = {orgindex} className = "flex gap-2 relative flex-col text-zinc-950 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-950 max-sm:p-4 max-sm:pt-10 p-8 rounded-md w-full">
                             <h1 className = "font-extrabold text-center">Organization Number {orgindex + 1}</h1>
                             <input
                             type = "text"
@@ -472,7 +472,7 @@ function ExperienceDetails ({resumeToEdit, setResumeToEdit, setExperienceEdit}) 
                             />
                             <div className = "flex flex-col gap-2">
                                 <h3 className = "text-xl font-bold">Extras about the Organization</h3>
-                                <div className = "grid grid-cols-2 gap-2">
+                                <div className = "grid sm:grid-cols-2 gap-2">
                                     {org.extras?.map((extra, extraindex) => {
                                         return <div key = {extraindex} className = "flex p-2 bg-sky-400/50 rounded-md gap-2">
                                             <input
@@ -512,7 +512,15 @@ function ExperienceDetails ({resumeToEdit, setResumeToEdit, setExperienceEdit}) 
                                 <h3 className = "text-xl font-bold">Roles</h3>
                                 <div className = "flex flex-col gap-4">
                                     {org.roles?.map((role, roleindex) => {
-                                        return <div key = {roleindex} className = "p-4 rounded-md flex flex-col gap-4 bg-sky-400/50">
+                                        return <div key = {roleindex} className = "p-4 max-sm:p-2 relative rounded-md flex flex-col gap-4 bg-sky-400/50">
+                                            <button
+                                            type = "button"
+                                            onClick = {() => {
+                                                const copy = {...resumeToEdit}
+                                                copy.experience[orgindex].roles.splice(roleindex, 1)
+                                                setResumeToEdit(copy)
+                                            }}
+                                            className = "absolute top-2 right-2 rounded-full bg-red-700"><img src = "/closewhite.svg" /></button>
                                             <h1 className = "font-extrabold text-center">Role Number {roleindex + 1}</h1>
                                             <input
                                             type = "text"
@@ -526,7 +534,7 @@ function ExperienceDetails ({resumeToEdit, setResumeToEdit, setExperienceEdit}) 
                                             placeholder = "Role Name (Front-End Engineer)"
                                             className = "p-2 text-black rounded-md w-full shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)]"/>
 
-                                            <div className = "grid grid-cols-2 gap-2">
+                                            <div className = "grid sm:grid-cols-2 gap-2">
                                                 <div className = "flex flex-col gap-2">
                                                     <label className = "font-bold">Start</label>
                                                     <input
@@ -613,7 +621,7 @@ function ExperienceDetails ({resumeToEdit, setResumeToEdit, setExperienceEdit}) 
                                             </div>
                                             <div className = "flex flex-col gap-2">
                                                 <h3 className = "text-xl font-bold">Extras about the role</h3>
-                                                <div className = "grid grid-cols-2 gap-2">
+                                                <div className = "grid sm:grid-cols-2 gap-2">
                                                     {role.extras?.map((extra, extraindex) => {
                                                         return <div key = {extraindex} className = "flex p-2 bg-sky-400/50 rounded-md gap-2">
                                                             <input
@@ -651,7 +659,7 @@ function ExperienceDetails ({resumeToEdit, setResumeToEdit, setExperienceEdit}) 
                                             </div>
                                             <div className = "flex flex-col gap-2">
                                                 <h3 className = "text-xl font-bold">URLs</h3>
-                                                <div className = "grid grid-cols-2 gap-2">
+                                                <div className = "grid sm:grid-cols-2 gap-2">
                                                     {role.urls?.map((link, linkindex) => {
                                                         return <div key = {linkindex} className = "flex flex-col p-2 bg-sky-400/50 rounded-md gap-2">
                                                             <input
@@ -702,7 +710,7 @@ function ExperienceDetails ({resumeToEdit, setResumeToEdit, setExperienceEdit}) 
                                     className = "p-2 flex items-center justify-center text-white font-bold rounded-md bg-blue-700 shadow-[0_2px_3px_1px_rgba(0,0,0,0.15)]"
                                     onClick = {() => {
                                         const copy = {...resumeToEdit}
-                                        const newarr = [...copy.experience[orgindex].roles, {}]
+                                        const newarr = [...copy.experience[orgindex].roles, {rolename : "", rolesummary: "", start: new Date(), end: new Date(), ongoing: false, points: [], extras: [], urls: []}]
                                         copy.experience[orgindex].roles = newarr
                                         setResumeToEdit(copy)
                                     }}>
@@ -745,17 +753,17 @@ function ProjectDetails ({setResumeToEdit, resumeToEdit, setProjectsEdit}) {
     return (
         <div className = "fixed top-0 left-0 z-50 h-screen flex flex-col items-center justify-center w-screen bg-zinc-100/30 dark:bg-zinc-950/30 backdrop-blur">
             {/* PROJECTS DETAILS */}
-            <div className = "max-h-[90%] min-w-[60%] overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
+            <div className = "max-h-[90%] min-w-[60%] max-sm:p-2 max-sm:pt-12 max-sm:text-sm overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
                 <button
                 onClick={() => setProjectsEdit(false)}
                 type = "button"
                 className = "absolute top-3 right-3 py-1 px-2 rounded-md text-blue-700 font-bold">
                     DONE
                 </button>
-                <h1 className = "font-extrabold text-2xl">Project Details</h1>
+                <h1 className = "font-extrabold max-sm:text-lg text-2xl">Project Details</h1>
                 <div className = "flex flex-col gap-8">
                     {resumeToEdit.projects?.map((project, index) => {
-                        return <div key = {index} className = "relative flex flex-col gap-4 p-4 bg-zinc-100 rounded-md dark:bg-zinc-950 ">
+                        return <div key = {index} className = "relative max-sm:p-2 flex flex-col gap-4 p-4 bg-zinc-100 rounded-md dark:bg-zinc-950 ">
                             <button
                             type = "button"
                             onClick = {() => {
@@ -851,7 +859,7 @@ function ProjectDetails ({setResumeToEdit, resumeToEdit, setProjectsEdit}) {
                             </div>
                             <div className = "flex flex-col gap-2">
                                 <h3 className = "text-xl font-bold">URLs</h3>
-                                <div className = "grid grid-cols-2 gap-2">
+                                <div className = "grid sm:grid-cols-2 gap-2">
                                     {project.urls?.map((link, linkindex) => {
                                         return <div key = {linkindex} className = "flex flex-col p-2 bg-sky-400/50 rounded-md gap-2">
                                             <input
@@ -895,7 +903,7 @@ function ProjectDetails ({setResumeToEdit, resumeToEdit, setProjectsEdit}) {
                                     </button>
                                 </div>
                             </div>
-                            <div className = "grid grid-cols-2 gap-2">
+                            <div className = "grid sm:grid-cols-2 gap-2">
                                 <div className = "flex flex-col gap-2">
                                     <label className = "font-bold">Start</label>
                                     <input
@@ -930,7 +938,7 @@ function ProjectDetails ({setResumeToEdit, resumeToEdit, setProjectsEdit}) {
                             </div>
                             <div className = "flex flex-col gap-2">
                                 <h3 className = "text-xl font-bold">Extras about the Project</h3>
-                                <div className = "grid grid-cols-2 gap-2">
+                                <div className = "grid sm:grid-cols-2 gap-2">
                                     {project.extras?.map((extra, extraindex) => {
                                         return <div key = {extraindex} className = "flex p-2 bg-sky-400/50 rounded-md gap-2">
                                             <input
@@ -977,7 +985,7 @@ function ProjectDetails ({setResumeToEdit, resumeToEdit, setProjectsEdit}) {
 function SkillsDetails ({resumeToEdit, setResumeToEdit, setSkillsEdit}) {
     return (
         <div className = "fixed top-0 left-0 z-50 h-screen flex flex-col items-center justify-center w-screen bg-zinc-100/30 dark:bg-zinc-950/30 backdrop-blur">
-            <div className = "max-h-[90%] min-w-[60%] overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
+            <div className = "max-h-[90%] min-w-[60%] max-sm:p-2 max-sm:text-sm max-sm:pt-12 overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
                 <button
                 onClick={() => setSkillsEdit(false)}
                 type = "button"
@@ -985,7 +993,7 @@ function SkillsDetails ({resumeToEdit, setResumeToEdit, setSkillsEdit}) {
                     DONE
                 </button>
                 <div className = "flex flex-col gap-6">
-                    <h1 className = "font-bold text-2xl">Skills Details</h1>
+                    <h1 className = "font-bold max-sm:text-lg text-2xl">Skills Details</h1>
                     {resumeToEdit.skills.map((skill, skillindex) => {
                     return <div key = {skillindex} className = "relative flex flex-col gap-2 bg-sky-400/50 p-4 rounded-md">
                         <h2 className = "font-bold text-center">Skillset Number {skillindex + 1}</h2>
@@ -1042,17 +1050,17 @@ function SkillsDetails ({resumeToEdit, setResumeToEdit, setSkillsEdit}) {
 function ExtraSectionDetails ({setResumeToEdit, resumeToEdit, setExtraSectionsEdit}) {
     return (
         <div className = "fixed top-0 left-0 z-50 h-screen flex flex-col items-center justify-center w-screen bg-zinc-100/30 dark:bg-zinc-950/30 backdrop-blur">
-            <div className = "max-h-[90%] min-w-[60%] overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
+            <div className = "max-h-[90%] min-w-[60%] max-sm:text-sm max-sm:p-2 max-sm:pt-12 overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
                 <button
                 onClick={() => setExtraSectionsEdit(false)}
                 type = "button"
                 className = "absolute top-3 right-3 py-1 px-2 rounded-md text-blue-700 font-bold">
                     DONE
                 </button>
-                <h1 className = "font-extrabold text-2xl">Extra Sections</h1>
+                <h1 className = "font-extrabold max-sm:text-lg text-2xl">Extra Sections</h1>
                 <div className = "flex flex-col gap-4">
                     {resumeToEdit.extraSections?.map((section, sectionindex) => {
-                        return <div key = {sectionindex} className = "relative flex p-4 rounded-md gap-6 flex-col bg-zinc-100 dark:bg-zinc-950">
+                        return <div key = {sectionindex} className = "relative flex p-4 max-sm:p-2 rounded-md gap-6 flex-col bg-zinc-100 dark:bg-zinc-950">
                             <button
                             type = "button"
                             onClick = {() => {
@@ -1063,7 +1071,7 @@ function ExtraSectionDetails ({setResumeToEdit, resumeToEdit, setExtraSectionsEd
                             className = "absolute top-2 right-2 rounded-full bg-red-700">
                                 <img src = "/closewhite.svg" />
                             </button>
-                            <h1 className = "text-center text-xl font-extrabold">Section Number {sectionindex + 1}</h1>
+                            <h1 className = "text-center sm:text-xl font-extrabold">Section Number {sectionindex + 1}</h1>
                             <div className = "flex flex-col gap-2">
                                 <label className = "font-semibold">Enter New Section Title</label>
                                 <input placeholder = "Certifications, Achievements, Extra-Curriculars, etc." type = "text" value = {section.sectionName} className = "p-2 rounded-md text-black shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)]"
@@ -1150,7 +1158,7 @@ function ExtraSectionDetails ({setResumeToEdit, resumeToEdit, setExtraSectionsEd
                                         </div>
                                         <div className = "flex flex-col gap-2">
                                             <h3 className = "text-xl font-bold">URLs</h3>
-                                            <div className = "grid grid-cols-2 gap-2">
+                                            <div className = "grid sm:grid-cols-2 gap-2">
                                                 {project.urls?.map((link, linkindex) => {
                                                     return <div key = {linkindex} className = "flex flex-col p-2 bg-sky-400/50 rounded-md gap-2">
                                                         <input
@@ -1194,7 +1202,7 @@ function ExtraSectionDetails ({setResumeToEdit, resumeToEdit, setExtraSectionsEd
                                                 </button>
                                             </div>
                                         </div>
-                                        <div className = "grid grid-cols-2 gap-2">
+                                        <div className = "grid sm:grid-cols-2 gap-2">
                                             <div className = "flex flex-col gap-2">
                                                 <label className = "font-bold">Start</label>
                                                 <input
@@ -1233,7 +1241,7 @@ function ExtraSectionDetails ({setResumeToEdit, resumeToEdit, setExtraSectionsEd
                                         </div>
                                         <div className = "flex flex-col gap-2">
                                             <h3 className = "text-xl font-bold">Extras about the SubSection</h3>
-                                            <div className = "grid grid-cols-2 gap-2">
+                                            <div className = "grid sm:grid-cols-2 gap-2">
                                                 {project.extras?.map((extra, extraindex) => {
                                                     return <div key = {extraindex} className = "flex p-2 bg-sky-400/50 rounded-md gap-2">
                                                         <input

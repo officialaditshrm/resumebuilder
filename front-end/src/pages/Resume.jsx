@@ -121,7 +121,7 @@ function Resume({currResumeData, setCurrResumeData, loggedInUser, updateResume, 
     };    
 
     return (
-        <div className={`sm:ml-72 sm:mt-[25vh] mt-[20vh] min-h-screen flex flex-col items-center`}>
+        <div className={`md:ml-72 md:mt-[25vh] mt-[20vh] min-h-screen flex flex-col items-center`}>
             {currResumeData && (
                 <div className="w-full flex flex-col items-center gap-10 p-5">
                     <div className="w-full relative flex flex-col justify-center items-center">

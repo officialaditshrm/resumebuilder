@@ -1,6 +1,13 @@
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 
 function Header ({setDarkMode, darkMode, loggedInUser, smallScreen, hamburgerOpen, setHamburgerOpen}) {
+
+    const addFeedback = async () => {
+
+    }
+
+    const [showFeedback, setShowFeedback] = useState(false)
 
     if (!smallScreen) {
         return (
@@ -11,6 +18,7 @@ function Header ({setDarkMode, darkMode, loggedInUser, smallScreen, hamburgerOpe
                     {loggedInUser &&
                         <Link title = "Profile" to = "/profile" className = "hover:scale-[0.9] w-1/5 flex justify-center items-center"><img className = "size-3/5" src = {darkMode? "/profile.svg" : "/profileblack.svg"} /></Link>
                     }
+                    {/* {loggedInUser && <button className = "w-1/5 hover:scale-[0.9] flex justify-center items-center" onClick = {() => setShowFeedback(true)}><img className = "size-3/5" src = "/admincontactblack.svg"/></button>} */}
                 </div>
                 <div className = "border-l border-black/25 dark:border-white/25 h-full w-1/4 flex items-center justify-center">
                     <button
@@ -22,6 +30,16 @@ function Header ({setDarkMode, darkMode, loggedInUser, smallScreen, hamburgerOpe
                         </div>
                     </button>
                 </div>
+                {/* {showFeedback && 
+                    <div className = "fixed flex items-center justify-center bg-zinc-100/30 dark:bg-zinc-950/30 backdrop-blur top-0 left-0 h-screen w-screen">
+                        <div className = "relative bg-zinc-200 dark:bg-zinc-800 shadow-[0_3px_5px_1px_rgba(0,0,0,0.25)] p-10 rounded-xl">
+                            <button onClick={() => showFeedback(false)} className = "absolute shadow-[0_0_5px_1px_rgba(0,0,0,0.25)] top-2 right-2 rounded-full bg-red-700"><img src = "/closewhite.svg"/></button>
+                            <form>
+
+                            </form>
+                        </div>
+                    </div>
+                } */}
             </header>
         )
     } else {
@@ -43,6 +61,7 @@ function Header ({setDarkMode, darkMode, loggedInUser, smallScreen, hamburgerOpe
                             {loggedInUser &&
                                 <Link to = "/profile" onClick = {() => setHamburgerOpen(false)} className = "hover:scale-[0.9]">PROFILE</Link>
                             }
+                            
                         </nav>
                     </div>
                 }

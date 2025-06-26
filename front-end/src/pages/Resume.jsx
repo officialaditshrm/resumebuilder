@@ -1,54 +1,133 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Preview from '../components/Preview.jsx';
+import HiddenResume from '../components/HiddenResume.jsx'
 import html2pdf from 'html2pdf.js';
 
-function Resume({ smallScreen, currResumeData, setCurrResumeData, loggedInUser, updateResume, deleteResume, fetchResumes }) {
+function Resume({currResumeData, setCurrResumeData, loggedInUser, updateResume, deleteResume, fetchResumes }) {
     const [showDeleteWarning, setShowDeleteWarning] = useState(false);
     const navigate = useNavigate();
     const printRef = useRef();
 
     useEffect(() => {
-        if (!currResumeData || !loggedInUser) {
+        if (!currResumeData) {
             navigate('/');
         }
     }, []);
 
-    const handleExportPDF = () => {
-    const element = printRef.current;
-
-    html2pdf()
-        .set({
-            margin: [20 , 0, 36, 0], // 0.5 inch bottom margin
-            filename: `${currResumeData?.username}${currResumeData?.name || "resume"}.pdf`,
-            image: { type: 'jpeg', quality: 1 },
-            html2canvas: {
-                scale: 4,
-                useCORS: true
-            },
-            jsPDF: {
-                unit: 'pt',
-                format: 'a4',
-                orientation: 'portrait'
+    const handleExportPDF1 = () => {
+        const element = printRef.current;
+        html2pdf()
+            .set({
+                margin: [20 , 0, 36, 0], // 0.5 inch bottom margin
+                filename: `${currResumeData?.username}${currResumeData?.name || "resume"}.pdf`,
+                image: { type: 'jpeg', quality: 1 },
+                html2canvas: {
+                    scale: 1,
+                    useCORS: true
+                },
+                jsPDF: {
+                    unit: 'pt',
+                    format: 'a4',
+                    orientation: 'portrait'
+                }
+            })
+            .from(element)
+            .save()
+            .finally(() => {
+                // Clean up injected styles
+                document.head.removeChild(style);
             }
-        })
-        .from(element)
-        .save()
-        .finally(() => {
-            // Clean up injected styles
-            document.head.removeChild(style);
-        });
-};
+        );
+    };
+
+    const handleExportPDF2 = () => {
+        const element = printRef.current;
+        html2pdf()
+            .set({
+                margin: [20 , 0, 36, 0], // 0.5 inch bottom margin
+                filename: `${currResumeData?.username}${currResumeData?.name || "resume"}.pdf`,
+                image: { type: 'jpeg', quality: 1 },
+                html2canvas: {
+                    scale: 2,
+                    useCORS: true
+                },
+                jsPDF: {
+                    unit: 'pt',
+                    format: 'a4',
+                    orientation: 'portrait'
+                }
+            })
+            .from(element)
+            .save()
+            .finally(() => {
+                // Clean up injected styles
+                document.head.removeChild(style);
+            }
+        );
+    };
+
+
+    const handleExportPDF3 = () => {
+        const element = printRef.current;
+        html2pdf()
+            .set({
+                margin: [20 , 0, 36, 0], // 0.5 inch bottom margin
+                filename: `${currResumeData?.username}${currResumeData?.name || "resume"}.pdf`,
+                image: { type: 'jpeg', quality: 1 },
+                html2canvas: {
+                    scale: 3.125,
+                    useCORS: true
+                },
+                jsPDF: {
+                    unit: 'pt',
+                    format: 'a4',
+                    orientation: 'portrait'
+                }
+            })
+            .from(element)
+            .save()
+            .finally(() => {
+                // Clean up injected styles
+                document.head.removeChild(style);
+            }
+        );
+    };
+
+        const handleExportPDF4 = () => {
+        const element = printRef.current;
+        html2pdf()
+            .set({
+                margin: [20 , 0, 36, 0], // 0.5 inch bottom margin
+                filename: `${currResumeData?.username}${currResumeData?.name || "resume"}.pdf`,
+                image: { type: 'jpeg', quality: 1 },
+                html2canvas: {
+                    scale: 4,
+                    useCORS: true
+                },
+                jsPDF: {
+                    unit: 'pt',
+                    format: 'a4',
+                    orientation: 'portrait'
+                }
+            })
+            .from(element)
+            .save()
+            .finally(() => {
+                // Clean up injected styles
+                document.head.removeChild(style);
+            }
+        );
+    };    
 
     return (
-        <div className={`${!smallScreen ? 'ml-72 mt-[25vh]' : 'mt-[10vh]'} min-h-screen flex flex-col items-center`}>
+        <div className={`sm:ml-72 sm:mt-[25vh] mt-[20vh] min-h-screen flex flex-col items-center`}>
             {currResumeData && (
                 <div className="w-full flex flex-col items-center gap-10 p-5">
                     <div className="w-full relative flex flex-col justify-center items-center">
                         <h1 className="font-extrabold break-all text-3xl max-sm:text-sm">{currResumeData.name}</h1>
-                        <div className="flex w-full justify-between p-5 max-sm:flex-col items-center gap-10">
                             {loggedInUser && loggedInUser._id === currResumeData.user_id && (
-                                <div className="flex items-center justify-center gap-2">
+                                <div className="flex items-center p-5 justify-center gap-2">
                                     <button
                                         onClick={() => {
                                             const resumeCopy = { ...currResumeData };
@@ -73,35 +152,69 @@ function Resume({ smallScreen, currResumeData, setCurrResumeData, loggedInUser, 
                                 </div>
                             )}
                             {loggedInUser && loggedInUser._id === currResumeData.user_id && (
-                                <button className="max-sm:text-xs items-center text-white py-2 px-3 font-extrabold flex gap-1 rounded-md bg-blue-900">
+                                <button
+                                onClick = {() => {navigate("/editResume")}}
+                                className="max-sm:text-xs items-center text-white py-2 px-3 font-extrabold flex gap-1 rounded-md bg-blue-900">
                                     <img src="/edit.svg" alt="edit" />
                                     EDIT RESUME
                                 </button>
                             )}
-                        </div>
                     </div>
 
                     <label className="text-sm text-neutral-500 font-extrabold">{currResumeData._id}</label>
 
-                    <div>
+                    <div className = "hidden">
                         <div
                             ref={printRef}
                             style={{
                                 fontFamily: "'Times New Roman', Times, serif",
                                 backgroundColor: 'white',
-                                boxSizing: 'border-box'
+                                boxSizing: 'border-box',
+                            }}
+                        >
+                            <HiddenResume resumeInView={currResumeData} />
+                        </div>
+
+                        
+                    </div>
+                    <div>
+                        <div
+                            style={{
+                                fontFamily: "'Times New Roman', Times, serif",
+                                backgroundColor: 'white',
+                                boxSizing: 'border-box',
                             }}
                         >
                             <Preview resumeInView={currResumeData} />
                         </div>
 
-                        <button
-                            onClick={handleExportPDF}
-                            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                        >
-                            DOWNLOAD AS PDF
-                        </button>
+                        
                     </div>
+                    {loggedInUser._id === currResumeData.user_id && <div className = "w-full flex flex-col gap-4 bg-sky-900 p-5 rounded-xl items-center">
+                        <h1 className = "text-2xl dark:text-sky-950 text-sky-100 font-extrabold">Download</h1>
+                        <div className = "flex flex-wrap justify-evenly w-full">
+                            <button
+                                onClick={handleExportPDF2}
+                                className="mt-4 font-bold bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                            >
+                                Low Resolution
+                            </button>
+                            <button
+                                onClick={handleExportPDF3}
+                                className="mt-4 font-bold bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                            >
+                                Decent Resolution
+                            </button>
+                            <button
+                                onClick={handleExportPDF4}
+                                className="mt-4 font-bold bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                            >
+                                High Resolution
+                            </button>
+                        </div>
+                    </div>}
+
+
 
                     {loggedInUser && loggedInUser._id === currResumeData.user_id && (
                         <button

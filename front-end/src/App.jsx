@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
 import Community from './pages/Community.jsx'
+import EditResume from './pages/EditResume.jsx'
 import MyResumes from './pages/MyResumes.jsx'
 import Header from './components/Header.jsx'
 import SidePanel from "./components/SidePanel"
@@ -30,6 +31,7 @@ function App() {
   const [nameAlert, setNameAlert] = useState(null)
   const [pfp, setPfp] = useState(null)
   const [particularUser, setParticularUser] = useState(false)
+  const [resumeToEdit, setResumeToEdit] = useState(false)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -100,7 +102,7 @@ function App() {
 
   useEffect(() => {
     console.log("token changed to", token)
-    if (!token || typeof token !== 'string' || token.trim() === '') {
+    if (!token ||  typeof token !== 'string' || token.trim() === '') {
       setLoggedInUser(null)
       return
     }
@@ -123,13 +125,14 @@ function App() {
     }
 
   const buildResume = () => {
-        setUntitledResume({
+        if (loggedInUser) {
+          setUntitledResume({
             name : "Untitled " + new Date().toLocaleString(),
             private : false,
             user_id : loggedInUser._id,
             username : loggedInUser.name
         })
-        setResumeBegin(true)
+        setResumeBegin(true)}
     }
 
 
@@ -164,7 +167,6 @@ function App() {
       if (!response.ok) {
           throw new Error("Could not create new resume")
       }
-      const actualresponse = await response.json()
       fetchResumes()
     } catch(error) {
       console.error(error.message)
@@ -357,6 +359,7 @@ function App() {
           } />
           <Route path = "/resume" element = {
             <Resume 
+            
             darkMode = {darkMode}
             smallScreen = {smallScreen} 
             fetchResumes = {fetchResumes} 
@@ -397,6 +400,14 @@ function App() {
             fetchResumes = {fetchResumes}
             allResumes = {allResumes}
             url = {url}
+            />
+          } />
+          <Route path =  "/editresume" element = {
+            <EditResume
+            updateResume={updateResume}
+            setCurrResumeData = {setCurrResumeData}
+            currResumeData = {currResumeData}
+            darkMode = {darkMode}
             />
           } />
           

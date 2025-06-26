@@ -1,40 +1,40 @@
-function Preview ({resumeInView}) {
+function HiddenResume ({resumeInView}) {
     return (
         <div
-        className = "font-times shadow-[0_0_5px_1px_rgba(0,0,0,0.25)] leading-[120%] px-[5%] font-['Times_New_Roman',serif] text-[4.5px] min-[396px]:text-[6.9px] md:text-[9px] lg:text-[12px] bg-white text-black flex flex-col w-[240px] min-h-[339px] lg:w-[595px] md:w-[476px] min-[396px]:w-[357px] py-[5%] lg:min-h-[841px] md:min-h-[693px] min-[396px]:min-h-[505px]"
+        className = "font-times leading-[18px] px-[4%] font-['Times_New_Roman',serif] text-[15px] bg-white text-black flex flex-col min-h-[1123px] pb-[2%]"
         id = "resumeview"
         >
             <header className = "flex-col break-inside-avoid-page text-center flex flex-col">
-                <h1 id = "username" className = "font-extrabold mb-[1%] text-[175%]">
+                <h1 id = "username" className = "font-extrabold mb-[7px] text-[175%]">
                     {resumeInView.username.toUpperCase()}
                 </h1>
-                <div className = "flex break-inside-avoid-page items-center mb-[1%] justify-center flex-wrap ">
+                <div className = "flex break-inside-avoid-page items-center mb-[3px] justify-center flex-wrap ">
                     {resumeInView.city}{resumeInView.state && ", "}
                     {resumeInView.state}{resumeInView.country && ", "}
                     {resumeInView.country}{resumeInView.pincode && " - "}
                     {resumeInView.pincode}
                 </div>
-                <div className = "flex break-inside-avoid-page justify-center flex-wrap text-[85%] gap-[1%]">
-                    {resumeInView.phonenum !== "" && <p className = "flex items-center gap-[1px]"><label className = "bg-black">{resumeInView.phonenum}</label>{(resumeInView.email || resumeInView.header_urls && resumeInView.header_urls.length > 0) && " | "}</p>}
+                <div className = "flex break-inside-avoid-page justify-center flex-wrap text-[85%] gap-2">
+                    {resumeInView.phonenum !== "" && <p className = "flex items-center font-bold italic gap-[3px]"><label>{resumeInView.phonenum}</label><label>{resumeInView.header_urls && resumeInView.header_urls.length > 0 && "  | "}</label></p>}
                     {resumeInView.email && <p><a className = "text-blue-900 font-bold italic" href = {`mailto:${resumeInView.email}`}>{resumeInView.email}</a>{" |"}</p>}
                     {resumeInView.header_urls.map((header_url, headerindex) => {
-                        return <div key = {headerindex} className = "flex gap-[1px]">
+                        return <div key = {headerindex}>
                             <a href = {header_url.url} target = "_blank" className = "text-blue-900 break-all font-bold italic">{header_url.name}</a>
-                            {resumeInView.header_urls[headerindex+1] && " | "}
+                            {resumeInView.header_urls[headerindex+1] && "  |"}
                         </div>
                     })}
                 </div>
             </header>
             {resumeInView.summary &&
             <div>
-                <h1 className = "font-bold break-inside-avoid-page underline text-[110%]">SUMMARY</h1>
+                <h1 className = "font-bold break-inside-avoid-page border-b-[1.5px] pb-[4.5px] border-black whitespace-nowrap w-min text-[110%]">SUMMARY</h1>
                 <p className = "pl-[1.5%] break-inside-avoid-page text-[90%]">{resumeInView.summary}</p>
             </div>
             }
 
             {/* EDUCATION */}
             <section id = "education" className = "pt-[1%]">
-                {resumeInView.education.length > 0 && <h1 className = "font-extrabold break-inside-avoid-page underline text-[110%]">EDUCATION</h1>}
+                <h1 className = "font-extrabold break-inside-avoid-page border-b-[1.5px] pb-[7.2px] border-black whitespace-nowrap w-min text-[110%]">EDUCATION</h1>
                 {resumeInView.education.map((edu, education_index) => {
                     return <section key = {education_index} className = "pl-[1.5%] break-inside-avoid-page text-[90%]">
                         <header className = "relative w-full flex justify-between">
@@ -100,12 +100,12 @@ function Preview ({resumeInView}) {
 
             {/* PROFESSIONAL EXPERIENCE */}
             <section id = "experience" className = "pt-[1%]">
-                {resumeInView.experience.length > 0 && <h1 className = "font-extrabold break-inside-avoid-page underline text-[110%]">PROFESSIONAL EXPERIENCE</h1>}
+                <h1 className = "font-extrabold break-inside-avoid-page border-b-[1.5px] pb-[7.2px] border-black whitespace-nowrap w-min text-[110%]">PROFESSIONAL EXPERIENCE</h1>
                 {resumeInView.experience.map((org, org_index) => {
-                    return <section key = {org_index} className = "pl-[1.5%] pb-[1%] text-[90%]">
+                    return <section key = {org_index} className = "pl-[1.5%] mb-[7px] text-[90%]">
                         <header className = "break-inside-avoid-page relative w-full flex justify-between">
                             <div className = "flex gap-[15px]">
-                                <h1 className = "flex items-center font-bold">
+                                <h1 className = "flex items-center font-bold text-[110%]">
                                     {org.organization.toUpperCase()}
                                 </h1>
                                 <div className = "flex flex-wrap mt-[1.5%] items-center gap-[3px]">
@@ -127,9 +127,9 @@ function Preview ({resumeInView}) {
                                 }
                             </div>
                         </header>
-                        <section className = "flex flex-col">
+                        <section className = "flex flex-col gap-[3px]">
                             {org.roles.map((role, roleindex) => {
-                                return <div key = {roleindex} className = "pb-[1%] break-inside-avoid-page">
+                                return <div key = {roleindex} className = "break-inside-avoid-page">
                                     <header className = "flex justify-between italic">
                                         <div className = "flex items-center gap-[15px] max-w-[60%]">
                                             <h1 className = "font-semibold">{role.rolename}</h1>
@@ -181,9 +181,9 @@ function Preview ({resumeInView}) {
                 {/* PROJECTS */}
 
                 <section id = "projects" className = "pt-[1%] flex flex-col">
-                    {resumeInView.projects.length > 0 && <h1 className = "font-extrabold break-inside-avoid-page underline text-[110%]">SELECTED PROJECTS</h1>}
+                    <h1 className = "font-extrabold break-inside-avoid-page border-b-[1.5px] pb-[7.2px] border-black whitespace-nowrap w-min text-[110%]">SELECTED PROJECTS</h1>
                     {resumeInView.projects.map((subsection, subsectionindex) => {
-                        return <section key = {subsectionindex} className = "pl-[1.5%] pb-[1%] break-inside-avoid-page text-[90%]">
+                        return <section key = {subsectionindex} className = "pl-[1.5%] break-inside-avoid-page mb-[7px] text-[90%]">
                             <header className = "relative w-full flex justify-between">
                                 <div className = "flex gap-[15px]">
                                     <h1 className = "flex items-center font-bold text-[110%]">
@@ -248,7 +248,7 @@ function Preview ({resumeInView}) {
                 {/* SKILLS */}
 
                 <section id = "skills" className = "pt-[1%]">
-                    {resumeInView.skills.length > 0 && <h1 className = "font-extrabold underline text-[110%]">PROFESSIONAL SKILLS</h1>}
+                    <h1 className = "font-extrabold border-b-[1.5px] pb-[7.2px] border-black whitespace-nowrap w-min text-[110%]">PROFESSIONAL SKILLS</h1>
                     {resumeInView.skills &&
                         <ul className = "pl-[1.5%] text-[90%] flex flex-col gap-[1px]">
                             {resumeInView.skills.map((minisection, minisectionindex) => {
@@ -271,9 +271,9 @@ function Preview ({resumeInView}) {
             {/* EXTRA SECTIONS */}
             {resumeInView.extraSections.map((section, sectionindex) => {
                 return <section key = {sectionindex} className = "pt-[2%] break-inside-avoid-page">
-                    <h1 className = "font-extrabold break-inside-avoid-page underline text-[110%]">{section.sectionName.toUpperCase()}</h1>
+                    <h1 className = "font-extrabold break-inside-avoid-page border-b-[1.5px] pb-[7.2px] border-black whitespace-nowrap w-min text-[110%]">{section.sectionName.toUpperCase()}</h1>
                     {section.subsections.map((subsection, subsectionindex) => {
-                        return <section key = {subsectionindex} className = "pl-[1.5%] pb-[1%] text-[90%]">
+                        return <section key = {subsectionindex} className = "pl-[1.5%] text-[90%]">
                             <header className = "relative w-full flex justify-between">
                                 <div className = "flex gap-[15px] items-center">
                                     <h1 className = "flex items-center font-bold text-[110%]">
@@ -330,4 +330,4 @@ function Preview ({resumeInView}) {
 }
 
 
-export default Preview
+export default HiddenResume

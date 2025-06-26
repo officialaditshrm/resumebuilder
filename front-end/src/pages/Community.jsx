@@ -17,27 +17,33 @@ function Community ({url, darkMode, allResumes, fetchResumes, setCurrResumeData,
     
     useEffect(() => {
     if (!allResumes || !allUsers) return;
-    const publicCounts = {}
 
+    // Prevent infinite loop: only update if not already updated
+    const needsUpdate = allUsers.some(user => user.publiccount === undefined)
+    if (!needsUpdate) return;
+
+    const publicCounts = {}
     allResumes.forEach(resume => {
         if (!resume.private) {
             publicCounts[resume.user_id] = (publicCounts[resume.user_id] || 0) + 1
         }
     })
-    const updatedUsers = allUsers.map(user => ({
-        ...user,
-        publiccount: publicCounts[user._id] || 0
-    }))
 
-    setAllUsers(updatedUsers);
-}, [allResumes]);
+    setAllUsers(prev => 
+        prev.map(user => ({
+            ...user,
+            publiccount: publicCounts[user._id] || 0
+        }))
+    );
+}, [allUsers, allResumes])
 
 
     useEffect(() => {
         setParticularUser(null)
-        fetchResumes()
         fetchUsers()
+        
     }, [])
+
 
     const fetchUsers = async () => {
         try {
@@ -131,7 +137,7 @@ function ParticularUser ({particularUser, setParticularUser, darkMode, loggedInU
     return (
         <div className = "fixed z-20 dark:bg-neutral-900/50 bg-neutral-100/50 backdrop-blur top-0 left-0 h-screen w-screen">
             <div className = {`absolute top-0 left-0 right-0 bottom-0 md:ml-64 flex items-center justify-center md:p-10 sm:p-6 lg:p-16 p-5`}>
-                <div className = "relative rounded-2xl w-full mt-[10vh] max-h-[80%] overflow-hidden overflow-y-auto hide-scrollbar bg-zinc-100 dark:bg-zinc-800 flex-col items-center flex shadow-[0_0_3px_1px_rgba(0,0,0,0.15)] sm:p-10 p-5">
+                <div className = "relative mt-[16vh] rounded-2xl w-full mt-[10vh] max-h-[80%] overflow-hidden overflow-y-auto hide-scrollbar bg-zinc-100 dark:bg-zinc-800 flex-col items-center flex shadow-[0_0_3px_1px_rgba(0,0,0,0.15)] sm:p-10 p-5">
                     <button onClick = {() => {setParticularUser(null); setUserPublicResumes([])}} className = 'absolute top-1 right-1 sm:top-2 sm:right-2 w-[30px] h-[30px]'><img src = {darkMode ? "/closewhite.svg" : "/close.svg"} /></button>
                     <div className = "flex max-sm:flex-col">
                         <div className = "flex items-center justify-center p-5 sm:w-min">

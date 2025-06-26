@@ -1,12 +1,4 @@
-import { useState } from 'react'
-
 function ResumeBegin ({untitledResume, setUntitledResume, createResume, setResumeBegin}) {
-    const [privateVar, setPrivateVar] = useState(false)
-
-
-    const generateResume = (resume) => {
-        createResume(resume)
-    }
 
     return (
         <div className = "fixed z-50 top-0 left-0 h-screen w-screen bg-neutral-100/30 items-center flex flex-col justify-center backdrop-blur">

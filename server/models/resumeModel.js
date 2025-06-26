@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 
 const urlSchema = new mongoose.Schema({
     name: {type: String},
-    url: {type: String, required: true}
+    url: {type: String, }
 })
 
 const miniSectionSchema = new mongoose.Schema({
@@ -12,11 +12,11 @@ const miniSectionSchema = new mongoose.Schema({
 })
 
 const roleSchema = new mongoose.Schema({
-    rolename: {type: String, required: true},
+    rolename: {type: String, },
     rolesummary: {type: String},
-    start: {type: Date},
-    end: {type: Date},
-    ongoing: {type: Boolean, required: true},
+    start: {type: Date, default: ""},
+    end: {type: Date, default: ""},
+    ongoing: {type: Boolean, },
     points: [
         {type: String}
     ],
@@ -27,11 +27,11 @@ const roleSchema = new mongoose.Schema({
 }, {minimize: false})
 
 const projectSchema = new mongoose.Schema({
-    projectname: {type: String, required: true},
+    projectname: {type: String, },
     projectsummary: {type: String},
-    start: {type: Date},
-    end: {type: Date},
-    ongoing: {type: Boolean, required: true},
+    start: {type: Date, default: ""},
+    end: {type: Date, default: ""},
+    ongoing: {type: Boolean, },
     points: [
         {type: String}
     ],
@@ -43,10 +43,11 @@ const projectSchema = new mongoose.Schema({
 }, {minimize: false})
 
 const subSectionSchema = new mongoose.Schema({
-    title: {type: String, required: true},
+    title: {type: String, },
     summary: {type: String},
-    start: {type: Date},
-    end: {type: Date},
+    start: {type: Date, default: ""},
+    end: {type: Date, default : ""},
+    ongoing: {type: Boolean, },
     points: [
         {type: String}
     ],
@@ -57,13 +58,13 @@ const subSectionSchema = new mongoose.Schema({
 }, {minimize: false})
 
 const educationSchema = new mongoose.Schema({
-    institution: { type: String, required: true },
+    institution: { type: String,  },
     qualifications: [{
-        name: {type: String, required: true},
+        name: {type: String, },
         grades: {type: String},
-        start: {type: Date},
-        end: {type: Date},
-        ongoing: {type: Boolean, required: true},
+        start: {type: Date, default: ""},
+        end: {type: Date, default: ""},
+        ongoing: {type: Boolean, },
         description: {type: String},
         extras: [
             {type: String}
@@ -76,7 +77,7 @@ const educationSchema = new mongoose.Schema({
 
 
 const extraSectionSchema = new mongoose.Schema({
-    sectionName : {type: String, required: true},
+    sectionName : {type: String, },
     subsections : [
         subSectionSchema
     ]
@@ -84,28 +85,37 @@ const extraSectionSchema = new mongoose.Schema({
 
 
 const resumeSchema = new mongoose.Schema({
-    name: {type: String, required: true}, //done
-    user_id: {type: mongoose.Schema.Types.ObjectId, required: true}, //done
-    private: {type: Boolean, required: true}, //done
-    resumesummary: {type: String}, //done
-    username: {type: String, required: true}, //done
-    city: {type: String}, //done
-    state: {type: String}, //done
-    country: {type: String}, //done
-    pincode: {type: String}, //done
-    header_urls: [ urlSchema ], //done
-    education: [ educationSchema ], //done
-    projects: [ projectSchema ], //done
+    name: {type: String, required: true}, 
+    user_id: {type: mongoose.Schema.Types.ObjectId, required: true}, 
+    private: {type: Boolean, required: true}, 
+    phonenum: {type: String, default: ""},
+    resumesummary: {type: String}, 
+    username: {type: String, required: true}, 
+    city: {type: String}, 
+    email: {type: String},
+    state: {type: String}, 
+    country: {type: String}, 
+    pincode: {type: String}, 
+    header_urls: [ urlSchema ], 
+    education: [ educationSchema ], 
+    projects: [ projectSchema ], 
+    views: {type: Number},
     experience: [ {
-        organization: {type: String, required: true},
+        organization: {type: String, },
         roles: [ roleSchema ],
         extras: [
             {type: String}
         ],
         urls: [ urlSchema ]
     } ],
-    skills: [ miniSectionSchema ], //done
-    extraSections: [ extraSectionSchema ], 
+    skills: [ miniSectionSchema ], 
+    extraSections: [ extraSectionSchema ],
+    feedback: [
+        {
+            user_id: {type: mongoose.Schema.Types.ObjectId, required: true},
+            text: {type: String, required: true}
+        }
+    ]
 }, {timestamps: true}, {minimize: false})
 
 const resumeModel = mongoose.models.resumes || mongoose.model("resumes", resumeSchema)

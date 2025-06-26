@@ -119,7 +119,7 @@ export default function SidePanel ({footerShow, pfp, setPfp, darkMode, buildResu
                         }
                         {loggedInUser ?
                             <button
-                            onClick = {() => {setLoggedInUser(null); localStorage.removeItem("resoluteToken"); setToken(""); setIt(false); setPfp(null)}}
+                            onClick = {() => {setLoggedInUser(null); localStorage.removeItem("resoluteToken"); setToken(""); setIt(false); setPfp(null); navigate("/")}}
                             className = "px-3 py-2 rounded-md text-white bg-red-900 flex items-center gap-1"><img src = "/logout.svg" />LOGOUT</button>
                             :
                             <button 

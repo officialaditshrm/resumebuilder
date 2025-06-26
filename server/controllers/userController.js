@@ -1,4 +1,5 @@
 import userModel from '../models/userModel.js'
+import resumeModel from '../models/resumeModel.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import validator from 'validator'
@@ -111,16 +112,23 @@ const deleteUser = async (req, res) => {
             console.log("Invalid User")
             return res.json({success: false, message: "User doesn't exist"})
         }
-
+        
         const password = req.body.password
         const passwordCorrect = await bcrypt.compare(password, user.password)
         if (!passwordCorrect) {
             console.log("Incorrect Password")
             return res.json({success: false, message: "Incorrect Password"})
         }
-        
+        if (user.profileimg !== "" || user.profileimg) {
+            fs.unlink(`pfpuploads/${user.profileimg}`, (err)=> {
+            if (err) {
+                console.log("Error deleting image:", err)
+            }
+            user.profileimg = ""
+        })}
 
         await userModel.deleteOne({ _id : id})
+        await resumeModel.deleteMany({user_id: id})
         console.log("User deleted Successfully")
         return res.json({
             success: true,
@@ -153,10 +161,10 @@ const deletePfp = async (req, res) => {
         if (user.profileimg !== "" || user.profileimg) {
             fs.unlink(`pfpuploads/${user.profileimg}`, (err)=> {
             if (err) {
-                console.log("Error deleting previous image:", err)
+                console.log("Error deleting image:", err)
             }
+            user.profileimg = ""
         })
-        user.profileimg = ""
         user.save()
         console.log("new user.profileimg", user.profileimg)
         console.log("pfp deleted")

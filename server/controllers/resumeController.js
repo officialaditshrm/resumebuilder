@@ -46,14 +46,18 @@ const updateResume = async (req, res) => {
         }
         resume.name = req.body.name
         resume.private = req.body.private
+        resume.feedback = req.body.feedback
+        resume.views = req.body.views
         resume.resumesummary = req.body.summary
         resume.username = req.body.username
         resume.city = req.body.city
+        resume.phonenum = req.body.phonenum
         resume.state = req.body.state
         resume.country = req.body.country
+        resume.email = req.body.email
         resume.pincode = req.body.pincode
         resume.header_urls = req.body.header_urls
-        resume.extrasections = req.body.sections
+        resume.extraSections = req.body.extraSections
         resume.education = req.body.education
         resume.experience = req.body.experience
         resume.projects = req.body.projects

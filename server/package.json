@@ -19,7 +19,8 @@
   "type": "module",
   "devDependencies": {},
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server.js",
+    "dev" : "nodemon server.js"
   },
   "author": "Aditya Sharma",
   "license": "ISC"

@@ -8,8 +8,9 @@ function Community ({url, darkMode, allResumes, fetchResumes, setCurrResumeData,
     
     useEffect(() => {
         if (!allUsers) return
+
         allUsers.forEach(user => {
-            if (user.profileimg) {
+            if (user.profileimg && !user.profilesrc) {
                 fetchparticularpfp(user)
             }
         })

@@ -21,7 +21,7 @@ function Resume({currResumeData, setCurrResumeData, loggedInUser, updateResume, 
         html2pdf()
             .set({
                 margin: [20 , 0, 36, 0], // 0.5 inch bottom margin
-                filename: `${currResumeData?.username}${currResumeData?.name || "resume"}.pdf`,
+                filename: `${currResumeData?.username}_${currResumeData?.name || "resume"}.pdf`,
                 image: { type: 'jpeg', quality: 1 },
                 html2canvas: {
                     scale: 2,
@@ -48,7 +48,7 @@ function Resume({currResumeData, setCurrResumeData, loggedInUser, updateResume, 
         html2pdf()
             .set({
                 margin: [20 , 0, 36, 0], // 0.5 inch bottom margin
-                filename: `${currResumeData?.username}${currResumeData?.name || "resume"}.pdf`,
+                filename: `${currResumeData?.username}_${currResumeData?.name || "resume"}.pdf`,
                 image: { type: 'jpeg', quality: 1 },
                 html2canvas: {
                     scale: 3.125,
@@ -74,7 +74,7 @@ function Resume({currResumeData, setCurrResumeData, loggedInUser, updateResume, 
         html2pdf()
             .set({
                 margin: [20 , 0, 36, 0], // 0.5 inch bottom margin
-                filename: `${currResumeData?.username}${currResumeData?.name || "resume"}.pdf`,
+                filename: `${currResumeData?.username}_${currResumeData?.name || "resume"}.pdf`,
                 image: { type: 'jpeg', quality: 1 },
                 html2canvas: {
                     scale: 4,

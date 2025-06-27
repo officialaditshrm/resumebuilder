@@ -107,8 +107,14 @@ function App() {
       return
     }
     else {
-      const id = (decodeJWT(token).id)
-      displayLoggedInUser(id)
+      try {
+        const id = (decodeJWT(token).id)
+        displayLoggedInUser(id)
+      } catch (error) {
+        localStorage.removeItem("resoluteToken")
+        setToken("")
+        console.log(error)
+      }
     }
   }, [token])
 

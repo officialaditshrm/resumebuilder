@@ -306,7 +306,7 @@ function App() {
 
   return (
     <div>
-      <div className = {`${darkMode ? "dark bg-zinc-900 text-white": "bg-zinc-100"} border-black border font-calibri`}>
+      <div className = {`${darkMode ? "dark bg-zinc-900 text-white": "bg-zinc-100"} font-[courier] border-black border font-calibri`}>
         {smallScreen && <div className = {`w-full flex ${!loggedInUser ? "h-36": "h-10"} justify-center items-end`}><img src = {darkMode ? "/logotransparentdark.png": "/logotransparent.png"} className = "w-[80px]"/></div>}
         {(token != "" ) && !loggedInUser && <div className = {`w-full flex h-48 justify-center items-end text-2xl font-extrabold text-red-700`}>Token Found...<br/> Logging you in</div>}
         <Header 

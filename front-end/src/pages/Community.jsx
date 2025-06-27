@@ -91,31 +91,70 @@ function Community ({url, darkMode, allResumes, fetchResumes, setCurrResumeData,
         <div className = {`md:ml-72 md:mt-[25vh] ${loggedInUser ? 'mt-[10vh]' : 'mt-[20vh]'} min-h-screen flex flex-col items-center`}>
             <h1 className = "font-extrabold text-3xl max-sm:text-xl">Community</h1>
             <div id = "listofusers" className = "flex flex-col items-center p-10 gap-4 sm:gap-8 max-sm:p-5 w-full">
-                {allUsers && allUsers.map((user, index) => {
-                    return <div
-                    onClick = {() => {setParticularUser(user)}}
-                    key = {index} className = "rounded-2xl bg-zinc-200 dark:bg-zinc-800 hover:bg-neutral-300 flex w-full shadow-[0_2px_5px_1px_rgba(0,0,0,0.15)] cursor-pointer max-sm:flex-col">
-                        <div className = "flex items-center justify-center p-5 sm:w-min">
-                            <div className = "w-[20vh] h-[20vh] rounded-full bg-violet-300 flex items-center justify-center">
-                                {user.profileimg ? 
-                                    (user.profilesrc &&  <img src = {user.profilesrc} className = "object-cover w-full h-full rounded-full"/>)
-                                    :
-                                    <img src = "/profileblack.svg" className = "w-[70%] h-[70%]" />
-                                }
-                            </div>
+                {allUsers
+                ?.slice() // clone to avoid mutating original
+                .sort((a, b) => {
+                    if ((b.publiccount || 0) !== (a.publiccount || 0)) {
+                    return (b.publiccount || 0) - (a.publiccount || 0);
+                    }
+
+                    if (!!b.profileimg !== !!a.profileimg) {
+                    return !!b.profileimg ? 1 : -1;
+                    }
+                    
+                    if (!!b.bio !== !!a.bio) {
+                    return !!b.bio ? 1 : -1;
+                    }return 0;
+                })
+                .map((user, index) => (
+                    <div
+                    onClick={() => setParticularUser(user)}
+                    key={index}
+                    className="rounded-2xl bg-zinc-200 dark:bg-zinc-800 hover:bg-neutral-300 flex w-full shadow-[0_2px_5px_1px_rgba(0,0,0,0.15)] cursor-pointer max-sm:flex-col"
+                    >
+                    <div className="flex items-center justify-center p-5 sm:w-min">
+                        <div className="w-[20vh] h-[20vh] rounded-full bg-violet-300 flex items-center justify-center">
+                        {user.profileimg ? (
+                            user.profilesrc && (
+                            <img
+                                src={user.profilesrc}
+                                className="object-cover w-full h-full rounded-full"
+                            />
+                            )
+                        ) : (
+                            <img src="/profileblack.svg" className="w-[70%] h-[70%]" />
+                        )}
                         </div>
-                        <div className = "px-5 pb-5 sm:pt-5 gap-4 flex flex-col overflow-hidden max-sm:text-center max-sm:items-center">
-                            <h1
-                            className = "font-bold break-all line-clamp-1 text-md sm:text-2xl">
-                                {user.name.toUpperCase()}
-                            </h1>
-                            <div>
-                                {user.bio ? <p className = "italic line-clamp-4 overflow-hidden max-sm:text-xs text-sm break-all">{user.bio}</p> : <p className = "italic font-bold max-sm:text-xs text-neutral-500">No bio</p>}
-                            </div>
-                            {user.publiccount ? <p className = "italic text-blue-600/50 max-sm:text-xs font-bold">{user.publiccount} public resume{user.publiccount > 1 && "s"}</p> : <p className = "italic max-sm:text-xs text-neutral-500 font-bold">No public Resume</p>}
+                    </div>
+                    <div className="px-5 pb-5 sm:pt-5 gap-4 flex flex-col overflow-hidden max-sm:text-center max-sm:items-center">
+                        <h1 className="font-bold break-all line-clamp-1 text-md sm:text-2xl">
+                        {user.name.toUpperCase()}
+                        </h1>
+                        <div className = "overflow-hidden">
+                        {user.bio ? (
+                            <p className="italic line-clamp-4 overflow-hidden max-sm:text-xs text-sm break-words">
+                            {user.bio}
+                            </p>
+                        ) : (
+                            <p className="italic font-bold max-sm:text-xs text-neutral-500">
+                            No bio
+                            </p>
+                        )}
                         </div>
-                    </div> 
-                })}
+                        {user.publiccount ? (
+                        <p className="italic text-blue-600/50 max-sm:text-xs font-bold">
+                            {user.publiccount} public resume
+                            {user.publiccount > 1 && "s"}
+                        </p>
+                        ) : (
+                        <p className="italic max-sm:text-xs text-neutral-500 font-bold">
+                            No public Resume
+                        </p>
+                        )}
+                    </div>
+                    </div>
+                ))}
+
             </div>
             {particularUser && <ParticularUser darkMode = {darkMode} setParticularUser={setParticularUser} setCurrResumeData={setCurrResumeData} loggedInUser = {loggedInUser} currResumeData = {currResumeData} allResumes={allResumes} particularUser={particularUser}/>}
         </div>
@@ -155,9 +194,9 @@ function ParticularUser ({particularUser, setParticularUser, darkMode, loggedInU
                             className = "font-bold overflow-y-auto break-all line-clamp-1 text-md sm:text-2xl">
                                 {particularUser.name && particularUser.name.toUpperCase()}
                             </h1>
-                            <div className = "">
+                            <div className = "overflow-hidden">
                                 <h1 className = "font-bold text-neutral-500">Bio</h1>
-                                {particularUser.bio ? <p className = "text-xs italic break-all">{particularUser.bio}</p> : <p className = "italic text-neutral-500">No bio</p>}
+                                {particularUser.bio ? <p className = "text-xs italic break-words">{particularUser.bio}</p> : <p className = "italic text-neutral-500">No bio</p>}
                             </div>
                             
                         </div>

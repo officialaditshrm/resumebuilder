@@ -15,8 +15,8 @@ function HiddenResume ({resumeInView}) {
                     {resumeInView.pincode}
                 </div>
                 <div className = "flex break-inside-avoid-page justify-center flex-wrap text-[85%] gap-2">
-                    {resumeInView.phonenum !== "" && <p className = "flex items-center font-bold italic gap-[3px]"><label>{resumeInView.phonenum}</label><label>{resumeInView.header_urls && resumeInView.header_urls.length > 0 && "  | "}</label></p>}
-                    {resumeInView.email && <p><a className = "text-blue-900 font-bold italic" href = {`mailto:${resumeInView.email}`}>{resumeInView.email}</a>{" |"}</p>}
+                    {resumeInView.phonenum !== "" && <p className = "flex items-center font-bold italic gap-[3px]"><label>{resumeInView.phonenum}</label><label>{resumeInView.header_urls?.length > 0 && "  | "}</label></p>}
+                    {resumeInView.email && <p><a className = "text-blue-900 font-bold italic" href = {`mailto:${resumeInView.email}`}>{resumeInView.email}</a>{resumeInView.header_urls.length > 0 && " |"}</p>}
                     {resumeInView.header_urls.map((header_url, headerindex) => {
                         return <div key = {headerindex}>
                             <a href = {header_url.url} target = "_blank" className = "text-blue-900 break-all font-bold italic">{header_url.name}</a>
@@ -33,7 +33,7 @@ function HiddenResume ({resumeInView}) {
             }
 
             {/* EDUCATION */}
-            <section id = "education" className = "border-t border-black mt-[2.5%]">
+            {resumeInView.education.length > 0 && <section id = "education" className = "border-t border-black mt-[2.5%]">
                 <h1 className = "font-extrabold text-center break-inside-avoid-page text-[90%] mb-[1%]">EDUCATION</h1>
                 {resumeInView.education.map((edu, education_index) => {
                     return <section key = {education_index} className = "pl-[1.5%] break-inside-avoid-page text-[90%]">
@@ -72,12 +72,10 @@ function HiddenResume ({resumeInView}) {
                                             <div className = "flex">
                                                 {new Date(qfc.start).toLocaleDateString("en-IN", {
                                                     year : "numeric",
-                                                    month : "short",
-                                                    day : "2-digit"
+                                                    month : "short"
                                                 })} {"-"} {!qfc.ongoing && qfc.end ? new Date(qfc.end).toLocaleDateString("en-IN", {
                                                     month: "short",
-                                                    year: "numeric",
-                                                    day: "2-digit"
+                                                    year: "numeric"
                                                 }) : "ongoing"}
                                             </div>
                                             {qfc.extras.length > 0 &&
@@ -95,15 +93,15 @@ function HiddenResume ({resumeInView}) {
                         </section>
                     </section>
                 })}
-            </section>
+            </section>}
 
 
             {/* PROFESSIONAL EXPERIENCE */}
-            <section id = "experience" className = "border-t border-black mt-[2.5%]">
+            {resumeInView.experience.length > 0 && <section id = "experience" className = "border-t border-black mt-[2.5%]">
                 <h1 className = "font-extrabold text-center break-inside-avoid-page text-[90%] mb-[1%]">PROFESSIONAL EXPERIENCE</h1>
                 {resumeInView.experience.map((org, org_index) => {
                     return <section key = {org_index} className = "pl-[1.5%] mb-[7px] text-[90%]">
-                        <header className = "break-inside-avoid-page relative w-full flex justify-between">
+                        <header className = "break-inside-avoid-page relative w-full flex items-center justify-between">
                             <div className = "flex gap-[15px]">
                                 <h1 className = "flex items-center font-bold text-[110%]">
                                     {org.organization.toUpperCase()}
@@ -117,19 +115,19 @@ function HiddenResume ({resumeInView}) {
                                     })}
                                 </div>
                             </div>
-                            <div className = "italic flex flex-col">
+                            <div className = "italic flex flex-col max-w-[50%]">
                                 {org.extras.length > 0 &&
-                                <div className = "flex">
+                                <div className = "flex gap-[5px] flex-wrap justify-end">
                                     {org.extras.map((extra, extraindex) => {
-                                        return <p key = {extraindex}>{extra}</p>
+                                        return <p key = {extraindex}>{extra}{org.extras[extraindex+1] && ","}</p>
                                     })}
                                 </div>
                                 }
                             </div>
                         </header>
-                        <section className = "flex flex-col gap-[3px]">
+                        <section className = "flex flex-col">
                             {org.roles.map((role, roleindex) => {
-                                return <div key = {roleindex} className = "break-inside-avoid-page">
+                                return <div key = {roleindex} className = "pb-[1%] break-inside-avoid-page">
                                     <header className = "flex justify-between italic">
                                         <div className = "flex items-center gap-[15px] max-w-[60%]">
                                             <h1 className = "font-semibold">{role.rolename}</h1>
@@ -144,7 +142,7 @@ function HiddenResume ({resumeInView}) {
                                                 </div>
                                             }
                                         </div>
-                                        <div className = "flex flex-col items-end max-w-[40%]">
+                                        <div className = "flex gap-[5px] justify-end max-w-[50%]">
                                             <div className = "flex">
                                                 {new Date(role.start).toLocaleDateString("en-IN", {
                                                     year : "numeric",
@@ -153,11 +151,12 @@ function HiddenResume ({resumeInView}) {
                                                     month: "short",
                                                     year: "numeric"
                                                 }) : "ongoing"}
+                                                {role.extras.length > 0 && ","}
                                             </div>
                                             {role.extras.length > 0 &&
-                                            <div className = "flex flex-col items-end">
+                                            <div className = "flex gap-[2px] justify-end">
                                                 {role.extras.map((extra, sssextraindex) => {
-                                                    return <p key = {sssextraindex}>{extra}</p>
+                                                    return <p key = {sssextraindex}>{extra}{role.extras[sssextraindex + 1] && ","}</p>
                                                 })}
                                             </div>
                                             }
@@ -167,7 +166,7 @@ function HiddenResume ({resumeInView}) {
                                         <p className = "italic">{role.rolesummary}</p>
                                         <ul className = "flex pl-[1%] flex-col">
                                             {role.points.map((point, pointindex) => {
-                                                return <li className = "break-inside-avoid-page" key = {pointindex}>{"-"} {point}</li>
+                                                return <li className = "break-inside-avoid-page flex gap-[2px]" key = {pointindex}><div>{"-"}</div> {point}</li>
                                             })}
                                         </ul>
                                     </div>
@@ -176,15 +175,15 @@ function HiddenResume ({resumeInView}) {
                         </section>
                     </section>
                 })}
-                </section>
+                </section>}
 
                 {/* PROJECTS */}
 
-                <section id = "projects" className = "flex flex-col border-t border-black mt-[2.5%]">
+                {resumeInView.projects.length > 0 && <section id = "projects" className = "flex flex-col border-t border-black mt-[2.5%]">
                     <h1 className = "font-extrabold text-center  mb-[1%] text-[90%] break-inside-avoid-page">SELECTED PROJECTS</h1>
                     {resumeInView.projects.map((subsection, subsectionindex) => {
                         return <section key = {subsectionindex} className = "pl-[1.5%] break-inside-avoid-page mb-[7px] text-[90%]">
-                            <header className = "relative w-full flex justify-between">
+                            <header className = "relative w-full items-start flex justify-between">
                                 <div className = "flex gap-[15px]">
                                     <h1 className = "flex items-center font-bold text-[110%]">
                                         {subsection.projectname}
@@ -198,7 +197,7 @@ function HiddenResume ({resumeInView}) {
                                         })}
                                     </div>
                                 </div>
-                                <div className = "italic flex flex-col">
+                                <div className = "italic flex gap-[5px] justify-end max-w-[50%] flex-wrap">
                                     {subsection.start &&
                                     <div>
                                         {new Date(subsection.start).toLocaleDateString("en-IN", {
@@ -210,12 +209,13 @@ function HiddenResume ({resumeInView}) {
                                             year: "numeric",
                                             day: "2-digit"
                                         }) : "ongoing"}
+                                        {subsection.extras.length > 0 && ","}
                                     </div>
                                     }
                                     {subsection.extras.length > 0 &&
-                                    <div className = "flex">
+                                    <div className = "flex gap-[5px]">
                                         {subsection.extras.map((extra, extraindex) => {
-                                            return <p key = {extraindex}>{extra}</p>
+                                            return <p key = {extraindex}>{extra}{subsection.extras[extraindex+1] && ","}</p>
                                         })}
                                     </div>
                                     }
@@ -237,17 +237,17 @@ function HiddenResume ({resumeInView}) {
                             {subsection.points && 
                                 <ul className = "pl-[1%]">
                                     {subsection.points.map((sspoint, sspointindex) => {
-                                        return <li className = "break-inside-avoid" key = {sspointindex}> {"-"} {sspoint}</li>
+                                        return <li className = "break-inside-avoid flex gap-[2px]" key = {sspointindex}> <div>{"-"}</div> {sspoint}</li>
                                     })}
                                 </ul>
                             }
                         </section>
                     })}
-                </section>
+                </section>}
 
                 {/* SKILLS */}
 
-                <section id = "skills" className = "border-t border-black mt-[2.5%] break-inside-avoid-page">
+                {resumeInView.skills.length > 0 && <section id = "skills" className = "border-t border-black mt-[2.5%] break-inside-avoid-page">
                     <h1 className = "font-extrabold mb-[1%] text-center text-[90%]">PROFESSIONAL SKILLS</h1>
                     {resumeInView.skills &&
                         <ul className = "pl-[1.5%] text-[90%] flex flex-col gap-[1px]">
@@ -260,7 +260,7 @@ function HiddenResume ({resumeInView}) {
                             })}
                         </ul>
                     }
-                </section>
+                </section>}
 
 
 
@@ -293,11 +293,9 @@ function HiddenResume ({resumeInView}) {
                                     <div>
                                         {new Date(subsection.start).toLocaleDateString("en-IN", {
                                             month: "short",
-                                            day: "2-digit",
                                             year : "numeric"
                                         })} {"-"} {!subsection.ongoing && subsection.end ? new Date(subsection.end).toLocaleDateString("en-IN", {
                                             month: "short",
-                                            day: "2-digit",
                                             year: "numeric"
                                         }) : "ongoing"}
                                     </div>

@@ -169,7 +169,7 @@ function HeaderDetails ({resumeToEdit, setHeaderEdit, setResumeToEdit}) {
                         <div className = "flex flex-col gap-1 items-start">
                             <label className = "font-semibold">City</label>
                             <input
-                            className = "p-2 text-black rounded-md border border-black/20 shadow-[0_1px_1px_1px_rgba(0,0,0,0.15)]"
+                            className = "p-2 w-full text-black rounded-md border border-black/20 shadow-[0_1px_1px_1px_rgba(0,0,0,0.15)]"
                             type = "text" value = {resumeToEdit.city} onChange = {(event) => {
                                 const newrn = event.target.value
                                 setResumeToEdit((prev) => 
@@ -183,7 +183,7 @@ function HeaderDetails ({resumeToEdit, setHeaderEdit, setResumeToEdit}) {
                         <div className = "flex flex-col gap-1 items-start">
                             <label className = "font-semibold">State</label>
                             <input
-                            className = "p-2 text-black rounded-md border border-black/20 shadow-[0_1px_1px_1px_rgba(0,0,0,0.15)]"
+                            className = "p-2 w-full text-black rounded-md border border-black/20 shadow-[0_1px_1px_1px_rgba(0,0,0,0.15)]"
                             type = "text" value = {resumeToEdit.state} onChange = {(event) => {
                                 const newrn = event.target.value
                                 setResumeToEdit((prev) => 
@@ -197,7 +197,7 @@ function HeaderDetails ({resumeToEdit, setHeaderEdit, setResumeToEdit}) {
                         <div className = "flex flex-col gap-1 items-start">
                             <label className = "font-semibold">Country</label>
                             <input
-                            className = "p-2 text-black rounded-md border border-black/20 shadow-[0_1px_1px_1px_rgba(0,0,0,0.15)]"
+                            className = "p-2 w-full text-black rounded-md border border-black/20 shadow-[0_1px_1px_1px_rgba(0,0,0,0.15)]"
                             type = "text" value = {resumeToEdit.country} onChange = {(event) => {
                                 const newrn = event.target.value
                                 setResumeToEdit((prev) => 
@@ -211,7 +211,7 @@ function HeaderDetails ({resumeToEdit, setHeaderEdit, setResumeToEdit}) {
                         <div className = "flex flex-col gap-1 items-start">
                             <label className = "font-semibold">Pincode</label>
                             <input
-                            className = "p-2 text-black rounded-md border border-black/20 shadow-[0_1px_1px_1px_rgba(0,0,0,0.15)]"
+                            className = "p-2 w-full text-black rounded-md border border-black/20 shadow-[0_1px_1px_1px_rgba(0,0,0,0.15)]"
                             type = "text" value = {resumeToEdit.pincode} onChange = {(event) => {
                                 const newrn = event.target.value
                                 setResumeToEdit((prev) => 
@@ -230,7 +230,7 @@ function HeaderDetails ({resumeToEdit, setHeaderEdit, setResumeToEdit}) {
                         <div className = "flex flex-col gap-1 items-start">
                             <label className = "font-semibold">Phone</label>
                             <input
-                            className = "p-2 text-black rounded-md border border-black/20 shadow-[0_1px_1px_1px_rgba(0,0,0,0.15)]"
+                            className = "p-2 text-black w-full rounded-md border border-black/20 shadow-[0_1px_1px_1px_rgba(0,0,0,0.15)]"
                             type = "text" value = {resumeToEdit.phonenum} onChange = {(event) => {
                                 const newrn = event.target.value
                                 setResumeToEdit((prev) => 
@@ -244,7 +244,7 @@ function HeaderDetails ({resumeToEdit, setHeaderEdit, setResumeToEdit}) {
                         <div className = "flex flex-col gap-1 items-start">
                             <label className = "font-semibold">Email</label>
                             <input
-                            className = "p-2 text-black rounded-md border border-black/20 shadow-[0_1px_1px_1px_rgba(0,0,0,0.15)]"
+                            className = "p-2 text-black w-full rounded-md border border-black/20 shadow-[0_1px_1px_1px_rgba(0,0,0,0.15)]"
                             type = "text" value = {resumeToEdit.email} onChange = {(event) => {
                                 const newrn = event.target.value
                                 setResumeToEdit((prev) => 
@@ -254,6 +254,53 @@ function HeaderDetails ({resumeToEdit, setHeaderEdit, setResumeToEdit}) {
                                 })
                                 )
                             }}/>
+                        </div>
+                        
+                    </div>
+                    <div className = "flex flex-col gap-2 w-full">
+                        <h3 className = "text-xl max-sm:text-sm font-bold">URLs</h3>
+                        <div className = "grid sm:grid-cols-2 grid-cols-1 gap-2">
+                            {resumeToEdit.header_urls?.map((link, linkindex) => {
+                                return <div key = {linkindex} className = "flex flex-col p-2 bg-sky-400/50 rounded-md gap-2">
+                                    <input
+                                    onChange = {(event) => {
+                                        const newrn = event.target.value
+                                        const copy = {...resumeToEdit}
+                                        copy.header_urls[linkindex].name = newrn
+                                        setResumeToEdit(copy)
+                                    }}
+                                    className = "p-2  rounded-md text-black shadow-[0_2px_2px_1px_rgba(0,0,0,0.15)]" placeholder = "Name of Link" type = "text" value = {link.name}/>
+                                    <textarea 
+                                    onChange = {(event) => {
+                                        const newrn = event.target.value
+                                        const copy = {...resumeToEdit}
+                                        copy.header_urls[linkindex].url = newrn
+                                        setResumeToEdit(copy)
+                                    }}
+                                    placeholder = "https://thishereisgonnabeyoururl.com/hehehe" type = "text" className = "text-black p-2 rounded-md shadow-[0_2px_2px_1px_rgba(0,0,0,0.15)]" value = {link.url} />
+                                    <button
+                                    type = "button"
+                                    onClick = {() => {
+                                        const copy = {...resumeToEdit}
+                                        copy.header_urls.splice(linkindex, 1)
+                                        setResumeToEdit(copy)
+                                    }}
+                                    className = "p-2 bg-red-700 p-1 font-bold text-white rounded-md shadow-[0_2px_2px_1px_rgba(0,0,0,0.15)]">
+                                        Remove URL
+                                    </button>
+                                </div>
+                            })}
+                            <button
+                            type = "button"
+                            onClick = {() => {
+                                const copy = {...resumeToEdit}
+                                const newarr = [...copy.header_urls, { name: "", url: ""}]
+                                copy.header_urls = newarr
+                                setResumeToEdit(copy)
+                            }}
+                            className = "bg-blue-700 font-bold flex items-center justify-center p-2 rounded-md text-white shadow-[0_2px_2px_1px_rgba(0,0,0,0.15)]">
+                                <img src = "edit.svg" />ADD URL
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -976,6 +1023,17 @@ function ProjectDetails ({setResumeToEdit, resumeToEdit, setProjectsEdit}) {
                             </div>
                         </div>
                     })}
+                    <button
+                    type = "button"
+                    onClick = {() => {
+                        const copy = {...resumeToEdit}
+                        copy.projects = [...copy.projects, {projectname: "", projectsummary: "", start: new Date(), stack: {}, end: new Date(), urls: [], points: [], extras: []}]
+                        setResumeToEdit(copy)
+                    }}
+                    className = "bg-blue-700 p-2 rounded-md text-white font-bold flex items-center justify-center"
+                    >
+                        <img src = "/edit.svg" />ADD PROJECT
+                    </button>
                 </div>
             </div>
         </div>

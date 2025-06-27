@@ -102,7 +102,7 @@ function App() {
 
   useEffect(() => {
     console.log("token changed to", token)
-    if (!token ||  typeof token !== 'string' || token.trim() === '') {
+    if (!token ||  typeof token !== 'string' || token === '' ) {
       setLoggedInUser(null)
       return
     }

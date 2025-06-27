@@ -252,9 +252,8 @@ function Preview ({resumeInView}) {
                     {resumeInView.skills &&
                         <ul className = "pl-[1.5%] text-[90%] flex flex-col gap-[1px]">
                             {resumeInView.skills.map((minisection, minisectionindex) => {
-                                return <li key = {minisectionindex} className = "flex flex-wrap">
-                                    {minisection.head && <b>{minisection.head}:</b>}
-                                    {minisection.content && minisection.content}
+                                return <li key = {minisectionindex} className = "">
+                                    {minisection.head && <b>{minisection.head}:</b>}{minisection.content && minisection.content}
                                 </li>
                             })}
                         </ul>

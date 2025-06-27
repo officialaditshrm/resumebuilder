@@ -15,8 +15,8 @@ function HiddenResume ({resumeInView}) {
                     {resumeInView.pincode}
                 </div>
                 <div className = "flex break-inside-avoid-page justify-center flex-wrap text-[85%] gap-2">
-                    {resumeInView.phonenum !== "" && <p className = "flex items-center font-bold italic gap-[3px]"><label>{resumeInView.phonenum}</label><label>{resumeInView.header_urls?.length > 0 || resumeInView.email && "  | "}</label></p>}
-                    {resumeInView.email && <p><a className = "text-blue-900 font-bold italic" href = {`mailto:${resumeInView.email}`}>{resumeInView.email}</a>{resumeInView.header_urls.length > 0 && " |"}</p>}
+                    {resumeInView.phonenum !== "" && <p className = "flex items-center font-bold italic gap-[3px]"><label>{resumeInView.phonenum}</label><label>{(resumeInView.header_urls?.length > 0 || resumeInView.email) && "  | "}</label></p>}
+                    {resumeInView.email && <p><a className = "text-blue-900 font-bold italic" href = {`mailto:${resumeInView.email}`}>{resumeInView.email}</a>{resumeInView.header_urls?.length > 0 && " |"}</p>}
                     {resumeInView.header_urls.map((header_url, headerindex) => {
                         return <div key = {headerindex}>
                             <a href = {header_url.url} target = "_blank" className = "text-blue-900 break-all font-bold italic">{header_url.name}</a>

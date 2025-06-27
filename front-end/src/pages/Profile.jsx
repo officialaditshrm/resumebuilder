@@ -94,18 +94,26 @@ function Profile ({smallScreen, setPfp, darkMode, setToken, displayLoggedInUser,
                                     if (!file) return
 
                                     try {
-                                    const compressedFile = await imageCompression(file, {
-                                        maxSizeMB: 0.1, // Max size in MB (0.1MB = 100KB)
-                                        maxWidthOrHeight: 500, // You can adjust if needed
+                                        const compressedFile = await imageCompression(file, {
+                                        maxSizeMB: 0.1,
+                                        maxWidthOrHeight: 500,
                                         useWebWorker: true
-                                    })
+                                        })
 
-                                    const userUpdate = { profileimg: compressedFile }
-                                    updateUser(userToShow._id, userUpdate)
+                                        const formData = new FormData()
+                                        formData.append("profileimg", compressedFile)
+
+                                        // If you're allowing name/email/bio changes, append them too:
+                                        // formData.append("name", updatedName)
+                                        // formData.append("bio", updatedBio)
+
+                                        await updateUser(userToShow._id, formData)
+
                                     } catch (error) {
-                                    console.error("Image compression failed:", error)
+                                        console.error("Image compression failed:", error)
                                     }
-                                }} />
+                                    }}
+                                    />
                             </div>}
                         </div>
                         {pfp && 

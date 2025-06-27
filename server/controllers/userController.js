@@ -119,13 +119,7 @@ const deleteUser = async (req, res) => {
             console.log("Incorrect Password")
             return res.json({success: false, message: "Incorrect Password"})
         }
-        if (user.profileimg !== "" || user.profileimg) {
-            fs.unlink(`pfpuploads/${user.profileimg}`, (err)=> {
-            if (err) {
-                console.log("Error deleting image:", err)
-            }
-            user.profileimg = ""
-        })}
+        user.profileimg = ""
 
         await userModel.deleteOne({ _id : id})
         await resumeModel.deleteMany({user_id: id})
@@ -159,12 +153,19 @@ const deletePfp = async (req, res) => {
         }
         console.log("user Profile image:", user.profileimg)
         if (user.profileimg !== "" || user.profileimg) {
-            fs.unlink(`pfpuploads/${user.profileimg}`, (err)=> {
-            if (err) {
-                console.log("Error deleting image:", err)
+            const s3Key = user.profileimg?.split('.amazonaws.com/')[1]
+            if (s3Key) {
+            s3.deleteObject({
+                Bucket: 'resolute-images',
+                Key: s3Key
+            }, (err, data) => {
+                if (err) console.log("S3 delete error:", err)
+                else console.log("Old image deleted from S3")
+            })
             }
             user.profileimg = ""
-        })
+            await user.save()
+
         user.save()
         console.log("new user.profileimg", user.profileimg)
         console.log("pfp deleted")
@@ -194,13 +195,9 @@ const updateUser = async (req, res) => {
             })
         }
         if (req.file) {
-            if (user.profileimg !== "" || user.profileimg) {
-                fs.unlink(`pfpuploads/${user.profileimg}`, (err)=> {
-                if (err) {
-                    console.log("Error deleting previous image:", err)
-                }
-            })}
-            user.profileimg = req.file.filename
+            // Optionally: delete old image from S3 (needs S3 deleteObject call)
+
+            user.profileimg = req.file.location // S3 URL
         }
 
         if (req.body.password && req.body.newPassword) {

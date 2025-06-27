@@ -7,16 +7,6 @@ function Community ({url, darkMode, allResumes, fetchResumes, setCurrResumeData,
 
     
     useEffect(() => {
-        if (!allUsers) return
-
-        allUsers.forEach(user => {
-            if (user.profileimg && !user.profilesrc) {
-                fetchparticularpfp(user)
-            }
-        })
-    }, [allUsers])
-    
-    useEffect(() => {
     if (!allResumes || !allUsers) return;
 
     // Prevent infinite loop: only update if not already updated
@@ -48,45 +38,24 @@ function Community ({url, darkMode, allResumes, fetchResumes, setCurrResumeData,
 
     const fetchUsers = async () => {
         try {
-        const response = await fetch(`${url}/api/users`, {
-            method: "GET",
-            headers: {
-                "Content-Type" : "application/json"
-            }
-        })
-        if (!response.ok) {
-            throw new Error("Could not fetch users")
-        }
-        const actualresponse = await response.json()
-        setAllUsers(actualresponse.data)
-        } catch(error) {
-        console.error(error.message)
-        }
-    }
-
-    const fetchparticularpfp = async (user) => {
-        try {
-            const response = await fetch(`${url}/pfpimages/${user.profileimg}`, {
-                method: "GET",
-            })
+            const response = await fetch(`${url}/api/users`)
             if (!response.ok) {
-                throw new Error("Error Fetching particular PFP")
+            throw new Error("Could not fetch users")
             }
 
-            const blob = await response.blob()
-            const src = (URL.createObjectURL(blob))
-            
-            setAllUsers(prev => 
-                prev.map(u => 
-                    u._id === user._id ? { ...u, profilesrc: src } : u
-                )
-            )
+            const actualresponse = await response.json()
 
-            } catch(error) {
-                console.log(error.message)
-                return(null)
-            }
-    }
+            const usersWithSrc = actualresponse.data.map(user => ({
+            ...user,
+            profilesrc: user.profileimg || null // <- ensures all users have a profilesrc field, even if null
+            }))
+
+            setAllUsers(usersWithSrc) // ✅ all users included
+        } catch (error) {
+            console.error(error.message)
+        }
+        }
+
     return (
         <div className = {`md:ml-72 md:mt-[25vh] ${loggedInUser ? 'mt-[10vh]' : 'mt-[20vh]'} min-h-screen flex flex-col items-center`}>
             <h1 className = "font-extrabold text-3xl max-sm:text-xl">Community</h1>

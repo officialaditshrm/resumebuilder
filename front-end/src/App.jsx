@@ -241,7 +241,7 @@ function App() {
     try {
       const formData = new FormData()
 
-      if (user.profileimg) {
+      if (user.profileimg instanceof File || user.profileimg instanceof Blob) {
         formData.append("profileimg", user.profileimg)
       }
 
@@ -281,22 +281,13 @@ function App() {
     }
   }
   
-  const fetchpfp = async(filename) => {
-    try {
-      const response = await fetch(`${url}/pfpimages/${filename}`, {
-        method: "GET",
-      })
-      if (!response.ok) {
-        throw new Error("Error Fetching PFP")
-      }
-
-      const blob = await response.blob()
-      setPfp(URL.createObjectURL(blob))
-    } catch(error) {
-      setPfp(null)
-      console.log(error.message)
-    }
+  const fetchpfp = (profileimgURL) => {
+  if (profileimgURL) {
+    setPfp(profileimgURL)
+  } else {
+    setPfp(null)
   }
+}
 
   useEffect(() => {
     if ( loggedInUser && loggedInUser.profileimg) {

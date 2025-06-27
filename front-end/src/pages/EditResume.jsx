@@ -155,7 +155,7 @@ function HeaderDetails ({resumeToEdit, setHeaderEdit, setResumeToEdit}) {
     return (
         <div className = "fixed top-0 left-0 z-50 h-screen flex flex-col items-center justify-center w-screen bg-zinc-100/30 dark:bg-zinc-950/30 backdrop-blur">
             {/* HEADER DETAILS */}
-            <div className = "max-h-[90%] min-w-[40%] max-sm:w-4/5 max-sm:pt-12 max-sm:p-2 overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
+            <div className = "max-h-[90%] min-w-[40%] max-sm:w-[90%] max-sm:pt-12 max-sm:p-2 overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
                 <button
                 onClick={() => setHeaderEdit(false)}
                 type = "button"
@@ -267,7 +267,7 @@ function EducationDetails ({resumeToEdit, setResumeToEdit, setEducationEdit}) {
     return (
         <div className = "fixed top-0 left-0 z-50 h-screen flex flex-col items-center justify-center w-screen bg-zinc-100/30 dark:bg-zinc-950/30 backdrop-blur">
             {/* EDUCATION DETAILS */}
-            <div className = "max-h-[90%] max-sm:text-sm min-w-[60%] max-sm:p-2 overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
+            <div className = "max-h-[90%] max-sm:text-sm min-w-[60%] max-sm:w-[90%] max-sm:p-2 overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
                 <button
                 onClick={() => setEducationEdit(false)}
                 type = "button"
@@ -446,7 +446,7 @@ function ExperienceDetails ({resumeToEdit, setResumeToEdit, setExperienceEdit}) 
     return (
         <div className = "fixed top-0 left-0 z-50 h-screen flex flex-col items-center justify-center w-screen bg-zinc-100/30 dark:bg-zinc-950/30 backdrop-blur">
             {/* PROFESSIOINAL EXPERIENCE DETAILS */}
-            <div className = "max-h-[90%] min-w-[60%] max-sm:p-2 max-sm:text-sm max-sm:pt-12 overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
+            <div className = "max-h-[90%] min-w-[60%] max-sm:w-[90%] max-sm:p-2 max-sm:text-sm max-sm:pt-12 overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
                 <button
                 onClick={() => setExperienceEdit(false)}
                 type = "button"
@@ -581,7 +581,7 @@ function ExperienceDetails ({resumeToEdit, setResumeToEdit, setExperienceEdit}) 
                                                 className = "p-2 bg-sky-100 min-h-[80px] text-black rounded-md w-full shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)]"/>
                                             </div>
                                             <div className = "flex flex-col gap-2">
-                                                <h3 className = "text-xl font-bold">Points</h3>
+                                                <h3 className = "text-xl max-sm:text-sm font-bold">Points</h3>
                                                 {role.points?.map((point, pointindex) => {
                                                     return <div key = {pointindex} className = "flex items-center gap-2">
                                                         <textarea
@@ -620,7 +620,7 @@ function ExperienceDetails ({resumeToEdit, setResumeToEdit, setExperienceEdit}) 
                                                 </button>
                                             </div>
                                             <div className = "flex flex-col gap-2">
-                                                <h3 className = "text-xl font-bold">Extras about the role</h3>
+                                                <h3 className = "text-xl max-sm:text-sm font-bold">Extras about the role</h3>
                                                 <div className = "grid sm:grid-cols-2 gap-2">
                                                     {role.extras?.map((extra, extraindex) => {
                                                         return <div key = {extraindex} className = "flex p-2 bg-sky-400/50 rounded-md gap-2">
@@ -657,9 +657,9 @@ function ExperienceDetails ({resumeToEdit, setResumeToEdit, setExperienceEdit}) 
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div className = "flex flex-col gap-2">
-                                                <h3 className = "text-xl font-bold">URLs</h3>
-                                                <div className = "grid sm:grid-cols-2 gap-2">
+                                            <div className = "flex flex-col gap-2 ">
+                                                <h3 className = "text-xl max-sm:text-sm font-bold">URLs</h3>
+                                                <div className = "grid sm:grid-cols-2 grid-cols-1 gap-2">
                                                     {role.urls?.map((link, linkindex) => {
                                                         return <div key = {linkindex} className = "flex flex-col p-2 bg-sky-400/50 rounded-md gap-2">
                                                             <input
@@ -669,7 +669,7 @@ function ExperienceDetails ({resumeToEdit, setResumeToEdit, setExperienceEdit}) 
                                                                 copy.experience[orgindex].roles[roleindex].urls[linkindex].name = newrn
                                                                 setResumeToEdit(copy)
                                                             }}
-                                                            className = "p-2 rounded-md text-black shadow-[0_2px_2px_1px_rgba(0,0,0,0.15)]" placeholder = "Name of Link" type = "text" value = {link.name}/>
+                                                            className = "p-2  rounded-md text-black shadow-[0_2px_2px_1px_rgba(0,0,0,0.15)]" placeholder = "Name of Link" type = "text" value = {link.name}/>
                                                             <textarea 
                                                             onChange = {(event) => {
                                                                 const newrn = event.target.value
@@ -753,7 +753,7 @@ function ProjectDetails ({setResumeToEdit, resumeToEdit, setProjectsEdit}) {
     return (
         <div className = "fixed top-0 left-0 z-50 h-screen flex flex-col items-center justify-center w-screen bg-zinc-100/30 dark:bg-zinc-950/30 backdrop-blur">
             {/* PROJECTS DETAILS */}
-            <div className = "max-h-[90%] min-w-[60%] max-sm:p-2 max-sm:pt-12 max-sm:text-sm overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
+            <div className = "max-h-[90%] max-sm:w-[90%] min-w-[60%] max-sm:p-2 max-sm:pt-12 max-sm:text-sm overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
                 <button
                 onClick={() => setProjectsEdit(false)}
                 type = "button"
@@ -859,7 +859,7 @@ function ProjectDetails ({setResumeToEdit, resumeToEdit, setProjectsEdit}) {
                             </div>
                             <div className = "flex flex-col gap-2">
                                 <h3 className = "text-xl font-bold">URLs</h3>
-                                <div className = "grid sm:grid-cols-2 gap-2">
+                                <div className = "grid sm:grid-cols-2 grid-cols-1 gap-2">
                                     {project.urls?.map((link, linkindex) => {
                                         return <div key = {linkindex} className = "flex flex-col p-2 bg-sky-400/50 rounded-md gap-2">
                                             <input
@@ -912,7 +912,7 @@ function ProjectDetails ({setResumeToEdit, resumeToEdit, setProjectsEdit}) {
                                         copy.projects[index].start = event.target.value
                                         setResumeToEdit(copy)
                                     }}
-                                    type = "month" value = {new Date(project.start).toISOString().slice(0, 7)} className = "shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)] text-black p-2 rounded-md"/> 
+                                    type = "date" value = {new Date(project.start).toISOString().slice(0, 10)} className = "shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)] text-black p-2 rounded-md"/> 
                                 </div>
                                 {!project.ongoing &&
                                     <div className = "flex flex-col gap-2">
@@ -923,7 +923,7 @@ function ProjectDetails ({setResumeToEdit, resumeToEdit, setProjectsEdit}) {
                                         copy.projects[index].end = event.target.value
                                         setResumeToEdit(copy)
                                     }}
-                                    type = "month" value = {new Date(project.end).toISOString().slice(0, 7)} className = "shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)] text-black p-2 rounded-md"/> 
+                                    type = "date" value = {new Date(project.end).toISOString().slice(0, 10)} className = "shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)] text-black p-2 rounded-md"/> 
                                 </div>}
                                 <div className = "flex p-2 font-bold rounded-md items-center justify-center gap-2">
                                     <input
@@ -985,7 +985,7 @@ function ProjectDetails ({setResumeToEdit, resumeToEdit, setProjectsEdit}) {
 function SkillsDetails ({resumeToEdit, setResumeToEdit, setSkillsEdit}) {
     return (
         <div className = "fixed top-0 left-0 z-50 h-screen flex flex-col items-center justify-center w-screen bg-zinc-100/30 dark:bg-zinc-950/30 backdrop-blur">
-            <div className = "max-h-[90%] min-w-[60%] max-sm:p-2 max-sm:text-sm max-sm:pt-12 overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
+            <div className = "max-h-[90%] max-sm:w-[90%] min-w-[60%] max-sm:p-2 max-sm:text-sm max-sm:pt-12 overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
                 <button
                 onClick={() => setSkillsEdit(false)}
                 type = "button"
@@ -1050,7 +1050,7 @@ function SkillsDetails ({resumeToEdit, setResumeToEdit, setSkillsEdit}) {
 function ExtraSectionDetails ({setResumeToEdit, resumeToEdit, setExtraSectionsEdit}) {
     return (
         <div className = "fixed top-0 left-0 z-50 h-screen flex flex-col items-center justify-center w-screen bg-zinc-100/30 dark:bg-zinc-950/30 backdrop-blur">
-            <div className = "max-h-[90%] min-w-[60%] max-sm:text-sm max-sm:p-2 max-sm:pt-12 overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
+            <div className = "max-h-[90%] max-sm:w-[90%] min-w-[60%] max-sm:text-sm max-sm:p-2 max-sm:pt-12 overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
                 <button
                 onClick={() => setExtraSectionsEdit(false)}
                 type = "button"
@@ -1060,7 +1060,7 @@ function ExtraSectionDetails ({setResumeToEdit, resumeToEdit, setExtraSectionsEd
                 <h1 className = "font-extrabold max-sm:text-lg text-2xl">Extra Sections</h1>
                 <div className = "flex flex-col gap-4">
                     {resumeToEdit.extraSections?.map((section, sectionindex) => {
-                        return <div key = {sectionindex} className = "relative flex p-4 max-sm:p-2 rounded-md gap-6 flex-col bg-zinc-100 dark:bg-zinc-950">
+                        return <div key = {sectionindex} className = "relative flex p-4 max-sm:p-2 max-sm:pt-8 rounded-md gap-6 flex-col bg-zinc-100 dark:bg-zinc-950">
                             <button
                             type = "button"
                             onClick = {() => {
@@ -1084,7 +1084,7 @@ function ExtraSectionDetails ({setResumeToEdit, resumeToEdit, setExtraSectionsEd
                             <div className = "flex flex-col items-start gap-4">
                                 <h1 className= "font-bold text-xl">Subsections</h1>
                                 {section.subsections?.map((project, index) => {
-                                    return <div key = {index} className = "relative flex flex-col w-full gap-4 p-4 bg-sky-400/50 rounded-md">
+                                    return <div key = {index} className = "relative flex flex-col w-full gap-4 p-4 max-sm:p-2 max-sm:pt-8 bg-sky-400/50 rounded-md">
                                         <button
                                         type = "button"
                                         onClick = {() => {
@@ -1158,7 +1158,7 @@ function ExtraSectionDetails ({setResumeToEdit, resumeToEdit, setExtraSectionsEd
                                         </div>
                                         <div className = "flex flex-col gap-2">
                                             <h3 className = "text-xl font-bold">URLs</h3>
-                                            <div className = "grid sm:grid-cols-2 gap-2">
+                                            <div className = "grid sm:grid-cols-2 grid-cols-1 gap-2">
                                                 {project.urls?.map((link, linkindex) => {
                                                     return <div key = {linkindex} className = "flex flex-col p-2 bg-sky-400/50 rounded-md gap-2">
                                                         <input

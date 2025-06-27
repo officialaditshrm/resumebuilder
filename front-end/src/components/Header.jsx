@@ -55,6 +55,16 @@ function Header ({setDarkMode, darkMode, loggedInUser, smallScreen, hamburgerOpe
                 </button>
                 {hamburgerOpen &&
                     <div className = "pt-[10vh] z-40 bg-zinc-100/50 dark:bg-zinc-950/50 backdrop-blur fixed h-screen w-screen top-0 left-0 z-40 background">
+                        <div className = "dark:border-white/25 absolute top-4 left-2 flex items-center justify-center">
+                            <button
+                            onClick = {() => {setDarkMode(!darkMode)}}
+                            className = "relative text-sm w-[12vh] h-[6vh]">
+                                <div className = "h-[1.5vh] flex items-center left-0 w-full bg-zinc-400 rounded-md shadow-[0_3px_5px_1px_rgba(0,0,0,0.25)]"></div>
+                                <div className = {`${darkMode && "translate-x-[6vh]"} h-[5vh] w-[5vh] border border-black/20 flex items-center justify-center absolute bg-zinc-300 left-[0.5vh] top-[0.5vh] shadow-[0_0_5px_1px_rgba(0,0,0,0.25)] rounded-full`}>
+                                    <img className = "object-cover w-[70%]" src = {darkMode ? "darkblack.svg" : "lightblack.svg"} />
+                                </div>
+                            </button>
+                        </div>
                         <nav className = "flex flex-col justify-evenly items-center font-bold text-xl h-full">
                             <Link to = "/" onClick = {() => setHamburgerOpen(false)} className = "hover:scale-[0.9]">MY RESUMES</Link>
                             <Link to = "/community" onClick = {() => setHamburgerOpen(false)} className = "hover:scale-[0.9]">COMMUNITY</Link>

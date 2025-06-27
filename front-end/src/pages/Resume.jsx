@@ -191,7 +191,7 @@ function Resume({currResumeData, setCurrResumeData, loggedInUser, updateResume, 
                         
                     </div>
                     {loggedInUser._id === currResumeData.user_id && <div className = "w-full flex flex-col gap-4 bg-sky-900 p-5 rounded-xl items-center">
-                        <h1 className = "text-2xl dark:text-sky-950 text-sky-100 font-extrabold">Download</h1>
+                        <h1 className = "text-2xl text-sky-100 font-extrabold">Download</h1>
                         <div className = "flex flex-wrap justify-evenly w-full">
                             <button
                                 onClick={handleExportPDF2}

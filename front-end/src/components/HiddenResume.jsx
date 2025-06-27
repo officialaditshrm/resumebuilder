@@ -261,7 +261,7 @@ function HiddenResume ({resumeInView}) {
             {/* EXTRA SECTIONS */}
             {resumeInView.extraSections.map((section, sectionindex) => {
                 return <section key = {sectionindex} className = "border-t border-black mt-[2.5%] break-inside-avoid-page">
-                    <h1 className = "font-extrabold mb-[1%] text-center text-[90%] break-inside-avoid-page">{section.sectionName.toUpperCase()}</h1>
+                    <h1 className = "font-extrabold text-center text-[90%] break-inside-avoid-page">{section.sectionName.toUpperCase()}</h1>
                     {section.subsections.map((subsection, subsectionindex) => {
                         return <section key = {subsectionindex} className = "pl-[1.5%] text-[90%]">
                             <header className = "relative w-full flex items-start justify-between">

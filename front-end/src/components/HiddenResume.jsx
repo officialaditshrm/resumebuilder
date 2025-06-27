@@ -264,9 +264,9 @@ function HiddenResume ({resumeInView}) {
                     <h1 className = "font-extrabold mb-[1%] text-center text-[90%] break-inside-avoid-page">{section.sectionName.toUpperCase()}</h1>
                     {section.subsections.map((subsection, subsectionindex) => {
                         return <section key = {subsectionindex} className = "pl-[1.5%] text-[90%]">
-                            <header className = "relative w-full flex justify-between">
+                            <header className = "relative w-full flex items-start justify-between">
                                 <div className = "flex gap-[15px] items-center">
-                                    <h1 className = "flex items-center font-bold text-[110%]">
+                                    <h1 className = "flex items-center font-semibold">
                                         {subsection.title}
                                     </h1>
                                     <div className = "flex items-center mt-[1.5%] flex-wrap gap-[3px]">
@@ -278,7 +278,7 @@ function HiddenResume ({resumeInView}) {
                                         })}
                                     </div>
                                 </div>
-                                <div className = "italic flex flex-col">
+                                <div className = "italic flex gap-[5px] flex-wrap max-w-[50%] justify-end">
                                     {subsection.start &&
                                     <div>
                                         {new Date(subsection.start).toLocaleDateString("en-IN", {
@@ -288,6 +288,7 @@ function HiddenResume ({resumeInView}) {
                                             month: "short",
                                             year: "numeric"
                                         }) : "ongoing"}
+                                        {subsection.extras.length > 0 && ","}
                                     </div>
                                     }
                                     {subsection.extras.length > 0 &&

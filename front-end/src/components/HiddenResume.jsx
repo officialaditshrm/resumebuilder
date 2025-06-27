@@ -33,8 +33,8 @@ function HiddenResume ({resumeInView}) {
             }
 
             {/* EDUCATION */}
-            <section id = "education" className = "pt-[1%]">
-                <h1 className = "font-extrabold break-inside-avoid-page border-b-[1.5px] pb-[7.2px] border-black whitespace-nowrap w-min text-[110%]">EDUCATION</h1>
+            <section id = "education" className = "border-t border-black mt-[2.5%]">
+                <h1 className = "font-extrabold text-center break-inside-avoid-page text-[90%] mb-[1%]">EDUCATION</h1>
                 {resumeInView.education.map((edu, education_index) => {
                     return <section key = {education_index} className = "pl-[1.5%] break-inside-avoid-page text-[90%]">
                         <header className = "relative w-full flex justify-between">
@@ -99,8 +99,8 @@ function HiddenResume ({resumeInView}) {
 
 
             {/* PROFESSIONAL EXPERIENCE */}
-            <section id = "experience" className = "pt-[1%]">
-                <h1 className = "font-extrabold break-inside-avoid-page border-b-[1.5px] pb-[7.2px] border-black whitespace-nowrap w-min text-[110%]">PROFESSIONAL EXPERIENCE</h1>
+            <section id = "experience" className = "border-t border-black mt-[2.5%]">
+                <h1 className = "font-extrabold text-center break-inside-avoid-page text-[90%] mb-[1%]">PROFESSIONAL EXPERIENCE</h1>
                 {resumeInView.experience.map((org, org_index) => {
                     return <section key = {org_index} className = "pl-[1.5%] mb-[7px] text-[90%]">
                         <header className = "break-inside-avoid-page relative w-full flex justify-between">
@@ -180,8 +180,8 @@ function HiddenResume ({resumeInView}) {
 
                 {/* PROJECTS */}
 
-                <section id = "projects" className = "pt-[1%] flex flex-col">
-                    <h1 className = "font-extrabold break-inside-avoid-page border-b-[1.5px] pb-[7.2px] border-black whitespace-nowrap w-min text-[110%]">SELECTED PROJECTS</h1>
+                <section id = "projects" className = "flex flex-col border-t border-black mt-[2.5%]">
+                    <h1 className = "font-extrabold text-center  mb-[1%] text-[90%] break-inside-avoid-page">SELECTED PROJECTS</h1>
                     {resumeInView.projects.map((subsection, subsectionindex) => {
                         return <section key = {subsectionindex} className = "pl-[1.5%] break-inside-avoid-page mb-[7px] text-[90%]">
                             <header className = "relative w-full flex justify-between">
@@ -247,8 +247,8 @@ function HiddenResume ({resumeInView}) {
 
                 {/* SKILLS */}
 
-                <section id = "skills" className = "pt-[1%] break-inside-avoid-page">
-                    <h1 className = "font-extrabold border-b-[1.5px] pb-[7.2px] border-black whitespace-nowrap w-min text-[110%]">PROFESSIONAL SKILLS</h1>
+                <section id = "skills" className = "border-t border-black mt-[2.5%] break-inside-avoid-page">
+                    <h1 className = "font-extrabold mb-[1%] text-center text-[90%]">PROFESSIONAL SKILLS</h1>
                     {resumeInView.skills &&
                         <ul className = "pl-[1.5%] text-[90%] flex flex-col gap-[1px]">
                             {resumeInView.skills.map((minisection, minisectionindex) => {
@@ -270,8 +270,8 @@ function HiddenResume ({resumeInView}) {
 
             {/* EXTRA SECTIONS */}
             {resumeInView.extraSections.map((section, sectionindex) => {
-                return <section key = {sectionindex} className = "pt-[2%] break-inside-avoid-page">
-                    <h1 className = "font-extrabold break-inside-avoid-page border-b-[1.5px] pb-[7.2px] border-black whitespace-nowrap w-min text-[110%]">{section.sectionName.toUpperCase()}</h1>
+                return <section key = {sectionindex} className = "border-t border-black mt-[2.5%] break-inside-avoid-page">
+                    <h1 className = "font-extrabold mb-[1%] text-center text-[90%] break-inside-avoid-page">{section.sectionName.toUpperCase()}</h1>
                     {section.subsections.map((subsection, subsectionindex) => {
                         return <section key = {subsectionindex} className = "pl-[1.5%] text-[90%]">
                             <header className = "relative w-full flex justify-between">

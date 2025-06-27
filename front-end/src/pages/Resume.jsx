@@ -20,7 +20,7 @@ function Resume({currResumeData, setCurrResumeData, loggedInUser, updateResume, 
         const element = printRef.current;
         html2pdf()
             .set({
-                margin: [20 , 0, 36, 0], // 0.5 inch bottom margin
+                margin: [18 , 0, 28, 0], // 0.5 inch bottom margin
                 filename: `${currResumeData?.username}_${currResumeData?.name || "resume"}.pdf`,
                 image: { type: 'jpeg', quality: 1 },
                 html2canvas: {
@@ -47,7 +47,7 @@ function Resume({currResumeData, setCurrResumeData, loggedInUser, updateResume, 
         const element = printRef.current;
         html2pdf()
             .set({
-                margin: [20 , 0, 36, 0], // 0.5 inch bottom margin
+                margin: [18 , 0, 28, 0], // 0.5 inch bottom margin
                 filename: `${currResumeData?.username}_${currResumeData?.name || "resume"}.pdf`,
                 image: { type: 'jpeg', quality: 1 },
                 html2canvas: {
@@ -73,7 +73,7 @@ function Resume({currResumeData, setCurrResumeData, loggedInUser, updateResume, 
         const element = printRef.current;
         html2pdf()
             .set({
-                margin: [20 , 0, 36, 0], // 0.5 inch bottom margin
+                margin: [18 , 0, 28, 0], // 0.5 inch bottom margin
                 filename: `${currResumeData?.username}_${currResumeData?.name || "resume"}.pdf`,
                 image: { type: 'jpeg', quality: 1 },
                 html2canvas: {

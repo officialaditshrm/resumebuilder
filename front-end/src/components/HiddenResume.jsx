@@ -1,7 +1,7 @@
 function HiddenResume ({resumeInView}) {
     return (
         <div
-        className = "font-times leading-[4.7mm] px-[4%] font-['Times_New_Roman',serif] text-[4.2mm] bg-white text-black flex flex-col pb-[2%]"
+        className = "font-['Times_New_Roman',serif] text-[12pt] leading-[14pt] px-[1rem] bg-white text-black flex flex-col pb-[0.5rem]"
         id = "resumeview"
         >
             <header className = "flex-col break-inside-avoid-page text-center flex flex-col">

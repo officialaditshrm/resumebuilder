@@ -1,7 +1,7 @@
 function Preview ({resumeInView}) {
     return (
         <div
-        className = "font-times shadow-[0_0_5px_1px_rgba(0,0,0,0.25)] leading-[120%] px-[4%] font-['Times_New_Roman',serif] text-[1.075mm] min-[396px]:text-[1.725mm] md:text-[2.25mm] lg:text-[3mm] bg-white text-black flex flex-col w-[240px] min-h-[339px] lg:w-[148.75mm] md:w-[119mm] min-[396px]:w-[89.25mm] py-[4%] lg:min-h-[210.25mm] md:min-h-[173.25mm] min-[396px]:min-h-[126.25mm]"
+        className = "font-times shadow-[0_0_5px_1px_rgba(0,0,0,0.25)] leading-[120%] px-[4%] font-['Times_New_Roman',serif] text-[1.05mm] min-[396px]:text-[1.725mm] md:text-[2.25mm] lg:text-[3mm] bg-white text-black flex flex-col w-[240px] min-h-[339px] lg:w-[148.75mm] md:w-[119mm] min-[396px]:w-[89.25mm] py-[4%] lg:min-h-[210.25mm] md:min-h-[173.25mm] min-[396px]:min-h-[126.25mm]"
         id = "resumeview"
         >
             <header className = "flex-col break-inside-avoid-page text-center flex flex-col">

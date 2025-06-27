@@ -851,7 +851,7 @@ function ProjectDetails ({setResumeToEdit, resumeToEdit, setProjectsEdit}) {
                                         copy.projects[index].stack.head = event.target.value
                                         setResumeToEdit(copy)
                                     }}
-                                    className= "p-2 rounded-md shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)]"
+                                    className= "p-2 rounded-md text-black shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)]"
                                     placeholder = "Tech Stack"/>
                                 </div>
                                 <div className = "flex flex-col gap-1">
@@ -861,7 +861,7 @@ function ProjectDetails ({setResumeToEdit, resumeToEdit, setProjectsEdit}) {
                                         copy.projects[index].stack.content = event.target.value
                                         setResumeToEdit(copy)
                                     }}
-                                    className= "p-2 w-full rounded-md shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)]"
+                                    className= "p-2 w-full text-black rounded-md shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)]"
                                     placeholder = "React.js, MongoDB, Express.js, Node.js, Git, Framer Motion"/>
                                 </div>
                             </div>
@@ -1062,7 +1062,7 @@ function SkillsDetails ({resumeToEdit, setResumeToEdit, setSkillsEdit}) {
                                 copy.skills[skillindex].head = event.target.value
                                 setResumeToEdit(copy)
                             }}
-                            className= "p-2 rounded-md shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)]"
+                            className= "p-2 rounded-md text-black shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)]"
                             placeholder = "Eg. Frameworks & Tools... or... Programming Languages"/>
                         </div>
                         <div className = "flex flex-col gap-1">
@@ -1072,7 +1072,7 @@ function SkillsDetails ({resumeToEdit, setResumeToEdit, setSkillsEdit}) {
                                 copy.skills[skillindex].content = event.target.value
                                 setResumeToEdit(copy)
                             }}
-                            className= "p-2 w-full rounded-md shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)]"
+                            className= "p-2 w-full text-black rounded-md shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)]"
                             placeholder = "React.js, MongoDB, Express.js, Node.js, Git, Framer Motion"/>
                         </div>
                         <button
@@ -1205,7 +1205,7 @@ function ExtraSectionDetails ({setResumeToEdit, resumeToEdit, setExtraSectionsEd
                                             type = "button"
                                             onClick = {() => {
                                                 const copy = {...resumeToEdit}
-                                                const newarr = [...copy.projects[index].points, ""]
+                                                const newarr = [...copy.extraSections[sectionindex].subsections[index].points, ""]
                                                 copy.extraSections[sectionindex].subsections[index].points = newarr
                                                 setResumeToEdit(copy)
                                             }}

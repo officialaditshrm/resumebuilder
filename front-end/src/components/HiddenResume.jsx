@@ -179,7 +179,7 @@ function HiddenResume ({resumeInView}) {
 
                 {/* PROJECTS */}
 
-                {resumeInView.projects.length > 0 && <section id = "projects" className = "flex flex-col border-t border-black mt-[2.5%]">
+                {resumeInView.projects.length > 0 && <section id = "projects" className = "flex flex-col border-t border-black mt-[1.5%]">
                     <h1 className = "font-extrabold text-center  mb-[1%] text-[90%] break-inside-avoid-page">SELECTED PROJECTS</h1>
                     {resumeInView.projects.map((subsection, subsectionindex) => {
                         return <section key = {subsectionindex} className = "pl-[1.5%] break-inside-avoid-page pb-[1%] text-[90%]">
@@ -263,7 +263,7 @@ function HiddenResume ({resumeInView}) {
                 return <section key = {sectionindex} className = "border-t border-black mt-[1.5%] break-inside-avoid-page">
                     <h1 className = "font-extrabold text-center text-[90%] break-inside-avoid-page">{section.sectionName.toUpperCase()}</h1>
                     {section.subsections.map((subsection, subsectionindex) => {
-                        return <section key = {subsectionindex} className = "pl-[1.5%] pb-[1%] text-[90%]">
+                        return <section key = {subsectionindex} className = "pl-[1.5%] pb-[0.5%] text-[90%]">
                             <header className = "relative w-full flex items-start justify-between">
                                 <div className = "flex gap-[15px] items-center">
                                     <h1 className = "flex items-center font-semibold">

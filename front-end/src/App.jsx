@@ -301,7 +301,7 @@ function App() {
   return (
     <div>
       <div className = {`${darkMode ? "dark bg-zinc-900 text-white": "bg-zinc-100"} border-black border font-calibri`}>
-
+        {smallScreen && <div className = {`w-full flex ${!loggedInUser ? "h-36": "h-10"} justify-center items-end`}><img src = "/logotransparent.png" className = "w-[80px]"/></div>}
         <Header 
         smallScreen = {smallScreen} 
         darkMode = {darkMode}

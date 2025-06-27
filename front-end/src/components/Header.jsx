@@ -12,14 +12,17 @@ function Header ({setDarkMode, darkMode, loggedInUser, smallScreen, hamburgerOpe
     if (!smallScreen) {
         return (
             <header className = "z-40 fixed right-5 top-3 h-20 lg:w-[540px] md:w-[480px] dark:bg-zinc-800 bg-neutral-200 flex justify-between items-center rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
-                <div className = "flex flex-1">
-                    <Link title='My Resumes' to = "/" className = "hover:scale-[0.9] w-1/5 flex justify-center items-center"><img className = "size-3/5" src = {darkMode? "/editdoc.svg" : "/editdocblack.svg"} /></Link>
-                    <Link title = "Community" to = "/community" className = "hover:scale-[0.9] w-1/5 flex justify-center items-center"><img className = "size-3/5" src = {darkMode? "/community.svg" : "/communityblack.svg"} /></Link>
+                <img src = '/logotransparent.png' className = " object-contain w-[20%] p-4"/>
+                <div className = "flex relative flex-1 justify-evenly overflow-hidden">
+                    <Link title='My Resumes' to = "/" className = "hover:scale-[0.9] w-1/4 flex justify-center items-center"><img className = "size-3/5" src = {darkMode? "/editdoc.svg" : "/editdocblack.svg"} /></Link>
+                    <Link title = "Community" to = "/community" className = "hover:scale-[0.9] w-1/4 flex justify-center items-center"><img className = "size-3/5" src = {darkMode? "/community.svg" : "/communityblack.svg"} /></Link>
                     {loggedInUser &&
-                        <Link title = "Profile" to = "/profile" className = "hover:scale-[0.9] w-1/5 flex justify-center items-center"><img className = "size-3/5" src = {darkMode? "/profile.svg" : "/profileblack.svg"} /></Link>
+                        <Link title = "Profile" to = "/profile" className = "hover:scale-[0.9] w-1/4 flex justify-center items-center"><img className = "size-3/5" src = {darkMode? "/profile.svg" : "/profileblack.svg"} /></Link>
                     }
                     {/* {loggedInUser && <button className = "w-1/5 hover:scale-[0.9] flex justify-center items-center" onClick = {() => setShowFeedback(true)}><img className = "size-3/5" src = "/admincontactblack.svg"/></button>} */}
+                    
                 </div>
+                
                 <div className = "border-l border-black/25 dark:border-white/25 h-full w-1/4 flex items-center justify-center">
                     <button
                     onClick = {() => {setDarkMode(!darkMode)}}

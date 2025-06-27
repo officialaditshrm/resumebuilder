@@ -268,7 +268,7 @@ function Preview ({resumeInView}) {
                 return <section key = {sectionindex} className = "pt-[1%] mt-[1%] break-inside-avoid-page border-t border-black">
                     <h1 className = "font-extrabold text-center break-inside-avoid-page">{section.sectionName.toUpperCase()}</h1>
                     {section.subsections.map((subsection, subsectionindex) => {
-                        return <section key = {subsectionindex} className = "pl-[1.5%] pb-[1%] text-[90%]">
+                        return <section key = {subsectionindex} className = "pl-[1.5%] pb-[0.5%] text-[90%]">
                             <header className = "relative w-full flex items-start justify-between">
                                 <div className = "flex gap-[15px] items-center">
                                     <h1 className = "flex items-center font-semibold">

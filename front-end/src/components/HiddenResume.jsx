@@ -100,7 +100,7 @@ function HiddenResume ({resumeInView}) {
             {resumeInView.experience.length > 0 && <section id = "experience" className = "border-t border-black mt-[2.5%]">
                 <h1 className = "font-extrabold text-center break-inside-avoid-page text-[90%] mb-[1%]">PROFESSIONAL EXPERIENCE</h1>
                 {resumeInView.experience.map((org, org_index) => {
-                    return <section key = {org_index} className = "pl-[1.5%] mb-[3px] text-[90%]">
+                    return <section key = {org_index} className = "pl-[1.5%] pb-[1%] text-[90%]">
                         <header className = "break-inside-avoid-page relative w-full flex items-center justify-between">
                             <div className = "flex gap-[15px]">
                                 <h1 className = "flex items-center font-bold text-[110%]">
@@ -182,7 +182,7 @@ function HiddenResume ({resumeInView}) {
                 {resumeInView.projects.length > 0 && <section id = "projects" className = "flex flex-col border-t border-black mt-[2.5%]">
                     <h1 className = "font-extrabold text-center  mb-[1%] text-[90%] break-inside-avoid-page">SELECTED PROJECTS</h1>
                     {resumeInView.projects.map((subsection, subsectionindex) => {
-                        return <section key = {subsectionindex} className = "pl-[1.5%] break-inside-avoid-page mb-[7px] text-[90%]">
+                        return <section key = {subsectionindex} className = "pl-[1.5%] break-inside-avoid-page pb-[1%] text-[90%]">
                             <header className = "relative w-full items-start flex justify-between">
                                 <div className = "flex gap-[15px]">
                                     <h1 className = "flex items-center font-bold text-[110%]">
@@ -260,7 +260,7 @@ function HiddenResume ({resumeInView}) {
 
             {/* EXTRA SECTIONS */}
             {resumeInView.extraSections.map((section, sectionindex) => {
-                return <section key = {sectionindex} className = "border-t border-black mt-[2.5%] break-inside-avoid-page">
+                return <section key = {sectionindex} className = "border-t border-black mt-[1.5%] break-inside-avoid-page">
                     <h1 className = "font-extrabold text-center text-[90%] break-inside-avoid-page">{section.sectionName.toUpperCase()}</h1>
                     {section.subsections.map((subsection, subsectionindex) => {
                         return <section key = {subsectionindex} className = "pl-[1.5%] text-[90%]">

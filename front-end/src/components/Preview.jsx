@@ -223,11 +223,8 @@ function Preview ({resumeInView}) {
                             </header>
                             {subsection.stack &&
                                 <div className = "italic">
-                                    <div className = "flex">
-                                        <h1 className = "font-bold">{subsection.stack.head}</h1>
-                                        {subsection.stack.content && 
-                                            <p>: {subsection.stack.content}</p>
-                                        }
+                                    <div className = "">
+                                        {subsection.stack.head && <b>{subsection.stack.head}:{"\t"}</b>}{subsection.stack.content && subsection.stack.content}
                                     </div>
                                 </div>
                             }

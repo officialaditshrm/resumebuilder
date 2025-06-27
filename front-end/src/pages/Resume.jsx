@@ -15,31 +15,6 @@ function Resume({currResumeData, setCurrResumeData, loggedInUser, updateResume, 
         }
     }, []);
 
-    const handleExportPDF1 = () => {
-        const element = printRef.current;
-        html2pdf()
-            .set({
-                margin: [20 , 0, 36, 0], // 0.5 inch bottom margin
-                filename: `${currResumeData?.username}${currResumeData?.name || "resume"}.pdf`,
-                image: { type: 'jpeg', quality: 1 },
-                html2canvas: {
-                    scale: 1,
-                    useCORS: true
-                },
-                jsPDF: {
-                    unit: 'pt',
-                    format: 'a4',
-                    orientation: 'portrait'
-                }
-            })
-            .from(element)
-            .save()
-            .finally(() => {
-                // Clean up injected styles
-                document.head.removeChild(style);
-            }
-        );
-    };
 
     const handleExportPDF2 = () => {
         const element = printRef.current;

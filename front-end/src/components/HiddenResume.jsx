@@ -1,7 +1,7 @@
 function HiddenResume ({resumeInView}) {
     return (
         <div
-        className = "font-times leading-[18px] px-[4%] font-['Times_New_Roman',serif] text-[15px] bg-white text-black flex flex-col min-h-[1123px] pb-[2%]"
+        className = "font-times leading-[18px] px-[4%] font-['Times_New_Roman',serif] text-[15px] bg-white text-black flex flex-col pb-[2%]"
         id = "resumeview"
         >
             <header className = "flex-col break-inside-avoid-page text-center flex flex-col">
@@ -261,11 +261,6 @@ function HiddenResume ({resumeInView}) {
                         </ul>
                     }
                 </section>}
-
-
-
-
-
 
 
             {/* EXTRA SECTIONS */}

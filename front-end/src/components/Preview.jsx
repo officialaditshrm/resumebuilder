@@ -5,10 +5,10 @@ function Preview ({resumeInView}) {
         id = "resumeview"
         >
             <header className = "flex-col break-inside-avoid-page text-center flex flex-col">
-                <h1 id = "username" className = "font-extrabold mb-[1%] text-[175%]">
+                <h1 id = "username" className = "font-extrabold mb-[1.5%] text-[175%]">
                     {resumeInView.username.toUpperCase()}
                 </h1>
-                <div className = "flex break-inside-avoid-page items-center mb-[1%] justify-center flex-wrap ">
+                <div className = "flex break-inside-avoid-page items-center mb-[1%] text-[90%] justify-center flex-wrap ">
                     {resumeInView.city}{resumeInView.state && ", "}
                     {resumeInView.state}{resumeInView.country && ", "}
                     {resumeInView.country}{resumeInView.pincode && " - "}
@@ -34,7 +34,7 @@ function Preview ({resumeInView}) {
 
             {/* EDUCATION */}
             {resumeInView.education.length > 0 && <section id = "education" className = "pt-[1%] border-t mt-[1%] border-black">
-                <h1 className = "font-extrabold text-center text-[90%] break-inside-avoid-page mb-[1%]">EDUCATION</h1>
+                <h1 className = "font-extrabold text-center text-[90%] break-inside-avoid-page mb-[0.5%]">EDUCATION</h1>
                 {resumeInView.education.map((edu, education_index) => {
                     return <section key = {education_index} className = "pl-[1.5%] break-inside-avoid-page text-[90%]">
                         <header className = "relative w-full flex justify-between">

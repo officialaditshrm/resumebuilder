@@ -223,11 +223,8 @@ function HiddenResume ({resumeInView}) {
                             </header>
                             {subsection.stack &&
                                 <div className = "italic">
-                                    <div className = "flex">
-                                        <h1 className = "font-bold">{subsection.stack.head}</h1>
-                                        {subsection.stack.content && 
-                                            <p>: {subsection.stack.content}</p>
-                                        }
+                                    <div className = "">
+                                        {subsection.stack.head && <b>{subsection.stack.head}:{"\t"}</b>}{subsection.stack.content && subsection.stack.content}
                                     </div>
                                 </div>
                             }
@@ -252,9 +249,8 @@ function HiddenResume ({resumeInView}) {
                     {resumeInView.skills &&
                         <ul className = "pl-[1.5%] text-[90%] flex flex-col gap-[1px]">
                             {resumeInView.skills.map((minisection, minisectionindex) => {
-                                return <li key = {minisectionindex} className = "flex flex-wrap">
-                                    {minisection.head && <b>{minisection.head}:</b>}
-                                    {minisection.content && minisection.content}
+                                return <li key = {minisectionindex} className = "">
+                                    {minisection.head && <b>{minisection.head}:{"\t"}</b>}{minisection.content && minisection.content}
                                 </li>
                             })}
                         </ul>

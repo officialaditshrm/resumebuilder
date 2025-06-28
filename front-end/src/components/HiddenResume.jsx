@@ -1,7 +1,7 @@
 function HiddenResume ({resumeInView}) {
     return (
         <div
-        className = "font-timesa text-[12.3pt] leading-[13pt] px-[1rem] bg-white text-black flex flex-col pb-[0.5rem]"
+        className = "font-tinos text-[11.7pt] leading-[13pt] px-[1rem] bg-white text-black flex flex-col pb-[0.5rem]"
         id = "resumeview"
         >
             <header className = "flex-col break-inside-avoid-page text-center flex flex-col">
@@ -103,7 +103,7 @@ function HiddenResume ({resumeInView}) {
                     return <section key = {org_index} className = "pl-[1.5%] pb-[0.5%] text-[90%]">
                         <header className = "break-inside-avoid-page relative w-full flex items-center justify-between">
                             <div className = "flex gap-[15px]">
-                                <h1 className = "flex items-center font-bold text-[110%]">
+                                <h1 className = "flex items-center font-bold">
                                     {org.organization.toUpperCase()}
                                 </h1>
                                 <div className = "flex flex-wrap mt-[1.5%] items-center gap-[3px]">

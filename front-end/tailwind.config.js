@@ -8,6 +8,7 @@ export default {
     extend: {
       fontFamily: {
         timesa: ['TimesNewRomanCustom', 'serif'],
+        tinos: ['Tinos', 'serif'],
       }
     },
   },

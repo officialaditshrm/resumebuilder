@@ -3,7 +3,7 @@ import resumeModel from '../models/resumeModel.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import validator from 'validator'
-import fs from 'fs'
+import s3 from '../config/s3.js'
 
 const createToken = (id) => {
     return jwt.sign({id}, process.env.JWT_SECRET)
@@ -119,7 +119,18 @@ const deleteUser = async (req, res) => {
             console.log("Incorrect Password")
             return res.json({success: false, message: "Incorrect Password"})
         }
-        user.profileimg = ""
+        if (user.profileimg !== "" || user.profileimg) {
+            const s3Key = user.profileimg?.split('.amazonaws.com/')[1]
+            if (s3Key) {
+            s3.deleteObject({
+                Bucket: 'resolute-images',
+                Key: s3Key
+            }, (err, data) => {
+                if (err) console.log("S3 delete error:", err)
+                else console.log("Old image deleted from S3")
+            })
+            }
+        }
 
         await userModel.deleteOne({ _id : id})
         await resumeModel.deleteMany({user_id: id})
@@ -194,10 +205,21 @@ const updateUser = async (req, res) => {
                 message: "User doesn't exist"
             })
         }
-        if (req.file) {
-            // Optionally: delete old image from S3 (needs S3 deleteObject call)
-
-            user.profileimg = req.file.location // S3 URL
+        if (req.file){
+            console.log(req.file)
+            if (user.profileimg !== "" || user.profileimg) {
+                const s3Key = user.profileimg?.split('.amazonaws.com/')[1]
+                if (s3Key) {
+                s3.deleteObject({
+                    Bucket: 'resolute-images',
+                    Key: s3Key
+                }, (err, data) => {
+                    if (err) console.log("S3 delete error:", err)
+                    else console.log("Old image deleted from S3")
+                })
+                }
+            }
+            user.profileimg = req.file.location
         }
 
         if (req.body.password && req.body.newPassword) {

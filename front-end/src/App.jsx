@@ -13,6 +13,7 @@ import Footer from './components/Footer.jsx'
 import Profile from './pages/Profile.jsx'
 
 const url = 'https://resolute-back-end.onrender.com'
+// const url = "http://localhost:6500"
 
 function App() {
   const [darkMode, setDarkMode] = useState(false)
@@ -237,33 +238,33 @@ function App() {
   }
 
 
-  const updateUser = async (id, user) => {
+  const updateUser = async (id, formData) => {
     try {
-      const formData = new FormData()
+      // const formData = new FormData()
 
-      if (user.profileimg instanceof File || user.profileimg instanceof Blob) {
-        formData.append("profileimg", user.profileimg)
-      }
+      // if (user.profileimg instanceof File || user.profileimg instanceof Blob) {
+      //   formData.append("profileimg", user.profileimg)
+      // }
 
-      if (user.bio) {
-        formData.append("bio", user.bio)
-      }
+      // if (user.bio) {
+      //   formData.append("bio", user.bio)
+      // }
 
-      if (user.name) {
-        formData.append("name", user.name)
-      }
+      // if (user.name) {
+      //   formData.append("name", user.name)
+      // }
 
-      if (user.email) {
-        formData.append("email", user.email)
-      }
+      // if (user.email) {
+      //   formData.append("email", user.email)
+      // }
 
-      if (user.password) {
-        formData.append("password", user.password)
-      }
+      // if (user.password) {
+      //   formData.append("password", user.password)
+      // }
 
-      if (user.newPassword) {
-        formData.append("newPassword", user.newPassword)
-      }
+      // if (user.newPassword) {
+      //   formData.append("newPassword", user.newPassword)
+      // }
 
       const response = await fetch(`${url}/api/users/${id}`, {
         method: "PUT",

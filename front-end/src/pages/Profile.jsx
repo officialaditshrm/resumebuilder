@@ -133,15 +133,14 @@ function Profile ({smallScreen, setPfp, darkMode, setToken, displayLoggedInUser,
                                 onSubmit = {(event) => {
                                     event.preventDefault()
                                     const newName = event.target.elements.name.value
-                                    const formData = {
-                                        name: newName
-                                    }
-                                    if (formData.name === loggedInUser.name) {
+                                    const formData = new FormData();
+                                    formData.append("name", newName);
+                                    if (newName === loggedInUser.name) {
                                         setNameAlert("No Changes made in Name")
                                         flashNameAlert()
                                         return
                                     }
-                                    if (formData.name === "") {
+                                    if (newName.trim() === "") {
                                         setNameAlert("Please add a name.")
                                         flashNameAlert()
                                         return
@@ -200,19 +199,19 @@ function Profile ({smallScreen, setPfp, darkMode, setToken, displayLoggedInUser,
                                 onSubmit = {(event) => {
                                     event.preventDefault()
                                     const formEmail = event.target.elements.email.value
-                                    const formData = {
-                                        email: formEmail
-                                    }
-                                    if (formData.email === loggedInUser.email) {
+                                    const formData = new FormData();
+                                    formData.append("email", formEmail);
+                                    if (formEmail === loggedInUser.email) {
                                         setNameAlert("No Changes made in Email")
                                         flashNameAlert()
                                         return
                                     }
-                                    if (formData.email === "") {
+                                    if (formEmail.trim() === "") {
                                         setNameAlert("Email cannot be empty")
                                         flashNameAlert()
                                         return
                                     }
+                                    updateUser(userToShow._id, formData)
                                     setEditEmail(false)
                                 }} 
                                 className = "flex flex-col flex-wrap gap-2">
@@ -267,10 +266,9 @@ function Profile ({smallScreen, setPfp, darkMode, setToken, displayLoggedInUser,
                                     event.preventDefault()
                                     const formPassword = event.target.elements.password.value
                                     const formNewPassword = event.target.elements.newPassword.value
-                                    const formData = {
-                                        password: formPassword,
-                                        newPassword: formNewPassword 
-                                    }
+                                    const formData = new FormData();
+                                    formData.append("password", formPassword);
+                                    formData.append("newPassword", formNewPassword);
                                     if (formNewPassword.trim() != "" && formPassword.trim() != "") {  
                                         updateUser(userToShow._id, formData)
                                         setEditPassword(false)
@@ -355,15 +353,14 @@ function Profile ({smallScreen, setPfp, darkMode, setToken, displayLoggedInUser,
                         onSubmit = {(event) => {
                             event.preventDefault()
                             const newBio = event.target.elements.bio.value
-                            const formData = {
-                                bio: newBio
-                            }
-                            if (formData.bio === loggedInUser.bio) {
+                            const formData = new FormData();
+                            formData.append("bio", newBio);
+                            if (newBio === loggedInUser.bio) {
                                 setNameAlert("No Changes made in bio")
                                 flashNameAlert()
                                 return
                             }
-                            if (formData.bio === "") {
+                            if (newBio.trim() === "") {
                                 formData.bio = " "
                             }
                             updateUser(userToShow._id, formData)

@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
+console.log("AWS credentials:", process.env.AWS_ACCESS_KEY_ID ? "Loaded" : "Missing")
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,

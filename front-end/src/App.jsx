@@ -240,31 +240,6 @@ function App() {
 
   const updateUser = async (id, formData) => {
     try {
-      // const formData = new FormData()
-
-      // if (user.profileimg instanceof File || user.profileimg instanceof Blob) {
-      //   formData.append("profileimg", user.profileimg)
-      // }
-
-      // if (user.bio) {
-      //   formData.append("bio", user.bio)
-      // }
-
-      // if (user.name) {
-      //   formData.append("name", user.name)
-      // }
-
-      // if (user.email) {
-      //   formData.append("email", user.email)
-      // }
-
-      // if (user.password) {
-      //   formData.append("password", user.password)
-      // }
-
-      // if (user.newPassword) {
-      //   formData.append("newPassword", user.newPassword)
-      // }
 
       const response = await fetch(`${url}/api/users/${id}`, {
         method: "PUT",

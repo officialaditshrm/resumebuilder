@@ -3,6 +3,14 @@
 @tailwind components;
 
 
+@font-face {
+  font-family: 'TimesNewRomanCustom';
+  src: url('/fonts/times.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 * {
   @apply transition duration-300;
 }

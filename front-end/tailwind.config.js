@@ -5,7 +5,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        timesa: ['TimesNewRomanCustom', 'serif'],
+      }
+    },
   },
   plugins: [
     require('@tailwindcss/line-clamp')

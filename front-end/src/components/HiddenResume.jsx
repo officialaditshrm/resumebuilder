@@ -48,12 +48,12 @@ function HiddenResume ({resumeInView}) {
                         <section className = "flex flex-col gap-[3px]">
                             {edu.qualifications.map((qfc, qfcindex) => {
                                 return <div key = {qfcindex}>
-                                    <header className = "flex justify-between italic">
+                                    <header className = "flex justify-between items-start italic">
                                         <div className = "flex flex-col w-[70%]">
                                             <div className = "flex gap-[15px]">
                                                 <h1 className = "text-[110%]">{qfc.name}</h1>
                                                 {qfc.urls &&
-                                                    <div className = "flex flex-wrap mt-[1.5%] items-center gap-[3px]">
+                                                    <div className = "flex flex-wrap items-center gap-[3px]">
                                                         {qfc.urls.map((sss_url, sssurlindex) => {
                                                             return <div key = {sssurlindex} className = "flex items-center gap-[3px]">
                                                                 <a href = {sss_url.url} target = "_blank" className = "text-blue-900 break-all font-bold italic">{sss_url.name}</a>
@@ -132,7 +132,7 @@ function HiddenResume ({resumeInView}) {
                                         <div className = "flex items-center gap-[15px] max-w-[60%]">
                                             <h1 className = "font-semibold">{role.rolename}</h1>
                                             {role.urls &&
-                                                <div className = "flex flex-wrap mt-[1.5%] items-center gap-[3px]">
+                                                <div className = "flex flex-wrap items-center gap-[3px]">
                                                     {role.urls.map((sss_url, sssurlindex) => {
                                                         return <div key = {sssurlindex} className = "flex items-center gap-[3px]">
                                                             <a href = {sss_url.url} target = "_blank" className = "text-blue-900 break-all font-bold italic">{sss_url.name}</a>
@@ -188,7 +188,7 @@ function HiddenResume ({resumeInView}) {
                                     <h1 className = "flex items-center font-bold text-[110%]">
                                         {subsection.projectname}
                                     </h1>
-                                    <div className = "flex items-center mt-[1.5%] flex-wrap gap-[3px]">
+                                    <div className = "flex items-center flex-wrap gap-[3px]">
                                         {subsection.urls.map((ss_url, ssurlindex) => {
                                             return <div key = {ssurlindex} className = "flex items-center gap-[3px]">
                                                 <a key = {ssurlindex} href = {ss_url.url} target = "_blank" className = "text-blue-900 break-all font-bold italic">{ss_url.name}</a>
@@ -269,7 +269,7 @@ function HiddenResume ({resumeInView}) {
                                     <h1 className = "flex items-center font-semibold">
                                         {subsection.title}
                                     </h1>
-                                    <div className = "flex items-center mt-[1.5%] flex-wrap gap-[3px]">
+                                    <div className = "flex items-center flex-wrap gap-[3px]">
                                         {subsection.urls.map((ss_url, ssurlindex) => {
                                             return <div key = {ssurlindex} className = "flex items-center gap-[3px]">
                                                 <a key = {ssurlindex} href = {ss_url.url} target = "_blank" className = "text-blue-900 break-all font-bold italic">{ss_url.name}</a>

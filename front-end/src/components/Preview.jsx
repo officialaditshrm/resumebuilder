@@ -270,7 +270,7 @@ function Preview ({resumeInView}) {
                     {section.subsections.map((subsection, subsectionindex) => {
                         return <section key = {subsectionindex} className = "pl-[1.5%] pb-[0.5%] text-[90%]">
                             <header className = "relative w-full flex items-start justify-between">
-                                <div className = "flex gap-[15px] items-center">
+                                <div className = "flex gap-[15px] items-start">
                                     <h1 className = "flex items-center font-semibold">
                                         {subsection.title}
                                     </h1>

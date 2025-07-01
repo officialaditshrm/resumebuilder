@@ -15,8 +15,9 @@ function HiddenResume ({resumeInView}) {
                     {resumeInView.pincode}
                 </div>
                 <div className = "flex break-inside-avoid-page justify-center flex-wrap text-[85%] gap-2">
-                    {resumeInView.phonenum !== "" && <p className = "flex items-center font-bold italic gap-[3px]"><label>{resumeInView.phonenum}</label><label>{(resumeInView.header_urls?.length > 0 || resumeInView.email) && "  | "}</label></p>}
+                    {resumeInView.phonenum !== "" && <p className = "flex items-center font-bold italic gap-[3px]"><label>{resumeInView.phonenum}</label><label>{(resumeInView.header_urls?.length > 0 || resumeInView.email || resumeInView.email2) && "  | "}</label></p>}
                     {resumeInView.email && <p><a className = "text-blue-900 font-bold italic" href = {`mailto:${resumeInView.email}`}>{resumeInView.email}</a>{resumeInView.header_urls?.length > 0 && " |"}</p>}
+                    {resumeInView.email2 && <p><a className = "text-blue-900 font-bold italic" href = {`mailto:${resumeInView.email2}`}>{resumeInView.email2}</a>{resumeInView.header_urls?.length > 0 && " |"}</p>}
                     {resumeInView.header_urls.map((header_url, headerindex) => {
                         return <div key = {headerindex}>
                             <a href = {header_url.url} target = "_blank" className = "text-blue-900 break-all font-bold italic">{header_url.name}</a>
@@ -49,7 +50,7 @@ function HiddenResume ({resumeInView}) {
                             {edu.qualifications.map((qfc, qfcindex) => {
                                 return <div key = {qfcindex}>
                                     <header className = "flex justify-between items-start italic">
-                                        <div className = "flex flex-col w-[70%]">
+                                        <div className = "flex flex-col max-w-[70%]">
                                             <div className = "flex gap-[15px]">
                                                 <h1 className = "text-[110%]">{qfc.name}</h1>
                                                 {qfc.urls &&
@@ -67,8 +68,7 @@ function HiddenResume ({resumeInView}) {
                                                 {qfc.description && <p>({qfc.description})</p>}
                                             </div>
                                         </div>
-                                        
-                                        <div className = "flex flex-col items-end max-w-[50%]">
+                                        <div className = "flex flex-col items-end max-w-[30%]">
                                             <div className = "flex">
                                                 {new Date(qfc.start).toLocaleDateString("en-IN", {
                                                     year : "numeric",
@@ -129,7 +129,7 @@ function HiddenResume ({resumeInView}) {
                             {org.roles.map((role, roleindex) => {
                                 return <div key = {roleindex} className = "pb-[1%] break-inside-avoid-page">
                                     <header className = "flex justify-between italic">
-                                        <div className = "flex items-center gap-[15px] max-w-[60%]">
+                                        <div className = "flex items-center gap-[15px] max-w-[50%]">
                                             <h1 className = "font-semibold">{role.rolename}</h1>
                                             {role.urls &&
                                                 <div className = "flex flex-wrap items-center gap-[3px]">
@@ -184,7 +184,7 @@ function HiddenResume ({resumeInView}) {
                     {resumeInView.projects.map((subsection, subsectionindex) => {
                         return <section key = {subsectionindex} className = "pl-[1.5%] break-inside-avoid-page pb-[1%] text-[90%]">
                             <header className = "relative w-full items-start flex justify-between">
-                                <div className = "flex gap-[15px]">
+                                <div className = "flex gap-[15px] max-w-[50%]">
                                     <h1 className = "flex items-center font-bold text-[110%]">
                                         {subsection.projectname}
                                     </h1>
@@ -265,7 +265,7 @@ function HiddenResume ({resumeInView}) {
                     {section.subsections.map((subsection, subsectionindex) => {
                         return <section key = {subsectionindex} className = "pl-[1.5%] pb-[0.5%] text-[90%]">
                             <header className = "relative w-full flex items-start justify-between">
-                                <div className = "flex gap-[15px] items-start">
+                                <div className = "flex gap-[15px] items-start max-w-[50%]">
                                     <h1 className = "flex items-center font-semibold">
                                         {subsection.title}
                                     </h1>

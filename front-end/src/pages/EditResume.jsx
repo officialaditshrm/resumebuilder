@@ -255,6 +255,20 @@ function HeaderDetails ({resumeToEdit, setHeaderEdit, setResumeToEdit}) {
                                 )
                             }}/>
                         </div>
+                        <div className = "flex flex-col gap-1 items-start">
+                            <label className = "font-semibold">Alternative Email</label>
+                            <input
+                            className = "p-2 text-black w-full rounded-md border border-black/20 shadow-[0_1px_1px_1px_rgba(0,0,0,0.15)]"
+                            type = "text" value = {resumeToEdit.email2} onChange = {(event) => {
+                                const newrn = event.target.value
+                                setResumeToEdit((prev) => 
+                                ({
+                                    ...prev,
+                                    email2: newrn
+                                })
+                                )
+                            }}/>
+                        </div>
                         
                     </div>
                     <div className = "flex flex-col gap-2 w-full">

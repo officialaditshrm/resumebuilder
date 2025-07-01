@@ -93,6 +93,7 @@ const resumeSchema = new mongoose.Schema({
     username: {type: String, required: true}, 
     city: {type: String}, 
     email: {type: String},
+    email2: {type: String},
     state: {type: String}, 
     country: {type: String}, 
     pincode: {type: String}, 

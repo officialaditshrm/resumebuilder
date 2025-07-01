@@ -55,6 +55,7 @@ const updateResume = async (req, res) => {
         resume.state = req.body.state
         resume.country = req.body.country
         resume.email = req.body.email
+        resume.email2 = req.body.email2
         resume.pincode = req.body.pincode
         resume.header_urls = req.body.header_urls
         resume.extraSections = req.body.extraSections

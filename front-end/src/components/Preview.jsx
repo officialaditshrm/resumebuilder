@@ -15,7 +15,7 @@ function Preview ({resumeInView}) {
                     {resumeInView.pincode}
                 </div>
                 <div className = "flex break-inside-avoid-page justify-center flex-wrap text-[85%] gap-2">
-                    {resumeInView.phonenum !== "" && <p className = "flex items-center font-bold italic gap-[3px]"><label>{resumeInView.phonenum}</label><label>{(resumeInView.header_urls?.length > 0 || resumeInView.email || resumeInView.email2) && "  | "}</label></p>}
+                    {resumeInView.phonenum !== "" && <p className = "bg-black flex items-center font-bold italic gap-[3px]"><label>{resumeInView.phonenum}</label><label>{(resumeInView.header_urls?.length > 0 || resumeInView.email || resumeInView.email2) && "  | "}</label></p>}
                     {resumeInView.email && <p><a className = "text-blue-900 font-bold italic" href = {`mailto:${resumeInView.email}`}>{resumeInView.email}</a>{resumeInView.header_urls?.length > 0 && " |"}</p>}
                     {resumeInView.email2 && <p><a className = "text-blue-900 font-bold italic" href = {`mailto:${resumeInView.email2}`}>{resumeInView.email2}</a>{resumeInView.header_urls?.length > 0 && " |"}</p>}
                     {resumeInView.header_urls.map((header_url, headerindex) => {

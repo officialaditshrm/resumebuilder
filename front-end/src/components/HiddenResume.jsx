@@ -129,7 +129,7 @@ function HiddenResume ({resumeInView}) {
                             {org.roles.map((role, roleindex) => {
                                 return <div key = {roleindex} className = "pb-[1%] break-inside-avoid-page">
                                     <header className = "flex justify-between italic">
-                                        <div className = "flex items-center gap-[15px] max-w-[50%]">
+                                        <div className = "flex items-center gap-[15px]">
                                             <h1 className = "font-semibold">{role.rolename}</h1>
                                             {role.urls &&
                                                 <div className = "flex flex-wrap items-center gap-[3px]">
@@ -184,7 +184,7 @@ function HiddenResume ({resumeInView}) {
                     {resumeInView.projects.map((subsection, subsectionindex) => {
                         return <section key = {subsectionindex} className = "pl-[1.5%] break-inside-avoid-page pb-[1%] text-[90%]">
                             <header className = "relative w-full items-start flex justify-between">
-                                <div className = "flex gap-[15px] max-w-[50%]">
+                                <div className = "flex gap-[15px]">
                                     <h1 className = "flex items-center font-bold text-[110%]">
                                         {subsection.projectname}
                                     </h1>
@@ -265,7 +265,7 @@ function HiddenResume ({resumeInView}) {
                     {section.subsections.map((subsection, subsectionindex) => {
                         return <section key = {subsectionindex} className = "pl-[1.5%] pb-[0.5%] text-[90%]">
                             <header className = "relative w-full flex items-start justify-between">
-                                <div className = "flex gap-[15px] items-start max-w-[50%]">
+                                <div className = "flex gap-[15px] items-start">
                                     <h1 className = "flex items-center font-semibold">
                                         {subsection.title}
                                     </h1>

@@ -70,7 +70,7 @@ function Preview ({resumeInView}) {
                                         </div>
                                         <div className = "flex flex-col items-end max-w-[30%]">
                                             <div className = "flex">
-                                                {new Date(qfc.start).toLocaleDateString("en-IN", {
+                                                {qfc.start && new Date(qfc.start).toLocaleDateString("en-IN", {
                                                     year : "numeric",
                                                     month : "short"
                                                 })} {"-"} {!qfc.ongoing && qfc.end ? new Date(qfc.end).toLocaleDateString("en-IN", {

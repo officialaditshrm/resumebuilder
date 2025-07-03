@@ -70,13 +70,28 @@ function Preview ({resumeInView}) {
                                         </div>
                                         <div className = "flex flex-col items-end max-w-[30%]">
                                             <div className = "flex">
-                                                {qfc.start && new Date(qfc.start).toLocaleDateString("en-IN", {
-                                                    year : "numeric",
-                                                    month : "short"
-                                                })} {"-"} {!qfc.ongoing && qfc.end ? new Date(qfc.end).toLocaleDateString("en-IN", {
-                                                    month: "short",
-                                                    year: "numeric"
-                                                }) : "ongoing"}
+                                                {/* Show start date if present */}
+                                                {qfc.start && (
+                                                    <>
+                                                        {new Date(qfc.start).toLocaleDateString("en-IN", {
+                                                            year: "numeric",
+                                                            month: "short"
+                                                        })}
+                                                        {/* Show dash and end/ongoing only if start exists */}
+                                                        {(qfc.end || qfc.ongoing) && (
+                                                            <>
+                                                                {" - "}
+                                                                {/* Show end date if not ongoing and end exists */}
+                                                                {!qfc.ongoing && qfc.end && new Date(qfc.end).toLocaleDateString("en-IN", {
+                                                                    month: "short",
+                                                                    year: "numeric"
+                                                                })}
+                                                                {/* Show 'ongoing' only if ongoing is true */}
+                                                                {qfc.ongoing && "ongoing"}
+                                                            </>
+                                                        )}
+                                                    </>
+                                                )}
                                             </div>
                                             {qfc.extras.length > 0 &&
                                             <div className = "flex flex-col items-end">
@@ -144,13 +159,28 @@ function Preview ({resumeInView}) {
                                         </div>
                                         <div className = "flex gap-[5px] justify-end max-w-[50%]">
                                             <div className = "flex">
-                                                {new Date(role.start).toLocaleDateString("en-IN", {
-                                                    year : "numeric",
-                                                    month : "short"
-                                                })} {"-"} {!role.ongoing && role.end ? new Date(role.end).toLocaleDateString("en-IN", {
-                                                    month: "short",
-                                                    year: "numeric"
-                                                }) : "ongoing"}
+                                                {/* Show start date if present */}
+                                                {role.start && (
+                                                    <>
+                                                        {new Date(role.start).toLocaleDateString("en-IN", {
+                                                            year: "numeric",
+                                                            month: "short"
+                                                        })}
+                                                        {/* Show dash and end/ongoing only if start exists */}
+                                                        {(role.end || role.ongoing) && (
+                                                            <>
+                                                                {" - "}
+                                                                {/* Show end date if not ongoing and end exists */}
+                                                                {!role.ongoing && role.end && new Date(role.end).toLocaleDateString("en-IN", {
+                                                                    month: "short",
+                                                                    year: "numeric"
+                                                                })}
+                                                                {/* Show 'ongoing' only if ongoing is true */}
+                                                                {role.ongoing && "ongoing"}
+                                                            </>
+                                                        )}
+                                                    </>
+                                                )}
                                                 {role.extras.length > 0 && ","}
                                             </div>
                                             {role.extras.length > 0 &&
@@ -198,20 +228,30 @@ function Preview ({resumeInView}) {
                                     </div>
                                 </div>
                                 <div className = "italic flex gap-[5px] justify-end max-w-[50%] flex-wrap">
-                                    {subsection.start &&
-                                    <div>
-                                        {new Date(subsection.start).toLocaleDateString("en-IN", {
-                                            month: "short",
-                                            year : "numeric",
-                                            day: "2-digit"
-                                        })} {"-"} {!subsection.ongoing && subsection.end ? new Date(subsection.end).toLocaleDateString("en-IN", {
-                                            month: "short",
-                                            year: "numeric",
-                                            day: "2-digit"
-                                        }) : "ongoing"}
-                                        {subsection.extras.length > 0 && ","}
-                                    </div>
-                                    }
+                                    {subsection.start && (
+                                        <div>
+                                            {new Date(subsection.start).toLocaleDateString("en-IN", {
+                                                month: "short",
+                                                year: "numeric",
+                                                day: "2-digit"
+                                            })}
+                                            {/* Show dash and end/ongoing only if start exists */}
+                                            {(subsection.end || subsection.ongoing) && (
+                                                <>
+                                                    {" - "}
+                                                    {/* Show end date if not ongoing and end exists */}
+                                                    {!subsection.ongoing && subsection.end && new Date(subsection.end).toLocaleDateString("en-IN", {
+                                                        month: "short",
+                                                        year: "numeric",
+                                                        day: "2-digit"
+                                                    })}
+                                                    {/* Show 'ongoing' only if ongoing is true */}
+                                                    {subsection.ongoing && "ongoing"}
+                                                </>
+                                            )}
+                                            {subsection.extras.length > 0 && ","}
+                                        </div>
+                                    )}
                                     {subsection.extras.length > 0 &&
                                     <div className = "flex gap-[5px]">
                                         {subsection.extras.map((extra, extraindex) => {
@@ -279,18 +319,28 @@ function Preview ({resumeInView}) {
                                     </div>
                                 </div>
                                 <div className = "italic flex gap-[5px] flex-wrap max-w-[50%] justify-end">
-                                    {subsection.start &&
-                                    <div>
-                                        {new Date(subsection.start).toLocaleDateString("en-IN", {
-                                            month: "short",
-                                            year : "numeric"
-                                        })} {"-"} {!subsection.ongoing && subsection.end ? new Date(subsection.end).toLocaleDateString("en-IN", {
-                                            month: "short",
-                                            year: "numeric"
-                                        }) : "ongoing"}
-                                        {subsection.extras.length > 0 && ","}
-                                    </div>
-                                    }
+                                    {subsection.start && (
+                                        <div>
+                                            {new Date(subsection.start).toLocaleDateString("en-IN", {
+                                                month: "short",
+                                                year: "numeric"
+                                            })}
+                                            {/* Show dash and end/ongoing only if start exists */}
+                                            {(subsection.end || subsection.ongoing) && (
+                                                <>
+                                                    {" - "}
+                                                    {/* Show end date if not ongoing and end exists */}
+                                                    {!subsection.ongoing && subsection.end && new Date(subsection.end).toLocaleDateString("en-IN", {
+                                                        month: "short",
+                                                        year: "numeric"
+                                                    })}
+                                                    {/* Show 'ongoing' only if ongoing is true */}
+                                                    {subsection.ongoing && "ongoing"}
+                                                </>
+                                            )}
+                                            {subsection.extras.length > 0 && ","}
+                                        </div>
+                                    )}
                                     {subsection.extras.length > 0 &&
                                     <div className = "flex">
                                         {subsection.extras.map((extra, extraindex) => {

@@ -1,9 +1,53 @@
+import React from "react";
+// MagicCreateButton: Calls backend to generate a resume and updates resumeToEdit
+function MagicCreateButton({ jobDescription, setResumeToEdit, url }) {
+    const [loading, setLoading] = React.useState(false);
+    const [error, setError] = React.useState(null);
+
+    const handleMagicCreate = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const res = await fetch(`${url}/api/analyze-resume/generate-resume`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ jobDescription })
+            });
+            if (!res.ok) throw new Error("Failed to generate resume");
+            const data = await res.json();
+            setResumeToEdit(prev => ({
+                ...data,
+                name: prev.name,
+                username: prev.username,
+                user_id: prev.user_id
+            }));
+        } catch (e) {
+            setError(e.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <div className="flex flex-col items-center my-2">
+            <button
+                className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-6 py-2 rounded-full font-bold shadow-lg hover:scale-105 transition-transform disabled:opacity-60"
+                style={{ fontSize: "1.1rem" }}
+                onClick={handleMagicCreate}
+                disabled={loading || !jobDescription.trim()}
+            >
+                {loading ? "Creating..." : "✨ Magic Create Resume ✨"}
+            </button>
+            {error && <div className="text-red-600 text-sm mt-1">{error}</div>}
+        </div>
+    );
+}
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import Preview from '../components/Preview.jsx'
 
-function EditResume({setCurrResumeData, currResumeData, darkMode, updateResume}) {
+function EditResume({setCurrResumeData, url, setJobDescription, jobDescription, showAllSuggestions, aiError, aiLoading, aiResult, setShowAllSuggestions, handleAIAnalysis, currResumeData, darkMode, updateResume}) {
     const [resumeToEdit, setResumeToEdit] = useState(null)
     const navigate = useNavigate()
 
@@ -135,6 +179,99 @@ function EditResume({setCurrResumeData, currResumeData, darkMode, updateResume})
                 <div className = "flex flex-col items-center gap-4">
                     <h1 className = "font-extrabold text-2xl">Preview</h1>
                     <Preview resumeInView={resumeToEdit}/>
+                </div>
+
+                
+                
+
+
+
+                {/* ATS Analysis Section */}
+                <div className="w-full max-w-2xl bg-zinc-200 dark:bg-zinc-800 rounded-xl shadow p-4 max-sm:p-2 flex flex-col gap-3 border border-blue-200">
+                    <h2 className="font-bold text-lg dark:text-blue-200 text-blue-900">ATS & AI Resume Analysis</h2>
+                    <textarea
+                        className="w-full border p-2 text-black rounded mb-2 text-sm"
+                        rows={3}
+                        placeholder="Paste job description or title here..."
+                        value={jobDescription}
+                        onChange={e => setJobDescription(e.target.value)}
+                    />
+                    <button
+                        className="bg-blue-700 text-white px-4 py-2 rounded font-bold disabled:opacity-60"
+                        onClick={() => handleAIAnalysis(resumeToEdit)}
+                        disabled={aiLoading || !jobDescription.trim()}
+                    >
+                        {aiLoading ? 'Analyzing...' : 'Analyze with AI'}
+                    </button>
+                    {/* Magic Create Button */}
+                    <MagicCreateButton url = {url} jobDescription={jobDescription} setResumeToEdit={setResumeToEdit} />
+                    {aiError && <div className="text-red-600 text-sm">{aiError}</div>}
+                    {aiResult && (
+                        <div className="mt-2 text-sm max-sm:text-xs flex flex-col gap-3 items-center">
+                            {aiResult.score !== undefined && (
+                                <div className="flex flex-col items-center mb-2">
+                                    <div className="relative w-24 h-24 sm:w-32 sm:h-32">
+                                        <svg viewBox="0 0 100 100" className="w-full h-full">
+                                            <circle cx="50" cy="50" r="45" fill="none" stroke="#e5e7eb" strokeWidth="10" />
+                                            <circle
+                                                cx="50" cy="50" r="45" fill="none"
+                                                stroke="#2563eb"
+                                                strokeWidth="10"
+                                                strokeDasharray={2 * Math.PI * 45}
+                                                strokeDashoffset={2 * Math.PI * 45 * (1 - aiResult.score / 100)}
+                                                strokeLinecap="round"
+                                                style={{ transition: 'stroke-dashoffset 0.7s' }}
+                                            />
+                                            <text x="50" y="56" textAnchor="middle" fontSize="2.2em" fontWeight="bold" fill="#2563eb">{aiResult.score}</text>
+                                        </svg>
+                                    </div>
+                                    <div className="font-bold text-lg mt-1">ATS Score</div>
+                                </div>
+                            )}
+                            {!showAllSuggestions && (
+                                <button
+                                    className="text-blue-400 font-extrabold underline text-xl mt-1"
+                                    onClick={() => setShowAllSuggestions(true)}
+                                >
+                                    View more
+                                </button>
+                            )}
+                            {showAllSuggestions && (
+                                <div className="w-full flex flex-col items-center">
+                                    {aiResult.missingKeywords && (
+                                        <div><b>Missing/Weak Keywords:</b> {aiResult.missingKeywords.join(', ')}</div>
+                                    )}
+                                    {aiResult.rewrites && aiResult.rewrites.length > 0 && (
+                                        <div className="mt-2">
+                                            <b>Suggested Rewrites:</b>
+                                            <ul className="list-disc pl-5">
+                                                {aiResult.rewrites.map((rw, i) => (
+                                                    <li key={i}><span className="text-red-600">Old:</span> {rw.old}<br /><span className="text-green-700">New:</span> {rw.new}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                    {aiResult.suggestions && aiResult.suggestions.length > 0 && (
+                                        <div className="mt-2">
+                                            <b>Suggestions:</b>
+                                            <ul className="list-disc pl-5">
+                                                {aiResult.suggestions.map((s, i) => <li key={i}>{s}</li>)}
+                                            </ul>
+                                        </div>
+                                    )}
+                                    {aiResult.raw && (
+                                        <div className="mt-2 text-xs text-gray-500 whitespace-pre-wrap">{aiResult.raw}</div>
+                                    )}
+                                    <button
+                                        className="text-blue-400 font-extrabold underline text-xl mt-2"
+                                        onClick={() => setShowAllSuggestions(false)}
+                                    >
+                                        View less
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
         )

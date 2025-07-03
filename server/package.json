@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "aws-sdk": "^2.1692.0",
+    "axios": "^1.10.0",
     "bcrypt": "^6.0.0",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
@@ -10,7 +11,9 @@
     "mongoose": "^8.15.2",
     "multer": "^2.0.1",
     "multer-s3": "^2.10.0",
+    "node-fetch": "^3.3.2",
     "nodemon": "^3.1.10",
+    "openai": "^5.8.2",
     "stripe": "^18.2.1",
     "validator": "^13.15.15"
   },

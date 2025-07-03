@@ -33,6 +33,11 @@ function App() {
   const [pfp, setPfp] = useState(null)
   const [particularUser, setParticularUser] = useState(false)
   const [resumeToEdit, setResumeToEdit] = useState(false)
+  const [jobDescription, setJobDescription] = useState('');
+  const [aiResult, setAiResult] = useState(null);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState(null);
+  const [showAllSuggestions, setShowAllSuggestions] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -256,6 +261,28 @@ function App() {
       console.error(error.message)
     }
   }
+
+  const handleAIAnalysis = async (resumetoreview) => {
+      setAiLoading(true);
+      setAiError(null);
+      setAiResult(null);
+      try {
+          const res = await fetch(`${url}/api/analyze-resume`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ resumeData: resumetoreview, jobDescription }),
+          });
+          const data = await res.json();
+          if (res.ok) {
+              setAiResult(data);
+          } else {
+              setAiError(data.error || 'Analysis failed');
+          }
+      } catch (err) {
+          setAiError('Network error');
+      }
+      setAiLoading(false);
+  };
   
   const fetchpfp = (profileimgURL) => {
   if (profileimgURL) {
@@ -333,7 +360,15 @@ function App() {
           } />
           <Route path = "/resume" element = {
             <Resume 
-            
+            setShowAllSuggestions={setShowAllSuggestions}
+            showAllSuggestions = {showAllSuggestions}
+            setJobDescription = {setJobDescription}
+            aiError = {aiError}
+            aiLoading = {aiLoading}
+            aiResult = {aiResult}
+            setAiResult = {setAiResult}
+            jobDescription = {jobDescription}
+            handleAIAnalysis = {handleAIAnalysis}
             darkMode = {darkMode}
             smallScreen = {smallScreen} 
             fetchResumes = {fetchResumes} 
@@ -378,6 +413,16 @@ function App() {
           } />
           <Route path =  "/editresume" element = {
             <EditResume
+            url = {url}
+            setShowAllSuggestions={setShowAllSuggestions}
+            showAllSuggestions = {showAllSuggestions}
+            setJobDescription = {setJobDescription}
+            aiError = {aiError}
+            aiLoading = {aiLoading}
+            aiResult = {aiResult}
+            setAiResult = {setAiResult}
+            jobDescription = {jobDescription}
+            handleAIAnalysis = {handleAIAnalysis}
             updateResume={updateResume}
             setCurrResumeData = {setCurrResumeData}
             currResumeData = {currResumeData}

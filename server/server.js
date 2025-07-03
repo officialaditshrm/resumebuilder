@@ -4,6 +4,7 @@ import 'dotenv/config'
 import {connectDB} from './config/db.js'
 import userRouter from './routes/userRoute.js'
 import resumeRouter from './routes/resumeRoute.js'
+import aiRouter from './routes/aiRoute.js'
 
 // App configuration
 const app = express()
@@ -20,6 +21,7 @@ connectDB()
 app.use('/api/users', userRouter)
 app.use('/api/resumes', resumeRouter)
 app.use('/pfpimages', express.static('pfpuploads'))
+app.use('/api/analyze-resume', aiRouter)
 app.use('/', (req, res) => {
     res.json({success: true, message: "API Working"})
 })

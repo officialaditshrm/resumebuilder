@@ -20,13 +20,13 @@ export default function SidePanel ({footerShow, pfp, setPfp, darkMode, buildResu
                 </div>}
                 {loggedInUser && <div className = "flex-1 max-h-[45%] relative rounded-xl bg-zinc-200 dark:bg-zinc-800 flex flex-col p-3 gap-2  shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
                     <h1 className = "text-neutral-500">Resumes</h1>
-                    <ul className = "flex flex-col text-xs font-bold gap-3 overflow-y-auto px-2 h-4/5 hide-scrollbar">
+                    <ul className = "flex flex-col text-xs font-bold gap-3 overflow-y-auto px-2 overflow-hidden h-4/5 hide-scrollbar">
                         {allResumes && 
                         allResumes.filter(oneresume => oneresume.user_id === loggedInUser._id).length > 0 ?
                         allResumes.filter(oneresume => oneresume.user_id === loggedInUser._id)
                         .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
                         .map((resume, index) => (
-                            <Link className = "break-all" onClick = {() => setCurrResumeData(resume)} key={index} to="/resume">{resume.name}</Link>
+                            <Link className = "line-clamp-1" onClick = {() => setCurrResumeData(resume)} key={index} to="/resume">{resume.name}</Link>
                         ))
                         :
                         <p className = "italic text-zinc-500">No resumes yet.</p>

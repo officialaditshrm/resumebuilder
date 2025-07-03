@@ -408,7 +408,7 @@ function EducationDetails ({resumeToEdit, setResumeToEdit, setEducationEdit}) {
                                                         copy.education[eduindex].qualifications[qindex].start = event.target.value
                                                         setResumeToEdit(copy)
                                                     }}
-                                                    value = {new Date(qual.start).toISOString().slice(0,7)} className = "shadow-[0_2px_2px_1px_rgba(0,0,0,0.15)] p-2 rounded-md text-black"/>
+                                                    value = {qual.start && new Date(qual.start).toISOString().slice(0,7)} className = "shadow-[0_2px_2px_1px_rgba(0,0,0,0.15)] p-2 rounded-md text-black"/>
                                                 </div>
                                                 {!qual.ongoing &&
                                                     <div className = "flex flex-col gap-1">
@@ -419,7 +419,7 @@ function EducationDetails ({resumeToEdit, setResumeToEdit, setEducationEdit}) {
                                                         copy.education[eduindex].qualifications[qindex].end = event.target.value
                                                         setResumeToEdit(copy)
                                                     }}
-                                                    type = "month" value = {new Date(qual.end).toISOString().slice(0,7)} className = "shadow-[0_2px_2px_1px_rgba(0,0,0,0.15)] p-2 rounded-md text-black"/>
+                                                    type = "month" value = {qual.end && new Date(qual.end).toISOString().slice(0,7)} className = "shadow-[0_2px_2px_1px_rgba(0,0,0,0.15)] p-2 rounded-md text-black"/>
                                                 </div>}
                                                 <div className = "flex gap-2 items-center">
                                                     <input type = "checkbox" checked = {qual.ongoing} onChange = {(event) => {
@@ -604,7 +604,7 @@ function ExperienceDetails ({resumeToEdit, setResumeToEdit, setExperienceEdit}) 
                                                         copy.experience[orgindex].roles[roleindex].start = event.target.value
                                                         setResumeToEdit(copy)
                                                     }}
-                                                    type = "month" value = {new Date(role.start).toISOString().slice(0, 7)} className = "shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)] text-black p-2 rounded-md"/> 
+                                                    type = "month" value = {role.start && new Date(role.start).toISOString().slice(0, 7)} className = "shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)] text-black p-2 rounded-md"/> 
                                                 </div>
                                                 {!role.ongoing &&
                                                     <div className = "flex flex-col gap-2">
@@ -615,7 +615,7 @@ function ExperienceDetails ({resumeToEdit, setResumeToEdit, setExperienceEdit}) 
                                                         copy.experience[orgindex].roles[roleindex].end = event.target.value
                                                         setResumeToEdit(copy)
                                                     }}
-                                                    type = "month" value = {new Date(role.end).toISOString().slice(0, 7)} className = "shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)] text-black p-2 rounded-md"/> 
+                                                    type = "month" value = {role.end && new Date(role.end).toISOString().slice(0, 7)} className = "shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)] text-black p-2 rounded-md"/> 
                                                 </div>}
                                                 <div className = "flex p-2 font-bold rounded-md items-center justify-center gap-2">
                                                     <input
@@ -973,7 +973,7 @@ function ProjectDetails ({setResumeToEdit, resumeToEdit, setProjectsEdit}) {
                                         copy.projects[index].start = event.target.value
                                         setResumeToEdit(copy)
                                     }}
-                                    type = "date" value = {new Date(project.start).toISOString().slice(0, 10)} className = "shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)] text-black p-2 rounded-md"/> 
+                                    type = "date" value = {project.start && new Date(project.start).toISOString().slice(0, 10)} className = "shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)] text-black p-2 rounded-md"/> 
                                 </div>
                                 {!project.ongoing &&
                                     <div className = "flex flex-col gap-2">
@@ -984,7 +984,7 @@ function ProjectDetails ({setResumeToEdit, resumeToEdit, setProjectsEdit}) {
                                         copy.projects[index].end = event.target.value
                                         setResumeToEdit(copy)
                                     }}
-                                    type = "date" value = {new Date(project.end).toISOString().slice(0, 10)} className = "shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)] text-black p-2 rounded-md"/> 
+                                    type = "date" value = {project.end && new Date(project.end).toISOString().slice(0, 10)} className = "shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)] text-black p-2 rounded-md"/> 
                                 </div>}
                                 <div className = "flex p-2 font-bold rounded-md items-center justify-center gap-2">
                                     <input
@@ -1284,7 +1284,7 @@ function ExtraSectionDetails ({setResumeToEdit, resumeToEdit, setExtraSectionsEd
                                                     setResumeToEdit(copy)
                                                 }}
                                                 type = "month" 
-                                                value={new Date(project.start).toISOString().slice(0, 7)} 
+                                                value={project.start && new Date(project.start).toISOString().slice(0, 7)} 
                                                 className = "shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)] text-black p-2 rounded-md"/> 
                                             </div>
                                             {!project.ongoing &&
@@ -1297,7 +1297,7 @@ function ExtraSectionDetails ({setResumeToEdit, resumeToEdit, setExtraSectionsEd
                                                     setResumeToEdit(copy)
                                                 }}
                                                 type = "month"
-                                                value={new Date(project.end).toISOString().slice(0, 7)} 
+                                                value={project.end && new Date(project.end).toISOString().slice(0, 7)} 
                                                 className = "shadow-[0_2px_3px_1px_rgba(0,0,0,0.25)] text-black p-2 rounded-md"/> 
                                             </div>}
                                             <div className = "flex p-2 font-bold rounded-md items-center justify-center gap-2">

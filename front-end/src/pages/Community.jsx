@@ -59,6 +59,7 @@ function Community ({url, darkMode, allResumes, fetchResumes, setCurrResumeData,
     return (
         <div className = {`md:ml-72 md:mt-[25vh] ${loggedInUser ? 'mt-[10vh]' : 'mt-[20vh]'} min-h-screen flex flex-col items-center`}>
             <h1 className = "font-extrabold text-3xl max-sm:text-xl">Community</h1>
+            {allUsers && <p className = "italic text-zinc-400">{allUsers.length} total users</p>}
             <div id = "listofusers" className = "flex flex-col items-center p-10 gap-4 sm:gap-8 max-sm:p-5 w-full">
                 {allUsers
                 ?.slice() // clone to avoid mutating original

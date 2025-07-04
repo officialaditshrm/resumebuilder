@@ -12,7 +12,7 @@ import ResumeBegin from './components/ResumeBegin.jsx'
 import Footer from './components/Footer.jsx'
 import Profile from './pages/Profile.jsx'
 
-const url = 'https://resolute-back-end.onrender.com'
+const url = 'https://resumebuilder-15o2.onrender.com'
 // const url = "http://localhost:6500"
 
 function App() {

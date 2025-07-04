@@ -1,7 +1,7 @@
 import express from 'express'
 import { updateResume, addResume, deleteResume, listResumes, displayResume } from '../controllers/resumeController.js'
 import fs from 'fs'
-import puppeteer from 'puppeteer-core'
+import puppeteer from 'puppeteer'
 
 const resumeRouter = express.Router()
 
@@ -27,7 +27,6 @@ resumeRouter.post("/export-pdf", async (req, res) => {
 
   const browser = await puppeteer.launch({
     headless: "new",
-    executablePath: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", // adjust as needed
     args: ["--no-sandbox", "--disable-setuid-sandbox"]
   });
 

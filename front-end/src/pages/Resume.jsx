@@ -2,9 +2,9 @@ import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Preview from '../components/Preview.jsx';
 import HiddenResume from '../components/HiddenResume.jsx'
-import html2pdf from 'html2pdf.js';
+import ReactDOMServer from "react-dom/server"
 
-function Resume({currResumeData, setAiResult, showAllSuggestions, setShowAllSuggestions, handleAIAnalysis, setJobDescription, setCurrResumeData, aiError, aiLoading, aiResult, jobDescription, loggedInUser, updateResume, deleteResume, fetchResumes }) {
+function Resume({currResumeData, setAiResult, url, showAllSuggestions, setShowAllSuggestions, handleAIAnalysis, setJobDescription, setCurrResumeData, aiError, aiLoading, aiResult, jobDescription, loggedInUser, updateResume, deleteResume, fetchResumes }) {
     
     const [showDeleteWarning, setShowDeleteWarning] = useState(false);
     const navigate = useNavigate();
@@ -20,85 +20,40 @@ function Resume({currResumeData, setAiResult, showAllSuggestions, setShowAllSugg
     }, []);
 
 
-    const handleExportPDF1 = () => {
-        const element = printRef.current;
-        html2pdf()
-            .set({
-                margin: [18 , 0, 28, 0], // 0.5 inch bottom margin
-                filename: `${currResumeData?.username}_${currResumeData?.name || "resume"}.pdf`,
-                image: { type: 'jpeg', quality: 1 },
-                html2canvas: {
-                    scale: 1.5,
-                    useCORS: true
-                },
-                jsPDF: {
-                    unit: 'pt',
-                    format: 'a4',
-                    orientation: 'portrait'
-                }
-            })
-            .from(element)
-            .save()
-            .finally(() => {
-                // Clean up injected styles
-                document.head.removeChild(style);
-            }
-        );
-    };
-    
-    
-    const handleExportPDF2 = () => {
-        const element = printRef.current;
-        html2pdf()
-            .set({
-                margin: [18 , 0, 28, 0], // 0.5 inch bottom margin
-                filename: `${currResumeData?.username}_${currResumeData?.name || "resume"}.pdf`,
-                image: { type: 'jpeg', quality: 1 },
-                html2canvas: {
-                    scale: 2,
-                    useCORS: true
-                },
-                jsPDF: {
-                    unit: 'pt',
-                    format: 'a4',
-                    orientation: 'portrait'
-                }
-            })
-            .from(element)
-            .save()
-            .finally(() => {
-                // Clean up injected styles
-                document.head.removeChild(style);
-            }
-        );
-    };
+const handleExportPDFPuppeteer = async () => {
+  const renderedHtml = ReactDOMServer.renderToStaticMarkup(
+    <div className="resume-container">
+      <HiddenResume resumeInView={currResumeData} />
+    </div>
+  );
+
+  const fullHtml = `
+    <html>
+      <head>
+        <meta charset="utf-8" />
+        <title>${currResumeData?.username}</title>
+      </head>
+      <body>
+        ${renderedHtml}
+      </body>
+    </html>
+  `;
+
+  const res = await fetch(`${url}/api/resumes/export-pdf`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ html: fullHtml }),
+  });
+
+  const blob = await res.blob();
+  const url2 = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url2;
+  a.download = `${currResumeData?.username}_${currResumeData?.name || "resume"}.pdf`;
+  a.click();
+};
 
 
-    const handleExportPDF3 = () => {
-        const element = printRef.current;
-        html2pdf()
-            .set({
-                margin: [18 , 0, 28, 0], // 0.5 inch bottom margin
-                filename: `${currResumeData?.username}_${currResumeData?.name || "resume"}.pdf`,
-                image: { type: 'jpeg', quality: 1 },
-                html2canvas: {
-                    scale: 3.125,
-                    useCORS: true
-                },
-                jsPDF: {
-                    unit: 'pt',
-                    format: 'a4',
-                    orientation: 'portrait'
-                }
-            })
-            .from(element)
-            .save()
-            .finally(() => {
-                // Clean up injected styles
-                document.head.removeChild(style);
-            }
-        );
-    }; 
 
     return (
         <div className={`md:ml-72 md:mt-[25vh] mt-[20vh] min-h-screen flex flex-col items-center`}>
@@ -257,29 +212,18 @@ function Resume({currResumeData, setAiResult, showAllSuggestions, setShowAllSugg
                         )}
                     </div>
 
-                    {loggedInUser._id === currResumeData.user_id && <div className = "w-full flex flex-col gap-4 bg-sky-900 p-5 rounded-xl items-center">
-                        <h1 className = "text-2xl text-sky-100 font-extrabold">Download</h1>
-                        <div className = "flex flex-wrap justify-evenly w-full">
+                    {loggedInUser._id === currResumeData.user_id && (
+                        <div className="w-full flex flex-col gap-4 bg-sky-900 p-5 rounded-xl items-center">
+                            <h1 className="text-2xl text-sky-100 font-extrabold">Download</h1>
                             <button
-                                onClick={handleExportPDF1}
+                                onClick={handleExportPDFPuppeteer}
                                 className="mt-4 font-bold bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                             >
-                                Low Resolution
-                            </button>
-                            <button
-                                onClick={handleExportPDF2}
-                                className="mt-4 font-bold bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                            >
-                                Decent Resolution
-                            </button>
-                            <button
-                                onClick={handleExportPDF3}
-                                className="mt-4 font-bold bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                            >
-                                High Resolution
+                                ATS-Friendly PDF Export
                             </button>
                         </div>
-                    </div>}
+                    )}
+
 
                     
 

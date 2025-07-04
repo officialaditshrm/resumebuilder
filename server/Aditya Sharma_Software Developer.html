@@ -1,0 +1,362 @@
+
+    <html>
+      <head>
+        <meta charset="utf-8" />
+        <style>.font-tinos {
+  font-family: 'Tinos', 'Times New Roman', Times, serif;
+}
+
+.resume-root {
+  font-family: 'Tinos', 'Times New Roman', Times, serif;
+  font-size: 11.7pt;
+  line-height: 13pt;
+  padding-left: 4%;
+  padding-right: 4%;
+  background: #fff;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0.5rem;
+}
+
+.resume-header {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  break-inside: avoid-page;
+}
+
+.resume-username {
+  font-weight: 800;
+  margin-bottom: 1.5%;
+  font-size: 175%;
+}
+
+.resume-location {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1%;
+  font-size: 90%;
+  justify-content: center;
+  flex-wrap: wrap;
+  break-inside: avoid-page;
+}
+
+.resume-contact {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: 85%;
+  align-items: center;
+  gap: 0.5rem;
+  break-inside: avoid-page;
+}
+
+.resume-contact label,
+.resume-contact a {
+  font-weight: bold;
+  font-style: italic;
+}
+
+.resume-contact a {
+  color: #1e3a8a;
+  word-break: break-all;
+}
+
+.resume-section-title {
+  font-weight: bold;
+  border-bottom: 1.5px solid #000;
+  padding-bottom: 2.5px;
+  white-space: nowrap;
+  width: min-content;
+  font-size: 110%;
+}
+
+.resume-summary {
+  padding-left: 1.5%;
+  font-size: 90%;
+  break-inside: avoid-page;
+}
+
+.resume-section {
+  border-top: 1px solid #000;
+  margin-top: 1.25%;
+}
+
+.resume-section-header {
+  font-weight: 800;
+  text-align: center;
+  font-size: 90%;
+  margin-bottom: 0.5%;
+  break-inside: avoid-page;
+}
+
+.resume-edu-section,
+.resume-exp-section,
+.resume-proj-section,
+.resume-extra-section {
+  padding-left: 1.5%;
+  font-size: 90%;
+  break-inside: avoid-page;
+}
+
+.resume-edu-header,
+.resume-exp-header,
+.resume-proj-header,
+.resume-extra-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  position: relative;
+  width: 100%;
+}
+
+.resume-edu-header-col {
+  display: flex;
+  flex-direction: column;
+  max-width: 70%;
+}
+
+.resume-edu-header-row {
+  display: flex;
+  gap: 15px;
+  border: 1px solid black;
+}
+
+.resume-edu-header-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 3px;
+}
+
+.resume-edu-header-link {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.resume-edu-header-dates {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  max-width: 30%;
+}
+
+.resume-edu-title,
+.resume-exp-title,
+.resume-proj-title,
+.resume-extra-title {
+  font-weight: bold;
+  font-size: 110%;
+  display: flex;
+  align-items: center;
+}
+
+.resume-link {
+  color: #1e3a8a;
+  font-weight: bold;
+  font-style: italic;
+  word-break: break-all;
+}
+
+.resume-italic {
+  font-style: italic;
+}
+
+.resume-flex {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  justify-content: end;
+}
+
+.resume-extras {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
+.resume-grades {
+  font-size: 90%;
+}
+
+.resume-points {
+  padding-left: 1%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.resume-points li {
+  display: flex;
+  gap: 2px;
+  break-inside: avoid-page;
+}
+
+.resume-role-section {
+  padding-bottom: 1%;
+}
+
+.resume-role-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.resume-role-header-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.resume-role-title {
+  font-weight: 600;
+}
+
+.resume-role-header-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 3px;
+}
+
+.resume-role-header-link {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.resume-role-header-dates {
+  display: flex;
+  gap: 5px;
+  justify-content: end;
+  max-width: 50%;
+}
+
+.resume-role-extras {
+  display: flex;
+  gap: 2px;
+  justify-content: end;
+}
+
+.resume-proj-header-row {
+  display: flex;
+  gap: 15px;
+}
+
+.resume-proj-header-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.resume-proj-header-link {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.resume-proj-dates {
+  display: flex;
+  gap: 5px;
+  justify-content: end;
+  max-width: 50%;
+  flex-wrap: wrap;
+}
+
+.resume-proj-extras {
+  display: flex;
+  gap: 5px;
+}
+
+.resume-skills-section {
+  border-top: 1px solid #000;
+  padding-bottom: 1%;
+  margin-top: 2.5%;
+  break-inside: avoid-page;
+}
+
+.resume-skills-title {
+  font-weight: 800;
+  margin-bottom: 1%;
+  text-align: center;
+  font-size: 90%;
+}
+
+.resume-skills-list {
+  padding-left: 1.5%;
+  font-size: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.resume-skills-list li {
+  /* No extra styles needed */
+}
+
+.resume-extra-section-title {
+  font-weight: 800;
+  text-align: center;
+  font-size: 90%;
+  break-inside: avoid-page;
+}
+
+.resume-extra-section-content {
+  padding-left: 1.5%;
+  padding-bottom: 0.5%;
+  font-size: 90%;
+}
+
+.resume-extra-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  position: relative;
+  width: 100%;
+}
+
+.resume-extra-section-title-inner {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.resume-extra-section-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.resume-extra-section-dates {
+  font-style: italic;
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  max-width: 50%;
+  justify-content: end;
+}
+
+.resume-extra-section-summary {
+  font-style: italic;
+}
+
+.break-inside-avoid-page {
+  break-inside: avoid-page;
+}</style>
+      </head>
+      <body>
+    <html>
+      <head>
+        <meta charset="utf-8" />
+        <title>Aditya Sharma</title>
+      </head>
+      <body>
+        <div class="resume-container"><div class="resume-root" id="resumeview"><header class="resume-header"><h1 id="username" class="resume-username">ADITYA SHARMA</h1><div class="resume-location">Vellore, Tamil Nadu, India - 632014</div><div class="resume-contact"><p class="flex items-center font-bold italic gap-[3px]"><label>+91 6350330797</label><label>  | </label></p><p><a class="resume-link" href="mailto:officialaditshrm@gmail.com">officialaditshrm@gmail.com</a> |</p><div><a href="https://linkedin.com/in/aditshrm" target="_blank" rel="noopener noreferrer" class="resume-link">LinkedIn</a>  |</div><div><a href="https://aditya-sharma-webportfolio.vercel.app" target="_blank" rel="noopener noreferrer" class="resume-link">Portfolio</a>  |</div><div><a href="https://github.com/officialaditshrm" target="_blank" rel="noopener noreferrer" class="resume-link">GitHub</a></div></div></header><section id="education" class="resume-section"><h1 class="resume-section-header">EDUCATION</h1><section class="resume-edu-section"><header class="resume-edu-header"><div><h1 class="resume-edu-title">Vellore Institute of Technology, Vellore</h1></div></header><section><div><header class="resume-italic" style="display:flex;justify-content:space-between;align-items:start"><div style="display:flex;flex-direction:column;max-width:70%"><div style="display:flex;gap:15px"><h1 style="font-size:110%">B.Tech in Computer Science and Engineering</h1><div style="display:flex;flex-wrap:wrap;align-items:center;gap:3px"></div></div><div style="display:flex;flex-direction:column"><p>(Specialization in Data Science)</p></div></div><div style="display:flex;flex-direction:column;align-items:end;max-width:30%"><div style="display:flex">Sept 2022 - ongoing</div><span class="resume-grades">GPA: 8.38</span></div></header></div></section></section></section><section id="experience" class="resume-section"><h1 class="resume-section-header" style="margin-bottom:1%">PROFESSIONAL EXPERIENCE</h1><section class="resume-exp-section" style="padding-bottom:0.5%"><header class="resume-exp-header break-inside-avoid-page"><div style="display:flex;gap:15px"><h1 class="resume-exp-title">JURIDENT (VALSCO TECHNOLOGY)</h1><div style="display:flex;flex-wrap:wrap;margin-top:1.5%;align-items:center;gap:3px"></div></div><div class="resume-italic" style="display:flex;flex-direction:column;max-width:50%"><div class="resume-flex"><p>Inclubated under VIT-TBI,</p><p>Vellore</p></div></div></header><section><div class="break-inside-avoid-page" style="padding-bottom:1%"><header class="resume-italic" style="display:flex;justify-content:space-between"><div style="display:flex;align-items:center;gap:15px"><h1 style="font-weight:600">Front-End Developer Intern</h1><div style="display:flex;flex-wrap:wrap;align-items:center;gap:3px"></div></div><div style="display:flex;gap:5px;justify-content:end;max-width:50%"><div style="display:flex">Jun 2025</div></div></header><div><p class="resume-italic">Front-End Developer building responsive UIs and collaborating with design and backend teams.</p><ul class="resume-points"><li><div>-</div> Built responsive client and admin components and pages using React.js and TailwindCSS for an e-commerce site.</li><li><div>-</div> Worked closely with UI/UX and backend teams to deliver clean, scalable front-end features.</li><li><div>-</div> Collaborated with a team of 10 members to make implementable decisions according to the given requirements.</li></ul></div></div></section></section></section><section id="projects" class="resume-section" style="margin-top:1.5%"><h1 class="resume-section-header" style="margin-bottom:1%">SELECTED PROJECTS</h1><section class="resume-proj-section" style="padding-bottom:1%"><header class="resume-proj-header"><div style="display:flex;gap:15px"><h1 class="resume-proj-title">Resolute</h1><div style="display:flex;align-items:center;flex-wrap:wrap;gap:3px"><div style="display:flex;align-items:center;gap:3px"><a href="https://resolute-by-aditya.vercel.app/" target="_blank" rel="noopener noreferrer" class="resume-link">Website</a> | </div><div style="display:flex;align-items:center;gap:3px"><a href="https://github.com/officialaditshrm/resumebuilder" target="_blank" rel="noopener noreferrer" class="resume-link">GitHub</a></div></div></div><div class="resume-italic" style="display:flex;gap:5px;justify-content:end;max-width:50%;flex-wrap:wrap"><div>10 Jun 2025 - 24 Jun 2025,</div><div style="display:flex;gap:5px"><p>Full-Stack</p></div></div></header><div class="resume-italic"><div class=""><b>Tech Stack:	</b>Node.js, Express.js, React.js, MongoDB, TailwindCSS, HTML2PDF.js,  Vercel, Render, AWS S3</div></div><p class="resume-italic">Built a free, ATS-friendly resume building platform with storage and sharing and deployed on Vercel &amp; Render.</p><ul class="resume-points"><li><div>-</div> Developed 15+ responsive pages for multi-device access; deployed on Vercel (Front-End) &amp; Render (Back-End).</li><li><div>-</div> Enabled resume export with HTML2PDF.js for various resolutions and stored profile images using AWS S3.</li><li><div>-</div> Boosted user engagement by 40%+ with public-sharing features and secured user data with JWT Authentication.</li></ul></section><section class="resume-proj-section" style="padding-bottom:1%"><header class="resume-proj-header"><div style="display:flex;gap:15px"><h1 class="resume-proj-title">Credit Card Fraud Detection</h1><div style="display:flex;align-items:center;flex-wrap:wrap;gap:3px"></div></div><div class="resume-italic" style="display:flex;gap:5px;justify-content:end;max-width:50%;flex-wrap:wrap"><div>25 Jun 2025 - ongoing,</div><div style="display:flex;gap:5px"><p>Machine Learning</p></div></div></header><div class="resume-italic"><div class=""><b>Tech Stack:	</b>Python, Scikit-learn, XGBoost, Regression, Pandas, NumPy, Matplotlib, Seaborn, Kaggle Notebooks</div></div><p class="resume-italic">Developed an ML pipeline to detect fraudulent credit card transactions on an imbalanced dataset of 50k+ transactions; and compared accuracy of multiple predictive models.</p><ul class="resume-points"><li><div>-</div> Performed EDA in detail to analyze the transactions and applied SMOTE techniques to class imbalance. </li><li><div>-</div> Trained and evaluated multiple models including logistic regression, decision trees &amp; XGBoost to detect fraud.</li><li><div>-</div> Compared the accuracy of predictive models using confusion-matrix visualizations from Seaborn to find best-fit.</li></ul></section><section class="resume-proj-section" style="padding-bottom:1%"><header class="resume-proj-header"><div style="display:flex;gap:15px"><h1 class="resume-proj-title">MC On-The-Go</h1><div style="display:flex;align-items:center;flex-wrap:wrap;gap:3px"></div></div><div class="resume-italic" style="display:flex;gap:5px;justify-content:end;max-width:50%;flex-wrap:wrap"><div>16 Apr 2025 - ongoing,</div><div style="display:flex;gap:5px"><p>Full-Stack</p></div></div></header><div class="resume-italic"><div class=""><b>Tech Stack:	</b>React.js, MongoDB, Node.js, Express.js, Socket.io, WebRTC, TailwindCSS, Framer Motion, Git, Jira</div></div><p class="resume-italic">Developed a full-stack platform for 500+ VIT Music Club members to manage events, bookings, and collaboration.</p><ul class="resume-points"><li><div>-</div> Built responsive, multi-device pages; added a slot-booking system with Express.js, reducing access time by 50%.</li><li><div>-</div> Enabled collaboration through custom features like band formation, genre-grouping, and event-calendar integration.</li><li><div>-</div> Integrated secure admin control features to enable proper distribution of services among the members.</li></ul></section></section><section id="skills" class="resume-skills-section"><h1 class="resume-skills-title">PROFESSIONAL SKILLS</h1><ul class="resume-skills-list"><li class=""><b>Languages &amp; CS Fundamentals:	</b>Java, Python, C++, JavaScript, HTML, CSS, DSA, OOP, Computer Networks, OS</li><li class=""><b>Frameworks &amp; Tools:	</b>React.js, Node.js, Express.js, TailwindCSS, Git, Jupyter Notebook</li><li class=""><b>Libraries &amp; Platforms:	</b>Scikit-learn, PyTorch, NumPy, Pandas, Matplotlib, Seaborn, Kaggle, GitHub</li><li class=""><b>Databases &amp; Deployment:	</b>MongoDB, SQLPlus, AWS (S3), Vercel, Render, GitHub Pages</li></ul></section><section class="resume-extra-section" style="margin-top:1.5%"><h1 class="resume-extra-section-title">CERTIFICATIONS</h1><section class="resume-extra-section-content"><header class="resume-extra-section-header"><div class="resume-extra-section-title-inner"><h1>IBM Generative AI with WatsonX</h1><div class="resume-extra-section-links"><div class="resume-extra-section-links"><a href="https://courses.vit.skillsnetwork.site/certificates/540be6cd81fd408fa0b05400ef5d9e0c" target="_blank" rel="noopener noreferrer" class="resume-link">Certificate</a></div></div></div><div class="resume-extra-section-dates"><div>Jun 2025 - Jun 2025</div></div></header><ul class="resume-points"></ul></section><section class="resume-extra-section-content"><header class="resume-extra-section-header"><div class="resume-extra-section-title-inner"><h1>IBM AI Engineering</h1><div class="resume-extra-section-links"></div></div><div class="resume-extra-section-dates"><div>Jun 2025 - ongoing</div></div></header><ul class="resume-points"></ul></section><section class="resume-extra-section-content"><header class="resume-extra-section-header"><div class="resume-extra-section-title-inner"><h1>Supervised Machine Learning by DeepLearning.AI</h1><div class="resume-extra-section-links"><div class="resume-extra-section-links"><a href="https://coursera.org/share/f6fbdff18f713825f6139ab103552d18" target="_blank" rel="noopener noreferrer" class="resume-link">Certificate</a></div></div></div><div class="resume-extra-section-dates"><div>Jun 2024 - Jul 2024</div></div></header><ul class="resume-points"></ul></section></section><section class="resume-extra-section" style="margin-top:1.5%"><h1 class="resume-extra-section-title">ACHIEVEMENTS</h1><section class="resume-extra-section-content"><header class="resume-extra-section-header"><div class="resume-extra-section-title-inner"><h1>Secretary @ VIT Music Club</h1><div class="resume-extra-section-links"></div></div><div class="resume-extra-section-dates"><div>Jan 2025 - ongoing</div></div></header><p class="resume-extra-section-summary">Led the VIT Music Club as Secretary, managing 15+ music events, and operations for a 500+ member community.</p><ul class="resume-points"><li class="break-inside-avoid-page"> - Led a team of 13 board members and 25 core team members to plan &amp; conduct music-events and PR Activities.</li><li class="break-inside-avoid-page"> - Organized the recruitments of 150+ new inductees for 2025 by planning &amp; conducting 4-day mass-auditions</li></ul></section></section></div></div>
+      </body>
+    </html>
+  </body>
+    </html>
+  

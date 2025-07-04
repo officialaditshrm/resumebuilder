@@ -360,6 +360,7 @@ function App() {
           } />
           <Route path = "/resume" element = {
             <Resume 
+            url = {url}
             setShowAllSuggestions={setShowAllSuggestions}
             showAllSuggestions = {showAllSuggestions}
             setJobDescription = {setJobDescription}

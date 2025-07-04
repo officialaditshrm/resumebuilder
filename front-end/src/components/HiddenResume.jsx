@@ -1,372 +1,337 @@
-function HiddenResume ({resumeInView}) {
+
+function HiddenResume({ resumeInView }) {
     return (
-        <div
-        className = "font-tinos text-[11.7pt] leading-[13pt] px-[4%] bg-white text-black flex flex-col pb-[0.5rem]"
-        id = "resumeview"
-        >
-            <header className = "flex-col break-inside-avoid-page text-center flex flex-col">
-                <h1 id = "username" className = "font-extrabold mb-[1.5%] text-[175%]">
+        <div className="resume-root" id="resumeview">
+            <header className="resume-header">
+                <h1 id="username" className="resume-username">
                     {resumeInView.username.toUpperCase()}
                 </h1>
-                <div className = "flex break-inside-avoid-page items-center mb-[1%] text-[90%] justify-center flex-wrap ">
+                <div className="resume-location">
                     {resumeInView.city}{resumeInView.state && ", "}
                     {resumeInView.state}{resumeInView.country && ", "}
                     {resumeInView.country}{resumeInView.pincode && " - "}
                     {resumeInView.pincode}
                 </div>
-                <div className = "flex break-inside-avoid-page justify-center flex-wrap text-[85%] gap-2">
-                    {resumeInView.phonenum !== "" && <p className = "flex items-center font-bold italic gap-[3px]"><label>{resumeInView.phonenum}</label><label>{(resumeInView.header_urls?.length > 0 || resumeInView.email || resumeInView.email2) && "  | "}</label></p>}
-                    {resumeInView.email && <p><a className = "text-blue-900 font-bold italic" href = {`mailto:${resumeInView.email}`}>{resumeInView.email}</a>{resumeInView.header_urls?.length > 0 && " |"}</p>}
-                    {resumeInView.email2 && <p><a className = "text-blue-900 font-bold italic" href = {`mailto:${resumeInView.email2}`}>{resumeInView.email2}</a>{resumeInView.header_urls?.length > 0 && " |"}</p>}
-                    {resumeInView.header_urls.map((header_url, headerindex) => {
-                        return <div key = {headerindex}>
-                            <a href = {header_url.url} target = "_blank" className = "text-blue-900 break-all font-bold italic">{header_url.name}</a>
-                            {resumeInView.header_urls[headerindex+1] && "  |"}
+                <div className="resume-contact">
+                    {resumeInView.phonenum !== "" && (
+                        <p>
+                            <label>{resumeInView.phonenum}</label>
+                            <label>{(resumeInView.header_urls?.length > 0 || resumeInView.email || resumeInView.email2) && "  | "}</label>
+                        </p>
+                    )}
+                    {resumeInView.email && (
+                        <p>
+                            <a className="resume-link" href={`mailto:${resumeInView.email}`}>{resumeInView.email}</a>
+                            {resumeInView.header_urls?.length > 0 && " |"}
+                        </p>
+                    )}
+                    {resumeInView.email2 && (
+                        <p>
+                            <a className="resume-link" href={`mailto:${resumeInView.email2}`}>{resumeInView.email2}</a>
+                            {resumeInView.header_urls?.length > 0 && " |"}
+                        </p>
+                    )}
+                    {resumeInView.header_urls.map((header_url, headerindex) => (
+                        <div key={headerindex} className="resume-contact-link">
+                            <a href={header_url.url} target="_blank" rel="noopener noreferrer" className="resume-link">{header_url.name}</a>
+                            {resumeInView.header_urls[headerindex + 1] && "  |"}
                         </div>
-                    })}
+                    ))}
                 </div>
             </header>
-            {resumeInView.summary &&
-            <div>
-                <h1 className = "font-bold break-inside-avoid-page border-b-[1.5px] pb-[4.5px] border-black whitespace-nowrap w-min text-[110%]">SUMMARY</h1>
-                <p className = "pl-[1.5%] break-inside-avoid-page text-[90%]">{resumeInView.summary}</p>
-            </div>
-            }
+            {resumeInView.summary && (
+                <div>
+                    <h1 className="resume-section-title">SUMMARY</h1>
+                    <p className="resume-summary">{resumeInView.summary}</p>
+                </div>
+            )}
 
             {/* EDUCATION */}
-            {resumeInView.education.length > 0 && <section id = "education" className = "border-t border-black mt-[2.5%]">
-                <h1 className = "font-extrabold text-center break-inside-avoid-page text-[90%] mb-[0.5%]">EDUCATION</h1>
-                {resumeInView.education.map((edu, education_index) => {
-                    return <section key = {education_index} className = "pl-[1.5%] break-inside-avoid-page text-[90%]">
-                        <header className = "relative w-full flex justify-between">
-                            <div className = "flex gap-[5px]">
-                                <h1 className = "flex items-center font-bold text-[110%]">
-                                    {edu.institution}
-                                </h1>
-                            </div>
-                        </header>
-                        
-                        <section className = "flex flex-col gap-[3px]">
-                            {edu.qualifications.map((qfc, qfcindex) => {
-                                return <div key = {qfcindex}>
-                                    <header className = "flex justify-between items-start italic">
-                                        <div className = "flex flex-col max-w-[70%]">
-                                            <div className = "flex gap-[15px]">
-                                                <h1 className = "text-[110%]">{qfc.name}</h1>
-                                                {qfc.urls &&
-                                                    <div className = "flex flex-wrap items-center gap-[3px]">
-                                                        {qfc.urls.map((sss_url, sssurlindex) => {
-                                                            return <div key = {sssurlindex} className = "flex items-center gap-[3px]">
-                                                                <a href = {sss_url.url} target = "_blank" className = "text-blue-900 break-all font-bold italic">{sss_url.name}</a>
-                                                                {qfc.urls[sssurlindex+1] && " | "}
-                                                            </div>
-                                                        })}
-                                                    </div>
-                                                }
-                                            </div>
-                                            <div className = "flex flex-col">
-                                                {qfc.description && <p>({qfc.description})</p>}
-                                            </div>
-                                        </div>
-                                        <div className = "flex flex-col items-end max-w-[30%]">
-                                            <div className = "flex">
-                                                {/* Show start date if present */}
-                                                {qfc.start && (
-                                                    <>
-                                                        {new Date(qfc.start).toLocaleDateString("en-IN", {
-                                                            year: "numeric",
-                                                            month: "short"
-                                                        })}
-                                                        {/* Show dash and end/ongoing only if start exists */}
-                                                        {(qfc.end || qfc.ongoing) && (
-                                                            <>
-                                                                {" - "}
-                                                                {/* Show end date if not ongoing and end exists */}
-                                                                {!qfc.ongoing && qfc.end && new Date(qfc.end).toLocaleDateString("en-IN", {
-                                                                    month: "short",
-                                                                    year: "numeric"
-                                                                })}
-                                                                {/* Show 'ongoing' only if ongoing is true */}
-                                                                {qfc.ongoing && "ongoing"}
-                                                            </>
-                                                        )}
-                                                    </>
-                                                )}
-                                            </div>
-                                            {qfc.extras.length > 0 &&
-                                            <div className = "flex flex-col items-end">
-                                                {qfc.extras.map((extra, sssextraindex) => {
-                                                    return <p key = {sssextraindex}>{extra}</p>
-                                                })}
-                                            </div>
-                                            }
-                                            {qfc.grades && qfc.grades}
-                                        </div>
-                                    </header>
+            {resumeInView.education.length > 0 && (
+                <section id="education" className="resume-section">
+                    <h1 className="resume-section-header">EDUCATION</h1>
+                    {resumeInView.education.map((edu, education_index) => (
+                        <section key={education_index} className="resume-edu-section">
+                            <header className="resume-edu-header">
+                                <div className="resume-edu-header-left">
+                                    <h1 className="resume-edu-title">{edu.institution}</h1>
                                 </div>
-                            })}
+                            </header>
+                            <section className="resume-edu-qualifications">
+                                {edu.qualifications.map((qfc, qfcindex) => (
+                                    <div key={qfcindex}>
+                                        <header className="resume-edu-qualification-header">
+                                            <div className="resume-edu-qualification-main">
+                                                <div className="resume-edu-qualification-row">
+                                                    <h1 className="resume-edu-qualification-name">{qfc.name}</h1>
+                                                    {qfc.urls && (
+                                                        <div className="resume-edu-qualification-links">
+                                                            {qfc.urls.map((sss_url, sssurlindex) => (
+                                                                <div key={sssurlindex} className="resume-edu-qualification-link">
+                                                                    <a href={sss_url.url} target="_blank" rel="noopener noreferrer" className="resume-link">{sss_url.name}</a>
+                                                                    {qfc.urls[sssurlindex + 1] && " | "}
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <div className="resume-edu-qualification-desc">
+                                                    {qfc.description && <p>({qfc.description})</p>}
+                                                </div>
+                                            </div>
+                                            <div className="resume-edu-qualification-dates">
+                                                <div>
+                                                    {qfc.start && (
+                                                        <>
+                                                            {new Date(qfc.start).toLocaleDateString("en-IN", { year: "numeric", month: "short" })}
+                                                            {(qfc.end || qfc.ongoing) && (
+                                                                <>
+                                                                    {" - "}
+                                                                    {!qfc.ongoing && qfc.end && new Date(qfc.end).toLocaleDateString("en-IN", { month: "short", year: "numeric" })}
+                                                                    {qfc.ongoing && "ongoing"}
+                                                                </>
+                                                            )}
+                                                        </>
+                                                    )}
+                                                </div>
+                                                {qfc.extras.length > 0 && (
+                                                    <div className="resume-edu-qualification-extras">
+                                                        {qfc.extras.map((extra, sssextraindex) => (
+                                                            <p key={sssextraindex}>{extra}</p>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                                {qfc.grades && <span className="resume-edu-qualification-grades">{qfc.grades}</span>}
+                                            </div>
+                                        </header>
+                                    </div>
+                                ))}
+                            </section>
                         </section>
-                    </section>
-                })}
-            </section>}
-
+                    ))}
+                </section>
+            )}
 
             {/* PROFESSIONAL EXPERIENCE */}
-            {resumeInView.experience.length > 0 && <section id = "experience" className = "border-t border-black mt-[2.5%]">
-                <h1 className = "font-extrabold text-center break-inside-avoid-page text-[90%] mb-[1%]">PROFESSIONAL EXPERIENCE</h1>
-                {resumeInView.experience.map((org, org_index) => {
-                    return <section key = {org_index} className = "pl-[1.5%] pb-[0.5%] text-[90%]">
-                        <header className = "break-inside-avoid-page relative w-full flex items-center justify-between">
-                            <div className = "flex gap-[15px]">
-                                <h1 className = "flex items-center font-bold">
-                                    {org.organization.toUpperCase()}
-                                </h1>
-                                <div className = "flex flex-wrap mt-[1.5%] items-center gap-[3px]">
-                                    {org.urls.map((ss_url, ssurlindex) => {
-                                        return <div key = {ssurlindex} className = "flex items-center gap-[3px]">
-                                            <a key = {ssurlindex} href = {ss_url.url} target = "_blank" className = "text-blue-900 break-all font-bold italic">{ss_url.name}</a>
-                                            {org.urls[ssurlindex+1] && " | "}
-                                        </div>
-                                    })}
+            {resumeInView.experience.length > 0 && (
+                <section id="experience" className="resume-section">
+                    <h1 className="resume-section-header resume-section-header-mb">PROFESSIONAL EXPERIENCE</h1>
+                    {resumeInView.experience.map((org, org_index) => (
+                        <section key={org_index} className="resume-exp-section">
+                            <header className="resume-exp-header">
+                                <div className="resume-exp-header-main">
+                                    <h1 className="resume-exp-title">{org.organization.toUpperCase()}</h1>
+                                    <div className="resume-exp-links">
+                                        {org.urls.map((ss_url, ssurlindex) => (
+                                            <div key={ssurlindex} className="resume-exp-link">
+                                                <a href={ss_url.url} target="_blank" rel="noopener noreferrer" className="resume-link">{ss_url.name}</a>
+                                                {org.urls[ssurlindex + 1] && " | "}
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
-                            <div className = "italic flex flex-col max-w-[50%]">
-                                {org.extras.length > 0 &&
-                                <div className = "flex gap-[5px] flex-wrap justify-end">
-                                    {org.extras.map((extra, extraindex) => {
-                                        return <p key = {extraindex}>{extra}{org.extras[extraindex+1] && ","}</p>
-                                    })}
-                                </div>
-                                }
-                            </div>
-                        </header>
-                        <section className = "flex flex-col">
-                            {org.roles.map((role, roleindex) => {
-                                return <div key = {roleindex} className = "pb-[1%] break-inside-avoid-page">
-                                    <header className = "flex justify-between italic">
-                                        <div className = "flex items-center gap-[15px]">
-                                            <h1 className = "font-semibold">{role.rolename}</h1>
-                                            {role.urls &&
-                                                <div className = "flex flex-wrap items-center gap-[3px]">
-                                                    {role.urls.map((sss_url, sssurlindex) => {
-                                                        return <div key = {sssurlindex} className = "flex items-center gap-[3px]">
-                                                            <a href = {sss_url.url} target = "_blank" className = "text-blue-900 break-all font-bold italic">{sss_url.name}</a>
-                                                            {role.urls[sssurlindex+1] && " | "}
-                                                        </div>
-                                                    })}
-                                                </div>
-                                            }
+                                <div className="resume-exp-extras">
+                                    {org.extras.length > 0 && (
+                                        <div className="resume-exp-extras-list">
+                                            {org.extras.map((extra, extraindex) => (
+                                                <p key={extraindex}>{extra}{org.extras[extraindex + 1] && ","}</p>
+                                            ))}
                                         </div>
-                                        <div className = "flex gap-[5px] justify-end max-w-[50%]">
-                                            <div className = "flex">
-                                                {/* Show start date if present */}
-                                                {role.start && (
-                                                    <>
-                                                        {new Date(role.start).toLocaleDateString("en-IN", {
-                                                            year: "numeric",
-                                                            month: "short"
-                                                        })}
-                                                        {/* Show dash and end/ongoing only if start exists */}
-                                                        {(role.end || role.ongoing) && (
-                                                            <>
-                                                                {" - "}
-                                                                {/* Show end date if not ongoing and end exists */}
-                                                                {!role.ongoing && role.end && new Date(role.end).toLocaleDateString("en-IN", {
-                                                                    month: "short",
-                                                                    year: "numeric"
-                                                                })}
-                                                                {/* Show 'ongoing' only if ongoing is true */}
-                                                                {role.ongoing && "ongoing"}
-                                                            </>
-                                                        )}
-                                                    </>
+                                    )}
+                                </div>
+                            </header>
+                            <section className="resume-exp-roles">
+                                {org.roles.map((role, roleindex) => (
+                                    <div key={roleindex} className="resume-role-section">
+                                        <header className="resume-role-header">
+                                            <div className="resume-role-header-main">
+                                                <h1 className="resume-role-title">{role.rolename}</h1>
+                                                {role.urls && (
+                                                    <div className="resume-role-links">
+                                                        {role.urls.map((sss_url, sssurlindex) => (
+                                                            <div key={sssurlindex} className="resume-role-link">
+                                                                <a href={sss_url.url} target="_blank" rel="noopener noreferrer" className="resume-link">{sss_url.name}</a>
+                                                                {role.urls[sssurlindex + 1] && " | "}
+                                                            </div>
+                                                        ))}
+                                                    </div>
                                                 )}
-                                                {role.extras.length > 0 && ","}
                                             </div>
-                                            {role.extras.length > 0 &&
-                                            <div className = "flex gap-[2px] justify-end">
-                                                {role.extras.map((extra, sssextraindex) => {
-                                                    return <p key = {sssextraindex}>{extra}{role.extras[sssextraindex + 1] && ","}</p>
-                                                })}
+                                            <div className="resume-role-dates">
+                                                <div>
+                                                    {role.start && (
+                                                        <>
+                                                            {new Date(role.start).toLocaleDateString("en-IN", { year: "numeric", month: "short" })}
+                                                            {(role.end || role.ongoing) && (
+                                                                <>
+                                                                    {" - "}
+                                                                    {!role.ongoing && role.end && new Date(role.end).toLocaleDateString("en-IN", { month: "short", year: "numeric" })}
+                                                                    {role.ongoing && "ongoing"}
+                                                                </>
+                                                            )}
+                                                        </>
+                                                    )}
+                                                    {role.extras.length > 0 && ","}
+                                                </div>
+                                                {role.extras.length > 0 && (
+                                                    <div className="resume-role-extras-list">
+                                                        {role.extras.map((extra, sssextraindex) => (
+                                                            <p key={sssextraindex}>{extra}{role.extras[sssextraindex + 1] && ","}</p>
+                                                        ))}
+                                                    </div>
+                                                )}
                                             </div>
-                                            }
+                                        </header>
+                                        <div className="resume-role-summary">
+                                            <p className="resume-italic">{role.rolesummary}</p>
+                                            <ul className="resume-points">
+                                                {role.points.map((point, pointindex) => (
+                                                    <li key={pointindex}><div>-</div> {point}</li>
+                                                ))}
+                                            </ul>
                                         </div>
-                                    </header>
-                                    <div className = "flex flex-col">
-                                        <p className = "italic">{role.rolesummary}</p>
-                                        <ul className = "flex pl-[1%] flex-col">
-                                            {role.points.map((point, pointindex) => {
-                                                return <li className = "break-inside-avoid-page flex gap-[2px]" key = {pointindex}><div>{"-"}</div> {point}</li>
-                                            })}
-                                        </ul>
                                     </div>
-                                </div>
-                            })}
+                                ))}
+                            </section>
                         </section>
-                    </section>
-                })}
-                </section>}
+                    ))}
+                </section>
+            )}
 
-                {/* PROJECTS */}
-
-                {resumeInView.projects.length > 0 && <section id = "projects" className = "flex flex-col border-t border-black mt-[1.5%]">
-                    <h1 className = "font-extrabold text-center  mb-[1%] text-[90%] break-inside-avoid-page">SELECTED PROJECTS</h1>
-                    {resumeInView.projects.map((subsection, subsectionindex) => {
-                        return <section key = {subsectionindex} className = "pl-[1.5%] break-inside-avoid-page pb-[1%] text-[90%]">
-                            <header className = "relative w-full items-start flex justify-between">
-                                <div className = "flex gap-[15px]">
-                                    <h1 className = "flex items-center font-bold text-[110%]">
-                                        {subsection.projectname}
-                                    </h1>
-                                    <div className = "flex items-center flex-wrap gap-[3px]">
-                                        {subsection.urls.map((ss_url, ssurlindex) => {
-                                            return <div key = {ssurlindex} className = "flex items-center gap-[3px]">
-                                                <a key = {ssurlindex} href = {ss_url.url} target = "_blank" className = "text-blue-900 break-all font-bold italic">{ss_url.name}</a>
-                                                {subsection.urls[ssurlindex+1] && " | "}
+            {/* PROJECTS */}
+            {resumeInView.projects.length > 0 && (
+                <section id="projects" className="resume-section resume-section-mt">
+                    <h1 className="resume-section-header resume-section-header-mb">SELECTED PROJECTS</h1>
+                    {resumeInView.projects.map((subsection, subsectionindex) => (
+                        <section key={subsectionindex} className="resume-proj-section">
+                            <header className="resume-proj-header">
+                                <div className="resume-proj-header-main">
+                                    <h1 className="resume-proj-title">{subsection.projectname}</h1>
+                                    <div className="resume-proj-links">
+                                        {subsection.urls.map((ss_url, ssurlindex) => (
+                                            <div key={ssurlindex} className="resume-proj-link">
+                                                <a href={ss_url.url} target="_blank" rel="noopener noreferrer" className="resume-link">{ss_url.name}</a>
+                                                {subsection.urls[ssurlindex + 1] && " | "}
                                             </div>
-                                        })}
+                                        ))}
                                     </div>
                                 </div>
-                                <div className = "italic flex gap-[5px] justify-end max-w-[50%] flex-wrap">
+                                <div className="resume-proj-dates">
                                     {subsection.start && (
                                         <div>
-                                            {new Date(subsection.start).toLocaleDateString("en-IN", {
-                                                month: "short",
-                                                year: "numeric",
-                                                day: "2-digit"
-                                            })}
-                                            {/* Show dash and end/ongoing only if start exists */}
+                                            {new Date(subsection.start).toLocaleDateString("en-IN", { month: "short", year: "numeric", day: "2-digit" })}
                                             {(subsection.end || subsection.ongoing) && (
                                                 <>
                                                     {" - "}
-                                                    {/* Show end date if not ongoing and end exists */}
-                                                    {!subsection.ongoing && subsection.end && new Date(subsection.end).toLocaleDateString("en-IN", {
-                                                        month: "short",
-                                                        year: "numeric",
-                                                        day: "2-digit"
-                                                    })}
-                                                    {/* Show 'ongoing' only if ongoing is true */}
+                                                    {!subsection.ongoing && subsection.end && new Date(subsection.end).toLocaleDateString("en-IN", { month: "short", year: "numeric", day: "2-digit" })}
                                                     {subsection.ongoing && "ongoing"}
                                                 </>
                                             )}
                                             {subsection.extras.length > 0 && ","}
                                         </div>
                                     )}
-                                    {subsection.extras.length > 0 &&
-                                    <div className = "flex gap-[5px]">
-                                        {subsection.extras.map((extra, extraindex) => {
-                                            return <p key = {extraindex}>{extra}{subsection.extras[extraindex+1] && ","}</p>
-                                        })}
-                                    </div>
-                                    }
+                                    {subsection.extras.length > 0 && (
+                                        <div className="resume-proj-extras">
+                                            {subsection.extras.map((extra, extraindex) => (
+                                                <p key={extraindex}>{extra}{subsection.extras[extraindex + 1] && ","}</p>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
                             </header>
-                            {subsection.stack &&
-                                <div className = "italic">
-                                    <div className = "">
-                                        {subsection.stack.head && <b>{subsection.stack.head}:{"\t"}</b>}{subsection.stack.content && subsection.stack.content}
+                            {subsection.stack && (
+                                <div className="resume-italic">
+                                    <div>
+                                        {subsection.stack.head && <b>{subsection.stack.head}:{"\t"}</b>}
+                                        {subsection.stack.content && subsection.stack.content}
                                     </div>
                                 </div>
-                            }
-                            {subsection.projectsummary && 
-                                <p className = "italic">{subsection.projectsummary}</p>
-                            }
-                            {subsection.points && 
-                                <ul className = "pl-[1%]">
-                                    {subsection.points.map((sspoint, sspointindex) => {
-                                        return <li className = "break-inside-avoid flex gap-[2px]" key = {sspointindex}> <div>{"-"}</div> {sspoint}</li>
-                                    })}
+                            )}
+                            {subsection.projectsummary && <p className="resume-italic">{subsection.projectsummary}</p>}
+                            {subsection.points && (
+                                <ul className="resume-points">
+                                    {subsection.points.map((sspoint, sspointindex) => (
+                                        <li key={sspointindex}><div>-</div> {sspoint}</li>
+                                    ))}
                                 </ul>
-                            }
+                            )}
                         </section>
-                    })}
-                </section>}
+                    ))}
+                </section>
+            )}
 
-                {/* SKILLS */}
-
-                {resumeInView.skills.length > 0 && <section id = "skills" className = "border-t border-black pb-[1%] mt-[2.5%] break-inside-avoid-page">
-                    <h1 className = "font-extrabold mb-[1%] text-center text-[90%]">PROFESSIONAL SKILLS</h1>
-                    {resumeInView.skills &&
-                        <ul className = "pl-[1.5%] text-[90%] flex flex-col gap-[1px]">
-                            {resumeInView.skills.map((minisection, minisectionindex) => {
-                                return <li key = {minisectionindex} className = "">
-                                    {minisection.head && <b>{minisection.head}:{"\t"}</b>}{minisection.content && minisection.content}
+            {/* SKILLS */}
+            {resumeInView.skills.length > 0 && (
+                <section id="skills" className="resume-skills-section">
+                    <h1 className="resume-skills-title">PROFESSIONAL SKILLS</h1>
+                    {resumeInView.skills && (
+                        <ul className="resume-skills-list">
+                            {resumeInView.skills.map((minisection, minisectionindex) => (
+                                <li key={minisectionindex}>
+                                    {minisection.head && <b>{minisection.head}:{"\t"}</b>}
+                                    {minisection.content && minisection.content}
                                 </li>
-                            })}
+                            ))}
                         </ul>
-                    }
-                </section>}
-
+                    )}
+                </section>
+            )}
 
             {/* EXTRA SECTIONS */}
-            {resumeInView.extraSections.map((section, sectionindex) => {
-                return <section key = {sectionindex} className = "border-t border-black mt-[1.5%] break-inside-avoid-page">
-                    <h1 className = "font-extrabold text-center text-[90%] break-inside-avoid-page">{section.sectionName.toUpperCase()}</h1>
-                    {section.subsections.map((subsection, subsectionindex) => {
-                        return <section key = {subsectionindex} className = "pl-[1.5%] pb-[0.5%] text-[90%]">
-                            <header className = "relative w-full flex items-start justify-between">
-                                <div className = "flex gap-[15px] items-start">
-                                    <h1 className = "flex items-center font-semibold">
-                                        {subsection.title}
-                                    </h1>
-                                    <div className = "flex items-center flex-wrap gap-[3px]">
-                                        {subsection.urls.map((ss_url, ssurlindex) => {
-                                            return <div key = {ssurlindex} className = "flex items-center gap-[3px]">
-                                                <a key = {ssurlindex} href = {ss_url.url} target = "_blank" className = "text-blue-900 break-all font-bold italic">{ss_url.name}</a>
-                                                {subsection.urls[ssurlindex+1] && " | "}
+            {resumeInView.extraSections.map((section, sectionindex) => (
+                <section key={sectionindex} className="resume-extra-section">
+                    <h1 className="resume-extra-section-title">{section.sectionName.toUpperCase()}</h1>
+                    {section.subsections.map((subsection, subsectionindex) => (
+                        <section key={subsectionindex} className="resume-extra-section-content">
+                            <header className="resume-extra-section-header">
+                                <div className="resume-extra-section-title-inner">
+                                    <h1 className="resume-extra-section-title-text">{subsection.title}</h1>
+                                    <div className="resume-extra-section-links">
+                                        {subsection.urls.map((ss_url, ssurlindex) => (
+                                            <div key={ssurlindex} className="resume-extra-section-link">
+                                                <a href={ss_url.url} target="_blank" rel="noopener noreferrer" className="resume-link">{ss_url.name}</a>
+                                                {subsection.urls[ssurlindex + 1] && " | "}
                                             </div>
-                                        })}
+                                        ))}
                                     </div>
                                 </div>
-                                <div className = "italic flex gap-[5px] flex-wrap max-w-[50%] justify-end">
+                                <div className="resume-extra-section-dates">
                                     {subsection.start && (
                                         <div>
-                                            {new Date(subsection.start).toLocaleDateString("en-IN", {
-                                                month: "short",
-                                                year: "numeric"
-                                            })}
-                                            {/* Show dash and end/ongoing only if start exists */}
+                                            {new Date(subsection.start).toLocaleDateString("en-IN", { month: "short", year: "numeric" })}
                                             {(subsection.end || subsection.ongoing) && (
                                                 <>
                                                     {" - "}
-                                                    {/* Show end date if not ongoing and end exists */}
-                                                    {!subsection.ongoing && subsection.end && new Date(subsection.end).toLocaleDateString("en-IN", {
-                                                        month: "short",
-                                                        year: "numeric"
-                                                    })}
-                                                    {/* Show 'ongoing' only if ongoing is true */}
+                                                    {!subsection.ongoing && subsection.end && new Date(subsection.end).toLocaleDateString("en-IN", { month: "short", year: "numeric" })}
                                                     {subsection.ongoing && "ongoing"}
                                                 </>
                                             )}
                                             {subsection.extras.length > 0 && ","}
                                         </div>
                                     )}
-                                    {subsection.extras.length > 0 &&
-                                    <div className = "flex">
-                                        {subsection.extras.map((extra, extraindex) => {
-                                            return <p key = {extraindex}>{extra}</p>
-                                        })}
-                                    </div>
-                                    }
+                                    {subsection.extras.length > 0 && (
+                                        <div className="resume-extra-section-extras">
+                                            {subsection.extras.map((extra, extraindex) => (
+                                                <p key={extraindex}>{extra}</p>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
                             </header>
-                            {subsection.summary && 
-                                <p className = "italic">{subsection.summary}</p>
-                            }
-                            {subsection.points && 
-                                <ul className = "pl-[1%]">
-                                    {subsection.points.map((sspoint, sspointindex) => {
-                                        return <li className="break-inside-avoid-page" key = {sspointindex}> {"-"} {sspoint}</li>
-                                    })}
+                            {subsection.summary && <p className="resume-extra-section-summary">{subsection.summary}</p>}
+                            {subsection.points && (
+                                <ul className="resume-points">
+                                    {subsection.points.map((sspoint, sspointindex) => (
+                                        <li className="break-inside-avoid-page" key={sspointindex}>- {sspoint}</li>
+                                    ))}
                                 </ul>
-                            }
+                            )}
                         </section>
-                    })}
+                    ))}
                 </section>
-            })}
+            ))}
         </div>
-    )
+    );
 }
 
-
-export default HiddenResume
+export default HiddenResume;

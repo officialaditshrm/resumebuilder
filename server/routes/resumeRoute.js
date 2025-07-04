@@ -1,6 +1,7 @@
 import express from 'express'
 import { updateResume, addResume, deleteResume, listResumes, displayResume } from '../controllers/resumeController.js'
-import generatePDF from '../controllers/pdfController.js'
+import fs from 'fs'
+import puppeteer from 'puppeteer-core'
 
 const resumeRouter = express.Router()
 
@@ -9,22 +10,41 @@ resumeRouter.put("/:id", updateResume)
 resumeRouter.delete("/:id", deleteResume)
 resumeRouter.get("/", listResumes)
 resumeRouter.get("/:id", displayResume)
-resumeRouter.post('/export-pdf', async (req, res) => {
-  try {
-    const { html } = req.body;
-    if (!html) return res.status(400).json({ error: 'Missing HTML content' });
+resumeRouter.post("/export-pdf", async (req, res) => {
+  const { html } = req.body;
 
-    const pdfBuffer = await generatePDF(html);
+  const css = fs.readFileSync("./HiddenResume.css", "utf8");
 
-    res.set({
-      'Content-Type': 'application/pdf',
-      'Content-Disposition': 'attachment; filename=resume.pdf',
-    });
-    res.send(pdfBuffer);
-  } catch (error) {
-    console.error('Error generating PDF:', error);
-    res.status(500).json({ error: 'Failed to generate PDF' });
-  }
+  const fullHtml = `
+    <html>
+      <head>
+        <meta charset="utf-8" />
+        <style>${css}</style>
+      </head>
+      <body>${html}</body>
+    </html>
+  `;
+
+  const browser = await puppeteer.launch({
+    headless: "new",
+    executablePath: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", // adjust as needed
+    args: ["--no-sandbox", "--disable-setuid-sandbox"]
+  });
+
+  const page = await browser.newPage();
+  await page.setContent(fullHtml, { waitUntil: "networkidle0" });
+  await page.evaluateHandle("document.fonts.ready");
+
+  const pdfBuffer = await page.pdf({
+    format: "A4",
+    printBackground: true,
+    margin: {top: "0.15in", bottom: "0.3in", left: 0, right: 0},
+  });
+
+  await browser.close();
+  res.setHeader("Content-Type", "application/pdf");
+  res.setHeader("Content-Disposition", "attachment; filename=resume.pdf");
+  res.send(pdfBuffer);
 });
 
 export default resumeRouter

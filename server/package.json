@@ -24,7 +24,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "postinstall": "puppeteer install",
+    "postinstall": "npx puppeteer browsers install chrome",
     "start": "node server.js",
     "dev": "nodemon server.js"
   },

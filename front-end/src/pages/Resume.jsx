@@ -20,6 +20,33 @@ function Resume({currResumeData, setAiResult, showAllSuggestions, setShowAllSugg
     }, []);
 
 
+    const handleExportPDF1 = () => {
+        const element = printRef.current;
+        html2pdf()
+            .set({
+                margin: [18 , 0, 28, 0], // 0.5 inch bottom margin
+                filename: `${currResumeData?.username}_${currResumeData?.name || "resume"}.pdf`,
+                image: { type: 'jpeg', quality: 1 },
+                html2canvas: {
+                    scale: 1.5,
+                    useCORS: true
+                },
+                jsPDF: {
+                    unit: 'pt',
+                    format: 'a4',
+                    orientation: 'portrait'
+                }
+            })
+            .from(element)
+            .save()
+            .finally(() => {
+                // Clean up injected styles
+                document.head.removeChild(style);
+            }
+        );
+    };
+    
+    
     const handleExportPDF2 = () => {
         const element = printRef.current;
         html2pdf()
@@ -71,33 +98,7 @@ function Resume({currResumeData, setAiResult, showAllSuggestions, setShowAllSugg
                 document.head.removeChild(style);
             }
         );
-    };
-
-        const handleExportPDF4 = () => {
-        const element = printRef.current;
-        html2pdf()
-            .set({
-                margin: [18 , 0, 28, 0], // 0.5 inch bottom margin
-                filename: `${currResumeData?.username}_${currResumeData?.name || "resume"}.pdf`,
-                image: { type: 'jpeg', quality: 1 },
-                html2canvas: {
-                    scale: 4,
-                    useCORS: true
-                },
-                jsPDF: {
-                    unit: 'pt',
-                    format: 'a4',
-                    orientation: 'portrait'
-                }
-            })
-            .from(element)
-            .save()
-            .finally(() => {
-                // Clean up injected styles
-                document.head.removeChild(style);
-            }
-        );
-    };    
+    }; 
 
     return (
         <div className={`md:ml-72 md:mt-[25vh] mt-[20vh] min-h-screen flex flex-col items-center`}>
@@ -260,19 +261,19 @@ function Resume({currResumeData, setAiResult, showAllSuggestions, setShowAllSugg
                         <h1 className = "text-2xl text-sky-100 font-extrabold">Download</h1>
                         <div className = "flex flex-wrap justify-evenly w-full">
                             <button
-                                onClick={handleExportPDF2}
+                                onClick={handleExportPDF1}
                                 className="mt-4 font-bold bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                             >
                                 Low Resolution
                             </button>
                             <button
-                                onClick={handleExportPDF3}
+                                onClick={handleExportPDF2}
                                 className="mt-4 font-bold bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                             >
                                 Decent Resolution
                             </button>
                             <button
-                                onClick={handleExportPDF4}
+                                onClick={handleExportPDF3}
                                 className="mt-4 font-bold bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                             >
                                 High Resolution

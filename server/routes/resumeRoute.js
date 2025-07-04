@@ -38,7 +38,7 @@ resumeRouter.post("/export-pdf", async (req, res) => {
   const pdfBuffer = await page.pdf({
     format: "A4",
     printBackground: true,
-    margin: {top: "0.15in", bottom: "0.3in", left: 0, right: 0},
+    margin: {top: "0.3in", bottom: "0.3in", left: 0, right: 0},
   });
 
   await browser.close();

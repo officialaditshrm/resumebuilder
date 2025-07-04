@@ -44,15 +44,17 @@
   display: flex;
   flex-direction: column;
   text-align: center;
+  gap: 5px;
   break-inside: avoid-page;
   margin: 0;
+  padding-bottom: 1%;
 }
 
 .resume-username {
   font-weight: 800;
-  margin-top: 0;
-  margin-bottom: 0.75%;
+  margin: 0;
   font-size: 175%;
+  margin-bottom: 0.5%;
 }
 
 .resume-location {
@@ -74,6 +76,10 @@
   gap: 0.5rem;
   break-inside: avoid-page;
   margin: 0;
+}
+
+.resume-contact p {
+  margin: 0
 }
 
 .resume-contact-link {
@@ -102,8 +108,6 @@
 
 .resume-section-title {
   font-weight: bold;
-  border-bottom: 1.5px solid #000;
-  padding-bottom: 4.5px;
   white-space: nowrap;
   width: min-content;
   font-size: 110%;
@@ -120,38 +124,39 @@
 .resume-section {
   border-top: 1px solid #000;
   margin-bottom: 0;
-  padding-bottom: 1.5%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-bottom: 1%;
 }
 
 .resume-section-header {
   font-weight: 800;
   text-align: center;
   font-size: 90%;
-  margin-bottom: 0.5%;
   break-inside: avoid-page;
+  margin-top:0.75%;
+  margin-bottom: 0.5%
 }
 
-.resume-section-header-mb {
-  margin-bottom: 1%;
-}
-
-.resume-section-mt {
-  margin-top: 1.5%;
-}
 
 .resume-edu-section,
 .resume-exp-section,
+.resume-role-section,
 .resume-proj-section {
   padding-left: 1.5%;
   font-size: 90%;
   break-inside: avoid-page;
+  display:flex;
+  flex-direction: column;
+  gap: 4px;
   margin: 0;
 }
 
 .resume-extra-section {
   border-top: 1px solid #000;
-  margin-top: 2.5%;
   margin-bottom: 0;
+  padding-bottom: 1%;
 }
 
 .resume-edu-header {
@@ -174,7 +179,8 @@
   font-size: 110%;
   display: flex;
   align-items: center;
-  margin: 0;
+  margin-bottom: 1%;
+  margin-top: 0.75%;
 }
 
 .resume-edu-qualifications {
@@ -256,7 +262,6 @@
 }
 
 .resume-exp-section {
-  padding-bottom: 0.5%;
   margin: 0;
 }
 
@@ -287,7 +292,6 @@
 .resume-exp-links {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 1.5%;
   align-items: center;
   gap: 3px;
   margin-bottom: 0;
@@ -327,7 +331,6 @@
 }
 
 .resume-role-section {
-  padding-bottom: 1%;
   break-inside: avoid-page;
   margin: 0;
 }
@@ -399,7 +402,6 @@
 .resume-points {
   display: flex;
   flex-direction: column;
-  gap: 2px;
   padding-left: 1%;
   margin: 0;
 }
@@ -408,11 +410,6 @@
   display: flex;
   gap: 2px;
   break-inside: avoid-page;
-  margin: 0;
-}
-
-.resume-proj-section {
-  padding-bottom: 1%;
   margin: 0;
 }
 
@@ -478,20 +475,22 @@
 
 .resume-skills-section {
   border-top: 1px solid #000;
-  padding-bottom: 1%;
-  margin-top: 2.5%;
+  margin: 0 ;
   break-inside: avoid-page;
+  padding-bottom: 1%;
 }
 
 .resume-skills-title {
   font-weight: 800;
   text-align: center;
   font-size: 90%;
+  margin-top:0.75%;
   margin-bottom: 0.5%;
   break-inside: avoid-page;
 }
 
 .resume-skills-list {
+  list-style: none;
   padding-left: 1.5%;
   font-size: 90%;
   display: flex;
@@ -504,6 +503,7 @@
   font-weight: 800;
   text-align: center;
   font-size: 90%;
+  margin-top:0.75%;
   margin-bottom: 0.5%;
   break-inside: avoid-page;
 }

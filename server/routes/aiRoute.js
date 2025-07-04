@@ -94,7 +94,8 @@ aiRouter.post('/generate-resume', async (req, res) => {
     '',
     `Job Description: ${jobDescription}`,
     '',
-    'Respond with ONLY valid JSON (no commentary, no markdown, no explanations).'
+    'Respond with ONLY valid JSON (no commentary, no markdown, no explanations).',
+    'Also, when filling extras, keep them short, and try to keep them as less as possible.'
   ].join('\n');
 
   const payload = {
@@ -167,12 +168,12 @@ Analyze the resume and score it out of 100 for how well it matches the job descr
 Be strict and detailed. Do not give high scores just because the resume contains matching words. The score must reflect the amount, depth, and relevance of the candidate's content.
 
 Break down the score across these five components:
-Keyword and skill match (40 points)
+Keyword and skill match (30 points)
  - Check how many important skills, tools, and terms from the job description are present.
  - Evaluate whether they appear in the right context (e.g. work experience, not just in the skills list).
  - Reward repeated and contextual usage, not just mentions.
 
-Relevant experience and titles (20 points)
+Relevant experience and titles (15 points)
  - Check if the candidate's past roles match or relate to the target job title.
  - Consider how recent and how long the relevant experience is.
 
@@ -182,13 +183,17 @@ Skill usage depth and frequency (15 points)
  - Look for multiple appearances of a skill across roles or projects.
  - Reward hands-on usage and clear application.
 
-Quantified achievements (15 points)
+Quantified achievements (10 points)
  - Check if the resume includes measurable outcomes (e.g. “increased performance by 30%”).
  - Favor bullet points that show results or impact, not just responsibilities.
  - Deduct points if the resume lacks outcomes or metrics.
 
-Resume completeness (10 points)
+Resume completeness (30 points)
  - Confirm that all major sections are present: experience, education, skills, projects.
+ - Deduct points if the number of words is too short.
+ - Example: It's good to have around 15 words per 'point'. Lesser should deduct it.
+ - Also check the length of the content overall. Ideally there should be atleast around 5-6 big subsections such as a job-role or a project or a special extrasection etc.
+ - Things should be well described.
 
 Look for missing or empty fields.
 Check for lack of detail in sections.
@@ -197,6 +202,7 @@ At the end, return:
  - The individual scores for each category.
  - A short explanation (1-2 lines) for each category describing how the score was determined.
 
+The scoring should be very tough, do not be linient in any case!
 Resume JSON:
 <resume>
 ${JSON.stringify(resumeData, null, 2)}

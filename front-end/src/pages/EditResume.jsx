@@ -187,7 +187,7 @@ function EditResume({setCurrResumeData, url, setJobDescription, jobDescription, 
 
 
                 {/* ATS Analysis Section */}
-                <div className="w-full max-w-2xl bg-zinc-200 dark:bg-zinc-800 rounded-xl shadow p-4 max-sm:p-2 flex flex-col gap-3 border border-blue-200">
+                <div className="w-full bg-zinc-200 dark:bg-zinc-800 rounded-xl shadow p-4 max-sm:p-2 flex flex-col gap-3 border border-blue-200">
                     <h2 className="font-bold text-lg dark:text-blue-200 text-blue-900">ATS & AI Resume Analysis</h2>
                     <textarea
                         className="w-full border p-2 text-black rounded mb-2 text-sm"
@@ -207,9 +207,9 @@ function EditResume({setCurrResumeData, url, setJobDescription, jobDescription, 
                     <MagicCreateButton url = {url} jobDescription={jobDescription} setResumeToEdit={setResumeToEdit} />
                     {aiError && <div className="text-red-600 text-sm">{aiError}</div>}
                     {aiResult && (
-                        <div className="mt-2 text-sm max-sm:text-xs flex flex-col gap-3 items-center">
+                        <div className="mt-2 text-sm max-sm:text-xs flex flex-col gap-3 items-center w-full">
                             {aiResult.score !== undefined && (
-                                <div className="flex flex-col items-center mb-2">
+                                <div className="flex flex-col items-center mb-2 w-full">
                                     <div className="relative w-24 h-24 sm:w-32 sm:h-32">
                                         <svg viewBox="0 0 100 100" className="w-full h-full">
                                             <circle cx="50" cy="50" r="45" fill="none" stroke="#e5e7eb" strokeWidth="10" />
@@ -228,46 +228,56 @@ function EditResume({setCurrResumeData, url, setJobDescription, jobDescription, 
                                     <div className="font-bold text-lg mt-1">ATS Score</div>
                                 </div>
                             )}
-                            {!showAllSuggestions && (
-                                <button
-                                    className="text-blue-400 font-extrabold underline text-xl mt-1"
-                                    onClick={() => setShowAllSuggestions(true)}
-                                >
-                                    View more
-                                </button>
+                            {/* Individual Category Scores */}
+                            {aiResult.individual_category_score && aiResult.individual_category_score.length > 0 && (
+                                <div className="w-full bg-white/70 dark:bg-zinc-900/70 rounded p-2 border border-blue-100 dark:border-zinc-700">
+                                    <b>Category Breakdown:</b>
+                                    <ul className="list-disc pl-5">
+                                        {aiResult.individual_category_score.map((cat, i) => (
+                                            <li key={i} className="mb-1">
+                                                <span className="font-bold">{cat.category}:</span> <span className="text-blue-700">{cat.score}</span>
+                                                <br />
+                                                <span className="text-gray-700 dark:text-gray-300">{cat.short_explanation}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
                             )}
-                            {showAllSuggestions && (
-                                <div className="w-full flex flex-col items-center">
-                                    {aiResult.missingKeywords && (
-                                        <div><b>Missing/Weak Keywords:</b> {aiResult.missingKeywords.join(', ')}</div>
-                                    )}
-                                    {aiResult.rewrites && aiResult.rewrites.length > 0 && (
-                                        <div className="mt-2">
-                                            <b>Suggested Rewrites:</b>
-                                            <ul className="list-disc pl-5">
-                                                {aiResult.rewrites.map((rw, i) => (
-                                                    <li key={i}><span className="text-red-600">Old:</span> {rw.old}<br /><span className="text-green-700">New:</span> {rw.new}</li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    )}
-                                    {aiResult.suggestions && aiResult.suggestions.length > 0 && (
-                                        <div className="mt-2">
-                                            <b>Suggestions:</b>
-                                            <ul className="list-disc pl-5">
-                                                {aiResult.suggestions.map((s, i) => <li key={i}>{s}</li>)}
-                                            </ul>
-                                        </div>
-                                    )}
-                                    {aiResult.raw && (
-                                        <div className="mt-2 text-xs text-gray-500 whitespace-pre-wrap">{aiResult.raw}</div>
-                                    )}
-                                    <button
-                                        className="text-blue-400 font-extrabold underline text-xl mt-2"
-                                        onClick={() => setShowAllSuggestions(false)}
-                                    >
-                                        View less
-                                    </button>
+                            {aiResult.summary && (
+                                <div className="w-full bg-white/70 dark:bg-zinc-900/70 rounded p-2 border border-blue-100 dark:border-zinc-700">
+                                    <b>AI Summary:</b>
+                                    <div className="whitespace-pre-line">{aiResult.summary}</div>
+                                </div>
+                            )}
+                            {aiResult.missingKeywords && aiResult.missingKeywords.length > 0 && (
+                                <div className="w-full bg-white/70 dark:bg-zinc-900/70 rounded p-2 border border-blue-100 dark:border-zinc-700">
+                                    <b>Missing/Weak Keywords:</b> {aiResult.missingKeywords.join(', ')}
+                                </div>
+                            )}
+                            {aiResult.rewrites && aiResult.rewrites.length > 0 && (
+                                <div className="w-full bg-white/70 dark:bg-zinc-900/70 rounded p-2 border border-blue-100 dark:border-zinc-700">
+                                    <b>Suggested Rewrites:</b>
+                                    <ul className="list-disc pl-5">
+                                        {aiResult.rewrites.map((rw, i) => (
+                                            <li key={i}>
+                                                <span className="text-red-600">Old:</span> {rw.old}<br />
+                                                <span className="text-green-700">New:</span> {rw.new}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+                            {aiResult.suggestions && aiResult.suggestions.length > 0 && (
+                                <div className="w-full bg-white/70 dark:bg-zinc-900/70 rounded p-2 border border-blue-100 dark:border-zinc-700">
+                                    <b>Suggestions:</b>
+                                    <ul className="list-disc pl-5">
+                                        {aiResult.suggestions.map((s, i) => <li key={i}>{s}</li>)}
+                                    </ul>
+                                </div>
+                            )}
+                            {aiResult.raw && (
+                                <div className="w-full bg-white/70 dark:bg-zinc-900/70 rounded p-2 border border-blue-100 dark:border-zinc-700 text-xs text-gray-500 whitespace-pre-wrap">
+                                    {aiResult.raw}
                                 </div>
                             )}
                         </div>

@@ -15,8 +15,8 @@ function HiddenResume({ resumeInView }) {
                 <div className="resume-contact">
                     {resumeInView.phonenum !== "" && (
                         <p>
-                            <label>{resumeInView.phonenum}</label>
-                            <label>{(resumeInView.header_urls?.length > 0 || resumeInView.email || resumeInView.email2) && "  | "}</label>
+                            {resumeInView.phonenum}
+                            {(resumeInView.header_urls?.length > 0 || resumeInView.email || resumeInView.email2) && "  | "}
                         </p>
                     )}
                     {resumeInView.email && (
@@ -49,7 +49,7 @@ function HiddenResume({ resumeInView }) {
             {/* EDUCATION */}
             {resumeInView.education.length > 0 && (
                 <section id="education" className="resume-section">
-                    <h1 className="resume-section-header">EDUCATION</h1>
+                    <h1 className="resume-section-header resume-section-header-mb">EDUCATION</h1>
                     {resumeInView.education.map((edu, education_index) => (
                         <section key={education_index} className="resume-edu-section">
                             <header className="resume-edu-header">

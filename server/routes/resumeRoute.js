@@ -30,9 +30,7 @@ resumeRouter.post("/export-pdf", async (req, res) => {
 
   const browser = await puppeteer.launch({
     headless: "new",
-    executablePath: process.env.NODE_ENV === "production" 
-      ? '/usr/bin/chromium'
-      : puppeteer.executablePath(),
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
     args: ["--no-sandbox", "--disable-setuid-sandbox"]
   });
 

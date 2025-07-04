@@ -1,11 +1,30 @@
-FROM ghcr.io/puppeteer/puppeteer:24.11.2
+FROM node:22-slim
 
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+# Install system dependencies + fonts
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-khmeros \
+    fonts-kacst fonts-freefont-ttf ca-certificates curl gnupg \
+    && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /usr/src/app
+# Add Chrome repo & install Chrome
+RUN mkdir -p /etc/apt/keyrings \
+    && curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /etc/apt/keyrings/google.gpg \
+    && echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/google.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
+    && apt-get update \
+    && apt-get install -y google-chrome-stable \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY package*.json ./
-RUN npm ci
-COPY . .
+# Create non-root Puppeteer user
+RUN groupadd -r pptruser && useradd -rm -g pptruser -G audio,video pptruser
+
+USER pptruser
+WORKDIR /home/pptruser
+
+# Install your app
+COPY --chown=pptruser:pptruser package*.json ./
+RUN npm install
+
+COPY --chown=pptruser:pptruser . .
+
+# Start server
 CMD ["node", "server.js"]

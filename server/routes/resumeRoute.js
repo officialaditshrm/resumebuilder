@@ -27,6 +27,7 @@ resumeRouter.post("/export-pdf", async (req, res) => {
 
   const browser = await puppeteer.launch({
     headless: "new",
+    executablePath: puppeteer.executablePath(),
     args: ["--no-sandbox", "--disable-setuid-sandbox"]
   });
 

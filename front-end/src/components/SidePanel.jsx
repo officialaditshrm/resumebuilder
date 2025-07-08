@@ -39,7 +39,7 @@ export default function SidePanel ({footerShow, pfp, setPfp, darkMode, buildResu
                     </button>
                     <div className = "w-full flex text-sm font-semibold justify-center">
                         <button
-                        onClick = {() => navigate("/")}
+                        onClick = {() => navigate("/myresumes")}
                         className = "px-3 py-2 rounded-md text-white bg-neutral-700">
                             VIEW ALL
                         </button>
@@ -102,7 +102,7 @@ export default function SidePanel ({footerShow, pfp, setPfp, darkMode, buildResu
                         </button>
                         <div className = "w-full flex text-sm font-semibold justify-center">
                             <button
-                            onClick = {() => {navigate("/"); setIt(false)}}
+                            onClick = {() => {navigate("/myresumes"); setIt(false)}}
                             className = "px-3 py-2 rounded-md text-white bg-neutral-700">
                                 VIEW ALL
                             </button>

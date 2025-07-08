@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 
-function Community ({url, darkMode, allResumes, fetchResumes, setCurrResumeData, particularUser, setParticularUser, loggedInUser, currResumeData}) {
-    const [allUsers, setAllUsers] = useState(null)
+function Community ({url, darkMode, allResumes, fetchUsers, allUsers, setAllUsers, fetchResumes, setCurrResumeData, particularUser, setParticularUser, loggedInUser, currResumeData}) {
+    
 
     
     useEffect(() => {
@@ -36,31 +36,13 @@ function Community ({url, darkMode, allResumes, fetchResumes, setCurrResumeData,
     }, [])
 
 
-    const fetchUsers = async () => {
-        try {
-            const response = await fetch(`${url}/api/users`)
-            if (!response.ok) {
-            throw new Error("Could not fetch users")
-            }
-
-            const actualresponse = await response.json()
-
-            const usersWithSrc = actualresponse.data.map(user => ({
-            ...user,
-            profilesrc: user.profileimg || null // <- ensures all users have a profilesrc field, even if null
-            }))
-
-            setAllUsers(usersWithSrc) // ✅ all users included
-        } catch (error) {
-            console.error(error.message)
-        }
-        }
+    
 
     return (
         <div className = {`md:ml-72 md:mt-[25vh] ${loggedInUser ? 'mt-[10vh]' : 'mt-[20vh]'} min-h-screen flex flex-col items-center`}>
             <h1 className = "font-extrabold text-3xl max-sm:text-xl">Community</h1>
-            {allUsers && <p className = "italic text-zinc-400">{allUsers.length} total users</p>}
-            {allResumes && <p className = "italic text-zinc-400">{allResumes.filter((resume) => resume.private === false).length} public resumes</p>}
+            {allUsers && <p className = "italic text-green-600">{allUsers.length} total users</p>}
+            {allResumes && <p className = "italic text-green-600">{allResumes.filter((resume) => resume.private === false).length} public resumes</p>}
             <div id = "listofusers" className = "flex flex-col items-center p-10 gap-4 sm:gap-8 max-sm:p-5 w-full">
                 {allUsers
                 ?.slice() // clone to avoid mutating original
@@ -68,7 +50,6 @@ function Community ({url, darkMode, allResumes, fetchResumes, setCurrResumeData,
                     if ((b.publiccount || 0) !== (a.publiccount || 0)) {
                     return (b.publiccount || 0) - (a.publiccount || 0);
                     }
-
                     if (!!b.profileimg !== !!a.profileimg) {
                     return !!b.profileimg ? 1 : -1;
                     }
@@ -175,7 +156,7 @@ function ParticularUser ({particularUser, setParticularUser, darkMode, loggedInU
                     <div className = "w-full rounded-xl dark:bg-zinc-100/10 bg-zinc-950/10 text-xs font-semibold p-2">
                         <h1 className = "text-neutral-500">Public Resumes:</h1>
                         <div className = "flex flex-col gap-2 ">
-                            {userPublicResumes && (userPublicResumes.length > 0 ? userPublicResumes.map((resume, index) => {
+                            {userPublicResumes && (userPublicResumes.length > 0 ? userPublicResumes?.map((resume, index) => {
                                 return <Link key = {index} onClick = {() => {setParticularUser(null); setUserPublicResumes([]); setCurrResumeData(resume)}} to = "/resume" className = "hover:underline break-all cursor-pointer">{resume.name}</Link>
                                 })
                                 :

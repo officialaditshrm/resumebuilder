@@ -1,25 +1,21 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
 function Header ({setDarkMode, darkMode, loggedInUser, smallScreen, hamburgerOpen, setHamburgerOpen}) {
-
-    const addFeedback = async () => {
-
-    }
+    const navigate = useNavigate()
 
     const [showFeedback, setShowFeedback] = useState(false)
 
     if (!smallScreen) {
         return (
             <header className = "z-40 fixed right-5 top-3 h-20 lg:w-[540px] md:w-[480px] dark:bg-zinc-800 bg-neutral-200 flex justify-between items-center rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
-                <img src = {darkMode ? "/logotransparentdark.png": "/logotransparent.png"} className = " object-contain w-[20%] p-4"/>
+                <img onClick = {() => navigate('/')} src = {darkMode ? "/logotransparentdark.png": "/logotransparent.png"} className = "cursor-pointer object-contain w-[20%] p-4"/>
                 <div className = "flex relative flex-1 justify-evenly overflow-hidden">
-                    <Link title='My Resumes' to = "/" className = "hover:scale-[0.9] w-1/4 flex justify-center items-center"><img className = "size-3/5" src = {darkMode? "/editdoc.svg" : "/editdocblack.svg"} /></Link>
+                    <Link title='My Resumes' to = "/myresumes" className = "hover:scale-[0.9] w-1/4 flex justify-center items-center"><img className = "size-3/5" src = {darkMode? "/editdoc.svg" : "/editdocblack.svg"} /></Link>
                     <Link title = "Community" to = "/community" className = "hover:scale-[0.9] w-1/4 flex justify-center items-center"><img className = "size-3/5" src = {darkMode? "/community.svg" : "/communityblack.svg"} /></Link>
                     {loggedInUser &&
                         <Link title = "Profile" to = "/profile" className = "hover:scale-[0.9] w-1/4 flex justify-center items-center"><img className = "size-3/5" src = {darkMode? "/profile.svg" : "/profileblack.svg"} /></Link>
                     }
-                    {/* {loggedInUser && <button className = "w-1/5 hover:scale-[0.9] flex justify-center items-center" onClick = {() => setShowFeedback(true)}><img className = "size-3/5" src = "/admincontactblack.svg"/></button>} */}
                     
                 </div>
                 
@@ -33,16 +29,6 @@ function Header ({setDarkMode, darkMode, loggedInUser, smallScreen, hamburgerOpe
                         </div>
                     </button>
                 </div>
-                {/* {showFeedback && 
-                    <div className = "fixed flex items-center justify-center bg-zinc-100/30 dark:bg-zinc-950/30 backdrop-blur top-0 left-0 h-screen w-screen">
-                        <div className = "relative bg-zinc-200 dark:bg-zinc-800 shadow-[0_3px_5px_1px_rgba(0,0,0,0.25)] p-10 rounded-xl">
-                            <button onClick={() => showFeedback(false)} className = "absolute shadow-[0_0_5px_1px_rgba(0,0,0,0.25)] top-2 right-2 rounded-full bg-red-700"><img src = "/closewhite.svg"/></button>
-                            <form>
-
-                            </form>
-                        </div>
-                    </div>
-                } */}
             </header>
         )
     } else {
@@ -69,7 +55,8 @@ function Header ({setDarkMode, darkMode, loggedInUser, smallScreen, hamburgerOpe
                             </button>
                         </div>
                         <nav className = "flex flex-col justify-evenly items-center font-bold text-xl h-full">
-                            <Link to = "/" onClick = {() => setHamburgerOpen(false)} className = "hover:scale-[0.9]">MY RESUMES</Link>
+                            <Link to = "/" onClick = {() => setHamburgerOpen(false)} className = "hover:scale-[0.9]">HOME</Link>
+                            <Link to = "/myresumes" onClick = {() => setHamburgerOpen(false)} className = "hover:scale-[0.9]">MY RESUMES</Link>
                             <Link to = "/community" onClick = {() => setHamburgerOpen(false)} className = "hover:scale-[0.9]">COMMUNITY</Link>
                             {loggedInUser &&
                                 <Link to = "/profile" onClick = {() => setHamburgerOpen(false)} className = "hover:scale-[0.9]">PROFILE</Link>

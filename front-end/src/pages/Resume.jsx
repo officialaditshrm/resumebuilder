@@ -12,7 +12,7 @@ function Resume({currResumeData, setAiResult, url, showAllSuggestions, setShowAl
 
     useEffect(() => {
         if (!currResumeData) {
-            navigate('/');
+            navigate('/myresumes');
         }
         setJobDescription('')
         setShowAllSuggestions(false)
@@ -271,7 +271,7 @@ function DeleteWarning({ deleteResume, navigate, setShowDeleteWarning, id }) {
                     <button
                         onClick={() => {
                             deleteResume(id);
-                            navigate('/');
+                            navigate('/myresumes');
                             setShowDeleteWarning(false);
                         }}
                         className="rounded-md bg-red-600 text-white px-3 py-2 font-bold"

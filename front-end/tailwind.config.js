@@ -12,9 +12,7 @@ export default {
       }
     },
   },
-  plugins: [
-    require('@tailwindcss/line-clamp')
-  ],
+  plugins: [],
   darkMode : "class"
 }
 

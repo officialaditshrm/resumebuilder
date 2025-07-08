@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 
 import Community from './pages/Community.jsx'
 import EditResume from './pages/EditResume.jsx'
@@ -11,6 +11,7 @@ import Resume from './pages/Resume.jsx'
 import ResumeBegin from './components/ResumeBegin.jsx'
 import Footer from './components/Footer.jsx'
 import Profile from './pages/Profile.jsx'
+import Landing from './pages/Landing.jsx'
 
 const url = 'https://resumebuilder-15o2.onrender.com'
 // const url = "http://localhost:6500"
@@ -37,7 +38,9 @@ function App() {
   const [aiResult, setAiResult] = useState(null);
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState(null);
+  const navigate = useNavigate()
   const [showAllSuggestions, setShowAllSuggestions] = useState(false);
+  const [allUsers, setAllUsers] = useState(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -242,6 +245,21 @@ function App() {
     }
   }
 
+  const fetchUsers = async () => {
+        try {
+            const response = await fetch(`${url}/api/users`)
+            if (!response.ok) {
+            throw new Error("Could not fetch users")
+            }
+            const actualresponse = await response.json()
+            const usersWithSrc = actualresponse.data?.map(user => ({
+            ...user,
+            profilesrc: user.profileimg || null // <- ensures all users have a profilesrc field, even if null
+            }))
+            setAllUsers(usersWithSrc) //  all users included
+        } catch (error) {
+            console.error(error.message)
+        }}
 
   const updateUser = async (id, formData) => {
     try {
@@ -301,7 +319,7 @@ function App() {
   return (
     <div>
       <div className = {`${darkMode ? "dark bg-zinc-900 text-white": "bg-zinc-100"} font-[courier] border-black border font-calibri`}>
-        {smallScreen && <div className = {`w-full flex ${!loggedInUser ? "h-36": "h-10"} justify-center items-end`}><img src = {darkMode ? "/logotransparentdark.png": "/logotransparent.png"} className = "w-[80px]"/></div>}
+        {smallScreen && <div className = {`w-full flex ${!loggedInUser ? "h-36": "h-10"} justify-center items-end`}><img onClick = {() => navigate('/')} src = {darkMode ? "/logotransparentdark.png": "/logotransparent.png"} className = "w-[80px] cursor-pointer"/></div>}
         {(token != "" ) && !loggedInUser && <div className = {`w-full flex h-48 justify-center items-end text-2xl font-extrabold text-red-700`}>Token Found...<br/> Logging you in</div>}
         <Header 
         smallScreen = {smallScreen} 
@@ -343,7 +361,17 @@ function App() {
           <Login fetchResumes = {fetchResumes} darkMode = {darkMode} smallScreen = {smallScreen} setLoggedInUser = {setLoggedInUser} url = {url} setShowLogin = {setShowLogin} setToken = {setToken}/>
         }
         <Routes>
+
           <Route path = "/" element = {
+            <Landing
+            darkMode = {darkMode}
+            fetchUsers = {fetchUsers}
+            allResumes={allResumes}
+            allUsers={allUsers}
+            loggedInUser={loggedInUser}
+            />
+          } />
+          <Route path = "/myresumes" element = {
             <MyResumes
             darkMode = {darkMode}
             buildResume = {buildResume} 
@@ -401,6 +429,9 @@ function App() {
           } />
           <Route path = "/community" element = {
             <Community
+            allUsers = {allUsers}
+            setAllUsers = {setAllUsers}
+            fetchUsers={fetchUsers}
             darkMode = {darkMode}
             particularUser = {particularUser}
             setParticularUser = {setParticularUser}

@@ -115,7 +115,7 @@ function HiddenResume({ resumeInView }) {
             {/* PROFESSIONAL EXPERIENCE */}
             {resumeInView.experience.length > 0 && (
                 <section id="experience" className="resume-section">
-                    <h1 className="resume-section-header resume-section-header-mb">PROFESSIONAL EXPERIENCE</h1>
+                    <h1 className="resume-section-header resume-section-header-mb">WORK EXPERIENCE</h1>
                     {resumeInView.experience.map((org, org_index) => (
                         <section key={org_index} className="resume-exp-section">
                             <header className="resume-exp-header">
@@ -186,7 +186,7 @@ function HiddenResume({ resumeInView }) {
                                             <p className="resume-italic">{role.rolesummary}</p>
                                             <ul className="resume-points">
                                                 {role.points.map((point, pointindex) => (
-                                                    <li key={pointindex}><div>-</div> {point}</li>
+                                                    <li key={pointindex}>• {point}</li>
                                                 ))}
                                             </ul>
                                         </div>
@@ -201,7 +201,7 @@ function HiddenResume({ resumeInView }) {
             {/* PROJECTS */}
             {resumeInView.projects.length > 0 && (
                 <section id="projects" className="resume-section resume-section-mt">
-                    <h1 className="resume-section-header resume-section-header-mb">SELECTED PROJECTS</h1>
+                    <h1 className="resume-section-header resume-section-header-mb">PROJECTS</h1>
                     {resumeInView.projects.map((subsection, subsectionindex) => (
                         <section key={subsectionindex} className="resume-proj-section">
                             <header className="resume-proj-header">
@@ -251,7 +251,7 @@ function HiddenResume({ resumeInView }) {
                             {subsection.points && (
                                 <ul className="resume-points">
                                     {subsection.points.map((sspoint, sspointindex) => (
-                                        <li key={sspointindex}><div>-</div> {sspoint}</li>
+                                        <li key={sspointindex}>• {sspoint}</li>
                                     ))}
                                 </ul>
                             )}
@@ -322,7 +322,7 @@ function HiddenResume({ resumeInView }) {
                             {subsection.points && (
                                 <ul className="resume-points">
                                     {subsection.points.map((sspoint, sspointindex) => (
-                                        <li className="break-inside-avoid-page" key={sspointindex}>- {sspoint}</li>
+                                        <li className="break-inside-avoid-page" key={sspointindex}>• {sspoint}</li>
                                     ))}
                                 </ul>
                             )}

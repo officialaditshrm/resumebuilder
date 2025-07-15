@@ -45,7 +45,7 @@ function MagicCreateButton({ jobDescription, setResumeToEdit, url }) {
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import Preview from '../components/Preview.jsx'
+import Preview2 from '../components/Preview2.jsx'
 
 function EditResume({setCurrResumeData, url, setJobDescription, jobDescription, showAllSuggestions, aiError, aiLoading, aiResult, setShowAllSuggestions, handleAIAnalysis, currResumeData, darkMode, updateResume}) {
     const [resumeToEdit, setResumeToEdit] = useState(null)
@@ -176,9 +176,9 @@ function EditResume({setCurrResumeData, url, setJobDescription, jobDescription, 
                     {skillsEdit && <SkillsDetails resumeToEdit={resumeToEdit} setSkillsEdit={setSkillsEdit} setResumeToEdit={setResumeToEdit} />}
                     {extraSectionsEdit && <ExtraSectionDetails resumeToEdit={resumeToEdit} setExtraSectionsEdit={setExtraSectionsEdit} setResumeToEdit={setResumeToEdit} />}
                 </form>
-                <div className = "flex flex-col items-center gap-4">
+                <div className = "flex w-full flex-col items-center gap-4">
                     <h1 className = "font-extrabold text-2xl">Preview</h1>
-                    <Preview resumeInView={resumeToEdit}/>
+                    <Preview2 resumeInView={resumeToEdit}/>
                 </div>
 
                 

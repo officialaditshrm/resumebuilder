@@ -51,10 +51,10 @@ function Preview ({resumeInView}) {
                                 return <div key = {qfcindex}>
                                     <header className = "flex justify-between items-start italic">
                                         <div className = "flex flex-col max-w-[70%]">
-                                            <div className = "flex gap-[15px]">
+                                            <div className = "flex items-center flex-wrap gap-[0.5em]">
                                                 <h1 className = "text-[110%]">{qfc.name}</h1>
                                                 {qfc.urls &&
-                                                    <div className = "flex flex-wrap items-center gap-[3px]">
+                                                    <div className = "flex flex-wrap items-center gap-[0.5em]">
                                                         {qfc.urls.map((sss_url, sssurlindex) => {
                                                             return <div key = {sssurlindex} className = "flex items-center gap-[3px]">
                                                                 <a href = {sss_url.url} target = "_blank" className = "text-blue-900 break-all font-bold italic">{sss_url.name}</a>
@@ -113,15 +113,15 @@ function Preview ({resumeInView}) {
 
             {/* PROFESSIONAL EXPERIENCE */}
             {resumeInView.experience.length > 0 && <section id = "experience" className = "border-t border-black mt-[2.5%]">
-                <h1 className = "font-extrabold text-center break-inside-avoid-page text-[90%] mb-[1%]">PROFESSIONAL EXPERIENCE</h1>
+                <h1 className = "font-extrabold text-center break-inside-avoid-page text-[90%] mb-[1%]">WORK EXPERIENCE</h1>
                 {resumeInView.experience.map((org, org_index) => {
                     return <section key = {org_index} className = "pl-[1.5%] pb-[0.5%] text-[90%]">
                         <header className = "break-inside-avoid-page relative w-full flex items-center justify-between">
-                            <div className = "flex gap-[15px]">
+                            <div className = "flex items-center flex-wrap gap-[0.5em]">
                                 <h1 className = "flex items-center font-bold">
                                     {org.organization.toUpperCase()}
                                 </h1>
-                                <div className = "flex flex-wrap mt-[1.5%] items-center gap-[3px]">
+                                <div className = "flex flex-wrap mt-[1.5%] items-center gap-[0.5em]">
                                     {org.urls.map((ss_url, ssurlindex) => {
                                         return <div key = {ssurlindex} className = "flex items-center gap-[3px]">
                                             <a key = {ssurlindex} href = {ss_url.url} target = "_blank" className = "text-blue-900 break-all font-bold italic">{ss_url.name}</a>
@@ -144,7 +144,7 @@ function Preview ({resumeInView}) {
                             {org.roles.map((role, roleindex) => {
                                 return <div key = {roleindex} className = "pb-[1%] break-inside-avoid-page">
                                     <header className = "flex justify-between italic">
-                                        <div className = "flex items-center gap-[15px] max-w-[50%]">
+                                        <div className = "flex flex-wrap items-center gap-[0.5em] max-w-[50%]">
                                             <h1 className = "font-semibold">{role.rolename}</h1>
                                             {role.urls &&
                                                 <div className = "flex flex-wrap items-center gap-[3px]">
@@ -196,7 +196,7 @@ function Preview ({resumeInView}) {
                                         <p className = "italic">{role.rolesummary}</p>
                                         <ul className = "flex pl-[1%] flex-col">
                                             {role.points.map((point, pointindex) => {
-                                                return <li className = "break-inside-avoid-page flex gap-[2px]" key = {pointindex}><div>{"-"}</div> {point}</li>
+                                                return <li className = "break-inside-avoid-page" key = {pointindex}>• {point}</li>
                                             })}
                                         </ul>
                                     </div>
@@ -210,15 +210,15 @@ function Preview ({resumeInView}) {
                 {/* PROJECTS */}
 
                 {resumeInView.projects.length > 0 && <section id = "projects" className = "flex flex-col border-t border-black mt-[1.5%]">
-                    <h1 className = "font-extrabold text-center  mb-[1%] text-[90%] break-inside-avoid-page">SELECTED PROJECTS</h1>
+                    <h1 className = "font-extrabold text-center  mb-[1%] text-[90%] break-inside-avoid-page">PROJECTS</h1>
                     {resumeInView.projects.map((subsection, subsectionindex) => {
                         return <section key = {subsectionindex} className = "pl-[1.5%] break-inside-avoid-page pb-[1%] text-[90%]">
                             <header className = "relative w-full items-start flex justify-between">
-                                <div className = "flex gap-[15px]">
+                                <div className = "flex gap-[0.5em] flex-wrap items-center flex-1">
                                     <h1 className = "flex items-center font-bold text-[110%]">
                                         {subsection.projectname}
                                     </h1>
-                                    <div className = "flex items-center flex-wrap gap-[3px]">
+                                    <div className = "flex flex-wrap items-center gap-[0.5em]">
                                         {subsection.urls.map((ss_url, ssurlindex) => {
                                             return <div key = {ssurlindex} className = "flex items-center gap-[3px]">
                                                 <a key = {ssurlindex} href = {ss_url.url} target = "_blank" className = "text-blue-900 break-all font-bold italic">{ss_url.name}</a>
@@ -274,13 +274,16 @@ function Preview ({resumeInView}) {
                             {subsection.points && 
                                 <ul className = "pl-[1%]">
                                     {subsection.points.map((sspoint, sspointindex) => {
-                                        return <li className = "break-inside-avoid flex gap-[2px]" key = {sspointindex}> <div>{"-"}</div> {sspoint}</li>
+                                        return <li className = "break-inside-avoid " key = {sspointindex}>• {sspoint}</li>
                                     })}
                                 </ul>
+                                
                             }
                         </section>
+                        
                     })}
                 </section>}
+
 
                 {/* SKILLS */}
 
@@ -305,36 +308,30 @@ function Preview ({resumeInView}) {
                     {section.subsections.map((subsection, subsectionindex) => {
                         return <section key = {subsectionindex} className = "pl-[1.5%] pb-[0.5%] text-[90%]">
                             <header className = "relative w-full flex items-start justify-between">
-                                <div className = "flex gap-[15px] items-start">
+                                <div className = "flex gap-[0.5em] flex-wrap items-start">
                                     <h1 className = "flex items-center font-semibold">
                                         {subsection.title}
                                     </h1>
-                                    <div className = "flex items-center flex-wrap gap-[3px]">
+                                    <div className = "flex items-center flex-wrap gap-[0.5em]">
                                         {subsection.urls.map((ss_url, ssurlindex) => {
-                                            return <div key = {ssurlindex} className = "flex items-center gap-[3px]">
+                                            return <div key = {ssurlindex} className = "flex items-center gap-[0.5em]">
                                                 <a key = {ssurlindex} href = {ss_url.url} target = "_blank" className = "text-blue-900 break-all font-bold italic">{ss_url.name}</a>
                                                 {subsection.urls[ssurlindex+1] && " | "}
                                             </div>
                                         })}
                                     </div>
                                 </div>
-                                <div className = "italic flex gap-[5px] flex-wrap max-w-[50%] justify-end">
+                                <div className = "italic flex gap-[0.5em] flex-wrap max-w-[50%] justify-end">
                                     {subsection.start && (
                                         <div>
                                             {new Date(subsection.start).toLocaleDateString("en-IN", {
                                                 month: "short",
                                                 year: "numeric"
                                             })}
-                                            {/* Show dash and end/ongoing only if start exists */}
                                             {(subsection.end || subsection.ongoing) && (
                                                 <>
                                                     {" - "}
-                                                    {/* Show end date if not ongoing and end exists */}
-                                                    {!subsection.ongoing && subsection.end && new Date(subsection.end).toLocaleDateString("en-IN", {
-                                                        month: "short",
-                                                        year: "numeric"
-                                                    })}
-                                                    {/* Show 'ongoing' only if ongoing is true */}
+                                                    {!subsection.ongoing && subsection.end && new Date(subsection.end).toLocaleDateString("en-IN", { month: "short", year: "numeric" })}
                                                     {subsection.ongoing && "ongoing"}
                                                 </>
                                             )}
@@ -356,7 +353,7 @@ function Preview ({resumeInView}) {
                             {subsection.points && 
                                 <ul className = "pl-[1%]">
                                     {subsection.points.map((sspoint, sspointindex) => {
-                                        return <li className="break-inside-avoid-page" key = {sspointindex}> {"-"} {sspoint}</li>
+                                        return <li className="break-inside-avoid-page" key = {sspointindex}>• {sspoint}</li>
                                     })}
                                 </ul>
                             }

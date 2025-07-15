@@ -520,7 +520,7 @@
 .resume-extra-section-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: start;
   position: relative;
   width: 100%;
   margin: 0;
@@ -560,12 +560,17 @@
   gap: 5px;
   flex-wrap: wrap;
   max-width: 50%;
+  align-items: start;
   justify-content: end;
   margin: 0;
 }
 
 .resume-extra-section-extras {
   display: flex;
+  margin: 0;
+}
+
+.resume-extra-section-extras > p {
   margin: 0;
 }
 

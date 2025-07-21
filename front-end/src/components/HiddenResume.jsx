@@ -40,10 +40,10 @@ function HiddenResume({ resumeInView }) {
                 </div>
             </header>
             {resumeInView.summary && (
-                <div>
-                    <h1 className="resume-section-title">SUMMARY</h1>
+                <section className = "resume-section">
+                    <h1 className="resume-section-header resume-section-header-mb">SUMMARY</h1>
                     <p className="resume-summary">{resumeInView.summary}</p>
-                </div>
+                </section>
             )}
 
             {/* EDUCATION */}
@@ -263,7 +263,7 @@ function HiddenResume({ resumeInView }) {
             {/* SKILLS */}
             {resumeInView.skills.length > 0 && (
                 <section id="skills" className="resume-skills-section">
-                    <h1 className="resume-skills-title">PROFESSIONAL SKILLS</h1>
+                    <h1 className="resume-section-header resume-section-header-mb">PROFESSIONAL SKILLS</h1>
                     {resumeInView.skills && (
                         <ul className="resume-skills-list">
                             {resumeInView.skills.map((minisection, minisectionindex) => (
@@ -280,7 +280,7 @@ function HiddenResume({ resumeInView }) {
             {/* EXTRA SECTIONS */}
             {resumeInView.extraSections.map((section, sectionindex) => (
                 <section key={sectionindex} className="resume-extra-section">
-                    <h1 className="resume-extra-section-title">{section.sectionName.toUpperCase()}</h1>
+                    <h1 className="resume-section-header resume-section-header-mb">{section.sectionName.toUpperCase()}</h1>
                     {section.subsections.map((subsection, subsectionindex) => (
                         <section key={subsectionindex} className="resume-extra-section-content">
                             <header className="resume-extra-section-header">

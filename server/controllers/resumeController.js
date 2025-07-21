@@ -48,7 +48,7 @@ const updateResume = async (req, res) => {
         resume.private = req.body.private
         resume.feedback = req.body.feedback
         resume.views = req.body.views
-        resume.resumesummary = req.body.summary
+        resume.resumesummary = req.body.resumesummary
         resume.username = req.body.username
         resume.city = req.body.city
         resume.phonenum = req.body.phonenum

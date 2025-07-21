@@ -57,6 +57,7 @@ function EditResume({setCurrResumeData, url, setJobDescription, jobDescription, 
     const [projectsEdit, setProjectsEdit] = useState(false)
     const [skillsEdit, setSkillsEdit] = useState(false)
     const [extraSectionsEdit, setExtraSectionsEdit] = useState(false)
+    const [summaryEdit, setSummaryEdit] = useState(false)
 
 
     useEffect(() => {
@@ -75,7 +76,7 @@ function EditResume({setCurrResumeData, url, setJobDescription, jobDescription, 
                 onSubmit = {(event) => {
                     event.preventDefault()
                     updateResume(currResumeData._id, resumeToEdit)
-                    navigate("/")
+                    navigate("/myresumes")
                 }}
                 className = "flex flex-col gap-4">
                     {/* META */}
@@ -121,6 +122,13 @@ function EditResume({setCurrResumeData, url, setJobDescription, jobDescription, 
                         className = "p-8 bg-zinc-800 hover:bg-zinc-600 dark:bg-zinc-200 flex flex-col items-center text-zinc-100 dark:text-zinc-950 font-bold rounded-md">
                             <img src = {darkMode ? "/editblack.svg" : "/edit.svg"}/>
                             Edit Header Details
+                        </button>
+                        <button
+                        type = "button"
+                        onClick = {() => setSummaryEdit(true)}
+                        className = "p-8 bg-zinc-800 hover:bg-zinc-600 dark:bg-zinc-200 flex flex-col items-center text-zinc-100 dark:text-zinc-950 font-bold rounded-md">
+                            <img src = {darkMode ? "/editblack.svg" : "/edit.svg"}/>
+                            Edit Summary Details
                         </button>
                         <button
                         type= "button"
@@ -170,6 +178,7 @@ function EditResume({setCurrResumeData, url, setJobDescription, jobDescription, 
                         <img src = "/close.svg" />CANCEL
                     </button>
                     {headerEdit && <HeaderDetails resumeToEdit={resumeToEdit} setHeaderEdit={setHeaderEdit} setResumeToEdit={setResumeToEdit}/>}
+                    {summaryEdit && <SummaryDetails resumeToEdit={resumeToEdit} setSummaryEdit={setSummaryEdit} setResumeToEdit={setResumeToEdit}/>}
                     {educationEdit && <EducationDetails resumeToEdit={resumeToEdit} setEducationEdit={setEducationEdit} setResumeToEdit={setResumeToEdit}/>}
                     {experienceEdit && <ExperienceDetails resumeToEdit={resumeToEdit} setExperienceEdit={setExperienceEdit} setResumeToEdit={setResumeToEdit} />}
                     {projectsEdit && <ProjectDetails resumeToEdit={resumeToEdit} setProjectsEdit={setProjectsEdit} setResumeToEdit={setResumeToEdit} />}
@@ -470,6 +479,35 @@ function HeaderDetails ({resumeToEdit, setHeaderEdit, setResumeToEdit}) {
     )
 }
 
+function SummaryDetails ({resumeToEdit, setResumeToEdit, setSummaryEdit}) {
+
+    return (
+        <div className = "fixed top-0 left-0 z-50 h-screen flex flex-col items-center justify-center w-screen bg-zinc-100/30 dark:bg-zinc-950/30 backdrop-blur">
+            {/* EDUCATION DETAILS */}
+            <div className = "max-h-[90%] max-sm:text-sm min-w-[60%] max-sm:w-[90%] max-sm:p-2 overflow-hidden relative overflow-y-auto dark:bg-zinc-700 flex flex-col gap-4 bg-zinc-200 p-5 rounded-xl shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)]">
+                <button
+                onClick={() => setSummaryEdit(false)}
+                type = "button"
+                className = "absolute top-3 right-3 py-1 px-2 rounded-md text-blue-700 font-bold">
+                    DONE
+                </button>
+                <h1 className = "font-extrabold max-sm:text-lg text-2xl">Resume Summary</h1>
+                <textarea 
+                value = {resumeToEdit.resumesummary}
+                onChange={(e) => {
+                    const resumesummary = e.target.value
+                    setResumeToEdit((prev) => ({
+                        ...prev,
+                        resumesummary
+                    }))
+                }}
+                className = "p-2 rounded-md shadow border"
+                placeholder = "Resume Summary"
+                />
+            </div>
+        </div>
+    )
+}
 
 function EducationDetails ({resumeToEdit, setResumeToEdit, setEducationEdit}) {
     return (

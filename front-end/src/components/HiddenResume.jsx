@@ -87,20 +87,19 @@ function HiddenResume({ resumeInView }) {
                                                         ))}
                                                     </div>
                                                 )}
-                                                <div>
-                                                    {qfc.start && (
-                                                        <>
-                                                            {new Date(qfc.start).toLocaleDateString("en-IN", { year: "numeric", month: "long" })}
-                                                            {(qfc.end || qfc.ongoing) && (
-                                                                <>
-                                                                    {" - "}
-                                                                    {!qfc.ongoing && qfc.end && new Date(qfc.end).toLocaleDateString("en-IN", { month: "long", year: "numeric" })}
-                                                                    {qfc.ongoing && "Present"}
-                                                                </>
-                                                            )}
-                                                        </>
-                                                    )}
-                                                </div>
+                                                {qfc.start && (
+                                                    <>
+                                                        {qfc.extras.length > 0 && qfc.start && <span>, </span>}
+                                                        {new Date(qfc.start).toLocaleDateString("en-IN", { year: "numeric", month: "long" })}
+                                                        {(qfc.end || qfc.ongoing) && (
+                                                            <>
+                                                                {" - "}
+                                                                {!qfc.ongoing && qfc.end && new Date(qfc.end).toLocaleDateString("en-IN", { month: "long", year: "numeric" })}
+                                                                {qfc.ongoing && "Present"}
+                                                            </>
+                                                        )}
+                                                    </>
+                                                )}
                                                 {qfc.grades && <span className="resume-edu-qualification-grades">{qfc.grades}</span>}
                                             </div>
                                         </header>
@@ -161,25 +160,24 @@ function HiddenResume({ resumeInView }) {
                                                 {role.extras.length > 0 && (
                                                     <div className="resume-role-extras-list">
                                                         {role.extras.map((extra, sssextraindex) => (
-                                                            <p key={sssextraindex}>{extra}{role.extras[sssextraindex + 1] && ","}</p>
+                                                            <p key={sssextraindex}>{extra}</p>
                                                         ))}
                                                     </div>
                                                 )}
-                                                <div>
-                                                    {role.start && (
-                                                        <>
-                                                            {new Date(role.start).toLocaleDateString("en-IN", { year: "numeric", month: "long" })}
-                                                            {(role.end || role.ongoing) && (
-                                                                <>
-                                                                    {" - "}
-                                                                    {!role.ongoing && role.end && new Date(role.end).toLocaleDateString("en-IN", { month: "long", year: "numeric" })}
-                                                                    {role.ongoing && "Present"}
-                                                                </>
-                                                            )}
-                                                        </>
-                                                    )}
-                                                    {role.extras.length > 0 && ","}
-                                                </div>
+                                                {role.start && (
+                                                    <>
+                                                        {role.extras.length > 0 && role.start && <span>, </span>}
+                                                        {new Date(role.start).toLocaleDateString("en-IN", { year: "numeric", month: "long" })}
+                                                        {(role.end || role.ongoing) && (
+                                                            <>
+                                                                {" - "}
+                                                                {!role.ongoing && role.end && new Date(role.end).toLocaleDateString("en-IN", { month: "long", year: "numeric" })}
+                                                                {role.ongoing && "Present"}
+                                                            </>
+                                                        )}
+                                                    </>
+                                                )}
+                                                {role.extras.length > 0 && ","}
                                             </div>
                                         </header>
                                         <div className="resume-role-summary">
@@ -220,12 +218,13 @@ function HiddenResume({ resumeInView }) {
                                     {subsection.extras.length > 0 && (
                                         <div className="resume-proj-extras">
                                             {subsection.extras.map((extra, extraindex) => (
-                                                <p key={extraindex}>{extra}{subsection.extras[extraindex + 1] && ","}</p>
+                                                <p key={extraindex}>{extra}</p>
                                             ))}
                                         </div>
                                     )}
                                     {subsection.start && (
                                         <div>
+                                            {subsection.extras.length > 0 && subsection.start && <span>, </span>}
                                             {new Date(subsection.start).toLocaleDateString("en-IN", { month: "long", year: "numeric", day: "2-digit" })}
                                             {(subsection.end || subsection.ongoing) && (
                                                 <>
@@ -234,7 +233,6 @@ function HiddenResume({ resumeInView }) {
                                                     {subsection.ongoing && "Present"}
                                                 </>
                                             )}
-                                            {subsection.extras.length > 0 && ","}
                                         </div>
                                     )}
                                 </div>
@@ -305,6 +303,7 @@ function HiddenResume({ resumeInView }) {
                                     )}
                                     {subsection.start && (
                                         <div>
+                                            {subsection.extras.length > 0 && subsection.start && <span>, </span>}
                                             {new Date(subsection.start).toLocaleDateString("en-IN", { month: "long", year: "numeric" })}
                                             {(subsection.end || subsection.ongoing) && (
                                                 <>
@@ -313,7 +312,6 @@ function HiddenResume({ resumeInView }) {
                                                     {subsection.ongoing && "Present"}
                                                 </>
                                             )}
-                                            {subsection.extras.length > 0 && ","}
                                         </div>
                                     )}
                                 </div>

@@ -80,6 +80,7 @@ function Preview ({resumeInView}) {
                                                 {/* Show start date if present */}
                                                 {qfc.start && (
                                                     <>
+                                                        {qfc.extras.length > 0 && qfc.start && <span>, </span>}
                                                         {new Date(qfc.start).toLocaleDateString("en-IN", {
                                                             year: "numeric",
                                                             month: "long"
@@ -134,7 +135,7 @@ function Preview ({resumeInView}) {
                                 {org.extras.length > 0 &&
                                 <div className = "flex gap-[5px] flex-wrap justify-end">
                                     {org.extras.map((extra, extraindex) => {
-                                        return <p key = {extraindex}>{extra}{org.extras[extraindex+1] && ","}</p>
+                                        return <p key = {extraindex}>{extra}</p>
                                     })}
                                 </div>
                                 }
@@ -161,7 +162,7 @@ function Preview ({resumeInView}) {
                                             {role.extras.length > 0 &&
                                             <div className = "flex gap-[2px] justify-end">
                                                 {role.extras.map((extra, sssextraindex) => {
-                                                    return <p key = {sssextraindex}>{extra}{role.extras[sssextraindex + 1] && ","}</p>
+                                                    return <p key = {sssextraindex}>{extra}</p>
                                                 })}
                                             </div>
                                             }
@@ -169,6 +170,7 @@ function Preview ({resumeInView}) {
                                                 {/* Show start date if present */}
                                                 {role.start && (
                                                     <>
+                                                        {role.extras.length > 0 && role.start && <span>, </span>}
                                                         {new Date(role.start).toLocaleDateString("en-IN", {
                                                             year: "numeric",
                                                             month: "long"
@@ -231,12 +233,13 @@ function Preview ({resumeInView}) {
                                     {subsection.extras.length > 0 &&
                                     <div className = "flex gap-[5px]">
                                         {subsection.extras.map((extra, extraindex) => {
-                                            return <p key = {extraindex}>{extra}{subsection.extras[extraindex+1] && ","}</p>
+                                            return <p key = {extraindex}>{extra}</p>
                                         })}
                                     </div>
                                     }
                                     {subsection.start && (
                                         <div>
+                                            {subsection.extras.length > 0 && subsection.start && <span>, </span>}
                                             {new Date(subsection.start).toLocaleDateString("en-IN", {
                                                 month: "long",
                                                 year: "numeric",
@@ -331,6 +334,7 @@ function Preview ({resumeInView}) {
                                     }
                                     {subsection.start && (
                                         <div>
+                                            {subsection.extras.length > 0 && subsection.start && <span>, </span>}
                                             {new Date(subsection.start).toLocaleDateString("en-IN", {
                                                 month: "long",
                                                 year: "numeric"
@@ -342,7 +346,6 @@ function Preview ({resumeInView}) {
                                                     {subsection.ongoing && "Present"}
                                                 </>
                                             )}
-                                            {subsection.extras.length > 0 && ","}
                                         </div>
                                     )}
                                 </div>

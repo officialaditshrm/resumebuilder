@@ -75,7 +75,7 @@ function Preview2 ({resumeInView}) {
                                                     <>
                                                         {new Date(qfc.start).toLocaleDateString("en-IN", {
                                                             year: "numeric",
-                                                            month: "short"
+                                                            month: "long"
                                                         })}
                                                         {/* Show dash and end/ongoing only if start exists */}
                                                         {(qfc.end || qfc.ongoing) && (
@@ -83,7 +83,7 @@ function Preview2 ({resumeInView}) {
                                                                 {" - "}
                                                                 {/* Show end date if not ongoing and end exists */}
                                                                 {!qfc.ongoing && qfc.end && new Date(qfc.end).toLocaleDateString("en-IN", {
-                                                                    month: "short",
+                                                                    month: "long",
                                                                     year: "numeric"
                                                                 })}
                                                                 {/* Show 'ongoing' only if ongoing is true */}
@@ -164,7 +164,7 @@ function Preview2 ({resumeInView}) {
                                                     <>
                                                         {new Date(role.start).toLocaleDateString("en-IN", {
                                                             year: "numeric",
-                                                            month: "short"
+                                                            month: "long"
                                                         })}
                                                         {/* Show dash and end/ongoing only if start exists */}
                                                         {(role.end || role.ongoing) && (
@@ -172,7 +172,7 @@ function Preview2 ({resumeInView}) {
                                                                 {" - "}
                                                                 {/* Show end date if not ongoing and end exists */}
                                                                 {!role.ongoing && role.end && new Date(role.end).toLocaleDateString("en-IN", {
-                                                                    month: "short",
+                                                                    month: "long",
                                                                     year: "numeric"
                                                                 })}
                                                                 {/* Show 'ongoing' only if ongoing is true */}
@@ -231,7 +231,7 @@ function Preview2 ({resumeInView}) {
                                     {subsection.start && (
                                         <div>
                                             {new Date(subsection.start).toLocaleDateString("en-IN", {
-                                                month: "short",
+                                                month: "long",
                                                 year: "numeric",
                                                 day: "2-digit"
                                             })}
@@ -241,7 +241,7 @@ function Preview2 ({resumeInView}) {
                                                     {" - "}
                                                     {/* Show end date if not ongoing and end exists */}
                                                     {!subsection.ongoing && subsection.end && new Date(subsection.end).toLocaleDateString("en-IN", {
-                                                        month: "short",
+                                                        month: "long",
                                                         year: "numeric",
                                                         day: "2-digit"
                                                     })}
@@ -325,13 +325,13 @@ function Preview2 ({resumeInView}) {
                                     {subsection.start && (
                                         <div>
                                             {new Date(subsection.start).toLocaleDateString("en-IN", {
-                                                month: "short",
+                                                month: "long",
                                                 year: "numeric"
                                             })}
                                             {(subsection.end || subsection.ongoing) && (
                                                 <>
                                                     {" - "}
-                                                    {!subsection.ongoing && subsection.end && new Date(subsection.end).toLocaleDateString("en-IN", { month: "short", year: "numeric" })}
+                                                    {!subsection.ongoing && subsection.end && new Date(subsection.end).toLocaleDateString("en-IN", { month: "long", year: "numeric" })}
                                                     {subsection.ongoing && "ongoing"}
                                                 </>
                                             )}

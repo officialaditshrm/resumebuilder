@@ -9,9 +9,9 @@ function Preview2 ({resumeInView}) {
                     {resumeInView.username.toUpperCase()}
                 </h1>
                 <div className = "flex break-inside-avoid-page items-center mb-[1%] text-[90%] justify-center flex-wrap ">
-                    {resumeInView.city}{resumeInView.state && ", "}
-                    {resumeInView.state}{resumeInView.country && ", "}
-                    {resumeInView.country}{resumeInView.pincode && " - "}
+                    {resumeInView.city}{resumeInView.city && resumeInView.state && ", "}
+                    {resumeInView.state}{resumeInView.state && resumeInView.country && ", "}
+                    {resumeInView.country}{resumeInView.country && resumeInView.pincode && " - "}
                     {resumeInView.pincode}
                 </div>
                 <div className = "flex break-inside-avoid-page justify-center flex-wrap text-[85%] gap-2">
@@ -113,7 +113,7 @@ function Preview2 ({resumeInView}) {
 
             {/* PROFESSIONAL EXPERIENCE */}
             {resumeInView.experience.length > 0 && <section id = "experience" className = "border-t border-black mt-[2.5%]">
-                <h1 className = "font-extrabold break-inside-avoid-page mb-[1%]">WORK EXPERIENCE</h1>
+                <h1 className = "font-extrabold break-inside-avoid-page mb-[1%]">EXPERIENCE</h1>
                 {resumeInView.experience.map((org, org_index) => {
                     return <section key = {org_index} className = "pl-[1.5%] pb-[0.5%] text-[90%]">
                         <header className = "break-inside-avoid-page relative w-full flex items-center justify-between">
@@ -288,7 +288,7 @@ function Preview2 ({resumeInView}) {
                 {/* SKILLS */}
 
                 {resumeInView.skills.length > 0 && <section id = "skills" className = "border-t border-black pb-[1%] mt-[2.5%] break-inside-avoid-page">
-                    <h1 className = "font-extrabold mb-[1%]">PROFESSIONAL SKILLS</h1>
+                    <h1 className = "font-extrabold mb-[1%]">SKILLS</h1>
                     {resumeInView.skills &&
                         <ul className = "pl-[1.5%] text-[90%] flex flex-col gap-[1px]">
                             {resumeInView.skills.map((minisection, minisectionindex) => {

@@ -7,9 +7,9 @@ function HiddenResume({ resumeInView }) {
                     {resumeInView.username.toUpperCase()}
                 </h1>
                 <div className="resume-location">
-                    {resumeInView.city}{resumeInView.state && ", "}
-                    {resumeInView.state}{resumeInView.country && ", "}
-                    {resumeInView.country}{resumeInView.pincode && " - "}
+                    {resumeInView.city}{resumeInView.city && resumeInView.state && ", "}
+                    {resumeInView.state}{resumeInView.state && resumeInView.country && ", "}
+                    {resumeInView.country}{resumeInView.country && resumeInView.pincode && " - "}
                     {resumeInView.pincode}
                 </div>
                 <div className="resume-contact">
@@ -115,7 +115,7 @@ function HiddenResume({ resumeInView }) {
             {/* PROFESSIONAL EXPERIENCE */}
             {resumeInView.experience.length > 0 && (
                 <section id="experience" className="resume-section">
-                    <h1 className="resume-section-header resume-section-header-mb">WORK EXPERIENCE</h1>
+                    <h1 className="resume-section-header resume-section-header-mb">EXPERIENCE</h1>
                     {resumeInView.experience.map((org, org_index) => (
                         <section key={org_index} className="resume-exp-section">
                             <header className="resume-exp-header">
@@ -263,7 +263,7 @@ function HiddenResume({ resumeInView }) {
             {/* SKILLS */}
             {resumeInView.skills.length > 0 && (
                 <section id="skills" className="resume-skills-section">
-                    <h1 className="resume-section-header resume-section-header-mb">PROFESSIONAL SKILLS</h1>
+                    <h1 className="resume-section-header resume-section-header-mb">SKILLS</h1>
                     {resumeInView.skills && (
                         <ul className="resume-skills-list">
                             {resumeInView.skills.map((minisection, minisectionindex) => (

@@ -39,10 +39,10 @@ function HiddenResume({ resumeInView }) {
                     ))}
                 </div>
             </header>
-            {resumeInView.summary && (
+            {resumeInView.resumesummary && (
                 <section className = "resume-section">
                     <h1 className="resume-section-header resume-section-header-mb">SUMMARY</h1>
-                    <p className="resume-summary">{resumeInView.summary}</p>
+                    <p className="resume-summary">{resumeInView.resumesummary}</p>
                 </section>
             )}
 

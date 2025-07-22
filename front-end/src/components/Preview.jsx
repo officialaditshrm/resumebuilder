@@ -26,10 +26,10 @@ function Preview ({resumeInView}) {
                     })}
                 </div>
             </header>
-            {resumeInView.summary &&
+            {resumeInView.resumesummary &&
             <section id = "summary" className = "border-t border-black mt-[2.5%]">
                 <h1 className = "font-extrabold break-inside-avoid-page mb-[0.5%]">SUMMARY</h1>
-                <p className = "pl-[1.5%] break-inside-avoid-page text-[90%]">{resumeInView.summary}</p>
+                <p className = "pl-[1.5%] break-inside-avoid-page text-[90%]">{resumeInView.resumesummary}</p>
             </section>
             }
 

@@ -222,7 +222,7 @@ const handleExportPDFPuppeteer = async () => {
                         )}
                     </div>
 
-                    {loggedInUser._id === currResumeData.user_id && (
+                    {loggedInUser?._id === currResumeData.user_id && (
                         <div className="w-full flex flex-col gap-4 bg-sky-900 p-5 rounded-xl items-center">
                             <h1 className="text-2xl text-sky-100 font-extrabold">Download</h1>
                             <button
@@ -237,7 +237,7 @@ const handleExportPDFPuppeteer = async () => {
 
                     
 
-                    {loggedInUser && loggedInUser._id === currResumeData.user_id && (
+                    {loggedInUser?._id === currResumeData.user_id && (
                         <button
                             onClick={() => setShowDeleteWarning(true)}
                             className="max-sm:text-xs text-white py-2 px-3 font-extrabold flex gap-1 rounded-md bg-red-900"

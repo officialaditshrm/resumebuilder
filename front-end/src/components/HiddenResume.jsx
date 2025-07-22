@@ -80,6 +80,13 @@ function HiddenResume({ resumeInView }) {
                                                 </div>
                                             </div>
                                             <div className="resume-edu-qualification-dates">
+                                                {qfc.extras.length > 0 && (
+                                                    <div className="resume-edu-qualification-extras">
+                                                        {qfc.extras.map((extra, sssextraindex) => (
+                                                            <p key={sssextraindex}>{extra}</p>
+                                                        ))}
+                                                    </div>
+                                                )}
                                                 <div>
                                                     {qfc.start && (
                                                         <>
@@ -94,13 +101,6 @@ function HiddenResume({ resumeInView }) {
                                                         </>
                                                     )}
                                                 </div>
-                                                {qfc.extras.length > 0 && (
-                                                    <div className="resume-edu-qualification-extras">
-                                                        {qfc.extras.map((extra, sssextraindex) => (
-                                                            <p key={sssextraindex}>{extra}</p>
-                                                        ))}
-                                                    </div>
-                                                )}
                                                 {qfc.grades && <span className="resume-edu-qualification-grades">{qfc.grades}</span>}
                                             </div>
                                         </header>
@@ -158,6 +158,13 @@ function HiddenResume({ resumeInView }) {
                                                 )}
                                             </div>
                                             <div className="resume-role-dates">
+                                                {role.extras.length > 0 && (
+                                                    <div className="resume-role-extras-list">
+                                                        {role.extras.map((extra, sssextraindex) => (
+                                                            <p key={sssextraindex}>{extra}{role.extras[sssextraindex + 1] && ","}</p>
+                                                        ))}
+                                                    </div>
+                                                )}
                                                 <div>
                                                     {role.start && (
                                                         <>
@@ -173,13 +180,6 @@ function HiddenResume({ resumeInView }) {
                                                     )}
                                                     {role.extras.length > 0 && ","}
                                                 </div>
-                                                {role.extras.length > 0 && (
-                                                    <div className="resume-role-extras-list">
-                                                        {role.extras.map((extra, sssextraindex) => (
-                                                            <p key={sssextraindex}>{extra}{role.extras[sssextraindex + 1] && ","}</p>
-                                                        ))}
-                                                    </div>
-                                                )}
                                             </div>
                                         </header>
                                         <div className="resume-role-summary">
@@ -217,6 +217,13 @@ function HiddenResume({ resumeInView }) {
                                     </div>
                                 </div>
                                 <div className="resume-proj-dates">
+                                    {subsection.extras.length > 0 && (
+                                        <div className="resume-proj-extras">
+                                            {subsection.extras.map((extra, extraindex) => (
+                                                <p key={extraindex}>{extra}{subsection.extras[extraindex + 1] && ","}</p>
+                                            ))}
+                                        </div>
+                                    )}
                                     {subsection.start && (
                                         <div>
                                             {new Date(subsection.start).toLocaleDateString("en-IN", { month: "long", year: "numeric", day: "2-digit" })}
@@ -228,13 +235,6 @@ function HiddenResume({ resumeInView }) {
                                                 </>
                                             )}
                                             {subsection.extras.length > 0 && ","}
-                                        </div>
-                                    )}
-                                    {subsection.extras.length > 0 && (
-                                        <div className="resume-proj-extras">
-                                            {subsection.extras.map((extra, extraindex) => (
-                                                <p key={extraindex}>{extra}{subsection.extras[extraindex + 1] && ","}</p>
-                                            ))}
                                         </div>
                                     )}
                                 </div>
@@ -296,6 +296,13 @@ function HiddenResume({ resumeInView }) {
                                     </div>
                                 </div>
                                 <div className="resume-extra-section-dates">
+                                    {subsection.extras.length > 0 && (
+                                        <div className="resume-extra-section-extras">
+                                            {subsection.extras.map((extra, extraindex) => (
+                                                <p key={extraindex}>{extra}</p>
+                                            ))}
+                                        </div>
+                                    )}
                                     {subsection.start && (
                                         <div>
                                             {new Date(subsection.start).toLocaleDateString("en-IN", { month: "long", year: "numeric" })}
@@ -307,13 +314,6 @@ function HiddenResume({ resumeInView }) {
                                                 </>
                                             )}
                                             {subsection.extras.length > 0 && ","}
-                                        </div>
-                                    )}
-                                    {subsection.extras.length > 0 && (
-                                        <div className="resume-extra-section-extras">
-                                            {subsection.extras.map((extra, extraindex) => (
-                                                <p key={extraindex}>{extra}</p>
-                                            ))}
                                         </div>
                                     )}
                                 </div>

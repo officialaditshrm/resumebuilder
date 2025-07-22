@@ -69,6 +69,13 @@ function Preview ({resumeInView}) {
                                             </div>
                                         </div>
                                         <div className = "flex flex-col items-end max-w-[30%]">
+                                            {qfc.extras.length > 0 &&
+                                            <div className = "flex flex-col items-end">
+                                                {qfc.extras.map((extra, sssextraindex) => {
+                                                    return <p key = {sssextraindex}>{extra}</p>
+                                                })}
+                                            </div>
+                                            }
                                             <div className = "flex">
                                                 {/* Show start date if present */}
                                                 {qfc.start && (
@@ -93,13 +100,6 @@ function Preview ({resumeInView}) {
                                                     </>
                                                 )}
                                             </div>
-                                            {qfc.extras.length > 0 &&
-                                            <div className = "flex flex-col items-end">
-                                                {qfc.extras.map((extra, sssextraindex) => {
-                                                    return <p key = {sssextraindex}>{extra}</p>
-                                                })}
-                                            </div>
-                                            }
                                             {qfc.grades && qfc.grades}
                                         </div>
                                     </header>
@@ -158,6 +158,13 @@ function Preview ({resumeInView}) {
                                             }
                                         </div>
                                         <div className = "flex gap-[5px] justify-end max-w-[50%]">
+                                            {role.extras.length > 0 &&
+                                            <div className = "flex gap-[2px] justify-end">
+                                                {role.extras.map((extra, sssextraindex) => {
+                                                    return <p key = {sssextraindex}>{extra}{role.extras[sssextraindex + 1] && ","}</p>
+                                                })}
+                                            </div>
+                                            }
                                             <div className = "flex">
                                                 {/* Show start date if present */}
                                                 {role.start && (
@@ -183,13 +190,6 @@ function Preview ({resumeInView}) {
                                                 )}
                                                 {role.extras.length > 0 && ","}
                                             </div>
-                                            {role.extras.length > 0 &&
-                                            <div className = "flex gap-[2px] justify-end">
-                                                {role.extras.map((extra, sssextraindex) => {
-                                                    return <p key = {sssextraindex}>{extra}{role.extras[sssextraindex + 1] && ","}</p>
-                                                })}
-                                            </div>
-                                            }
                                         </div>
                                     </header>
                                     <div className = "flex flex-col">
@@ -228,6 +228,13 @@ function Preview ({resumeInView}) {
                                     </div>
                                 </div>
                                 <div className = "italic flex gap-[5px] justify-end max-w-[50%] flex-wrap">
+                                    {subsection.extras.length > 0 &&
+                                    <div className = "flex gap-[5px]">
+                                        {subsection.extras.map((extra, extraindex) => {
+                                            return <p key = {extraindex}>{extra}{subsection.extras[extraindex+1] && ","}</p>
+                                        })}
+                                    </div>
+                                    }
                                     {subsection.start && (
                                         <div>
                                             {new Date(subsection.start).toLocaleDateString("en-IN", {
@@ -252,13 +259,6 @@ function Preview ({resumeInView}) {
                                             {subsection.extras.length > 0 && ","}
                                         </div>
                                     )}
-                                    {subsection.extras.length > 0 &&
-                                    <div className = "flex gap-[5px]">
-                                        {subsection.extras.map((extra, extraindex) => {
-                                            return <p key = {extraindex}>{extra}{subsection.extras[extraindex+1] && ","}</p>
-                                        })}
-                                    </div>
-                                    }
                                 </div>
                             </header>
                             {subsection.stack &&
@@ -322,6 +322,13 @@ function Preview ({resumeInView}) {
                                     </div>
                                 </div>
                                 <div className = "italic flex gap-[0.5em] flex-wrap max-w-[50%] justify-end">
+                                    {subsection.extras.length > 0 &&
+                                    <div className = "flex">
+                                        {subsection.extras.map((extra, extraindex) => {
+                                            return <p key = {extraindex}>{extra}</p>
+                                        })}
+                                    </div>
+                                    }
                                     {subsection.start && (
                                         <div>
                                             {new Date(subsection.start).toLocaleDateString("en-IN", {
@@ -338,13 +345,6 @@ function Preview ({resumeInView}) {
                                             {subsection.extras.length > 0 && ","}
                                         </div>
                                     )}
-                                    {subsection.extras.length > 0 &&
-                                    <div className = "flex">
-                                        {subsection.extras.map((extra, extraindex) => {
-                                            return <p key = {extraindex}>{extra}</p>
-                                        })}
-                                    </div>
-                                    }
                                 </div>
                             </header>
                             {subsection.summary && 

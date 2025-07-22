@@ -88,7 +88,7 @@ function HiddenResume({ resumeInView }) {
                                                                 <>
                                                                     {" - "}
                                                                     {!qfc.ongoing && qfc.end && new Date(qfc.end).toLocaleDateString("en-IN", { month: "short", year: "numeric" })}
-                                                                    {qfc.ongoing && "ongoing"}
+                                                                    {qfc.ongoing && "Present"}
                                                                 </>
                                                             )}
                                                         </>
@@ -166,7 +166,7 @@ function HiddenResume({ resumeInView }) {
                                                                 <>
                                                                     {" - "}
                                                                     {!role.ongoing && role.end && new Date(role.end).toLocaleDateString("en-IN", { month: "short", year: "numeric" })}
-                                                                    {role.ongoing && "ongoing"}
+                                                                    {role.ongoing && "Present"}
                                                                 </>
                                                             )}
                                                         </>
@@ -224,7 +224,7 @@ function HiddenResume({ resumeInView }) {
                                                 <>
                                                     {" - "}
                                                     {!subsection.ongoing && subsection.end && new Date(subsection.end).toLocaleDateString("en-IN", { month: "short", year: "numeric", day: "2-digit" })}
-                                                    {subsection.ongoing && "ongoing"}
+                                                    {subsection.ongoing && "Present"}
                                                 </>
                                             )}
                                             {subsection.extras.length > 0 && ","}
@@ -303,7 +303,7 @@ function HiddenResume({ resumeInView }) {
                                                 <>
                                                     {" - "}
                                                     {!subsection.ongoing && subsection.end && new Date(subsection.end).toLocaleDateString("en-IN", { month: "short", year: "numeric" })}
-                                                    {subsection.ongoing && "ongoing"}
+                                                    {subsection.ongoing && "Present"}
                                                 </>
                                             )}
                                             {subsection.extras.length > 0 && ","}

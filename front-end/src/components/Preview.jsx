@@ -87,7 +87,7 @@ function Preview ({resumeInView}) {
                                                                     year: "numeric"
                                                                 })}
                                                                 {/* Show 'ongoing' only if ongoing is true */}
-                                                                {qfc.ongoing && "ongoing"}
+                                                                {qfc.ongoing && "Present"}
                                                             </>
                                                         )}
                                                     </>
@@ -176,7 +176,7 @@ function Preview ({resumeInView}) {
                                                                     year: "numeric"
                                                                 })}
                                                                 {/* Show 'ongoing' only if ongoing is true */}
-                                                                {role.ongoing && "ongoing"}
+                                                                {role.ongoing && "Present"}
                                                             </>
                                                         )}
                                                     </>
@@ -246,7 +246,7 @@ function Preview ({resumeInView}) {
                                                         day: "2-digit"
                                                     })}
                                                     {/* Show 'ongoing' only if ongoing is true */}
-                                                    {subsection.ongoing && "ongoing"}
+                                                    {subsection.ongoing && "Present"}
                                                 </>
                                             )}
                                             {subsection.extras.length > 0 && ","}
@@ -332,7 +332,7 @@ function Preview ({resumeInView}) {
                                                 <>
                                                     {" - "}
                                                     {!subsection.ongoing && subsection.end && new Date(subsection.end).toLocaleDateString("en-IN", { month: "short", year: "numeric" })}
-                                                    {subsection.ongoing && "ongoing"}
+                                                    {subsection.ongoing && "Present"}
                                                 </>
                                             )}
                                             {subsection.extras.length > 0 && ","}

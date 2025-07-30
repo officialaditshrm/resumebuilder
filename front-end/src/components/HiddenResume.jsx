@@ -54,7 +54,7 @@ function HiddenResume({ resumeInView }) {
                         <section key={education_index} className="resume-edu-section">
                             <header className="resume-edu-header">
                                 <div className="resume-edu-header-left">
-                                    <h1 className="resume-edu-title">{edu.institution}</h1>
+                                    <h2 className="resume-edu-title">{edu.institution}</h2>
                                 </div>
                             </header>
                             <section className="resume-edu-qualifications">
@@ -63,7 +63,7 @@ function HiddenResume({ resumeInView }) {
                                         <header className="resume-edu-qualification-header">
                                             <div className="resume-edu-qualification-main">
                                                 <div className="resume-edu-qualification-row">
-                                                    <h1 className="resume-edu-qualification-name">{qfc.name}</h1>
+                                                    <h2 className="resume-edu-qualification-name">{qfc.name}</h2>
                                                     {qfc.urls && (
                                                         <div className="resume-edu-qualification-links">
                                                             {qfc.urls.map((sss_url, sssurlindex) => (
@@ -119,7 +119,7 @@ function HiddenResume({ resumeInView }) {
                         <section key={org_index} className="resume-exp-section">
                             <header className="resume-exp-header">
                                 <div className="resume-exp-header-main">
-                                    <h1 className="resume-exp-title">{org.organization.toUpperCase()}</h1>
+                                    <h2 className="resume-exp-title">{org.organization.toUpperCase()}</h2>
                                     <div className="resume-exp-links">
                                         {org.urls.map((ss_url, ssurlindex) => (
                                             <div key={ssurlindex} className="resume-exp-link">
@@ -144,7 +144,7 @@ function HiddenResume({ resumeInView }) {
                                     <div key={roleindex} className="resume-role-section">
                                         <header className="resume-role-header">
                                             <div className="resume-role-header-main">
-                                                <h1 className="resume-role-title">{role.rolename}</h1>
+                                                <h2 className="resume-role-title">{role.rolename}</h2>
                                                 {role.urls && (
                                                     <div className="resume-role-links">
                                                         {role.urls.map((sss_url, sssurlindex) => (
@@ -204,7 +204,7 @@ function HiddenResume({ resumeInView }) {
                         <section key={subsectionindex} className="resume-proj-section">
                             <header className="resume-proj-header">
                                 <div className="resume-proj-header-main">
-                                    <h1 className="resume-proj-title">{subsection.projectname}</h1>
+                                    <h2 className="resume-proj-title">{subsection.projectname}</h2>
                                     <div className="resume-proj-links">
                                         {subsection.urls.map((ss_url, ssurlindex) => (
                                             <div key={ssurlindex} className="resume-proj-link">
@@ -283,7 +283,7 @@ function HiddenResume({ resumeInView }) {
                         <section key={subsectionindex} className="resume-extra-section-content">
                             <header className="resume-extra-section-header">
                                 <div className="resume-extra-section-title-inner">
-                                    <h1 className="resume-extra-section-title-text">{subsection.title}</h1>
+                                    <h2 className="resume-extra-section-title-text">{subsection.title}</h2>
                                     <div className="resume-extra-section-links">
                                         {subsection.urls.map((ss_url, ssurlindex) => (
                                             <div key={ssurlindex} className="resume-extra-section-link">

@@ -89,7 +89,13 @@
   margin: 0;
 }
 
-.resume-contact label,
+.resume-contact label {
+  font-weight: bold;
+  font-style: italic;
+  margin: 0;
+  text-decoration: none;
+}
+
 .resume-contact a {
   font-weight: bold;
   font-style: italic;
@@ -139,9 +145,36 @@
 }
 
 
-.resume-edu-section,
-.resume-exp-section,
-.resume-role-section,
+.resume-edu-section {
+  padding-left: 1.5%;
+  font-size: 90%;
+  break-inside: avoid-page;
+  display:flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+}
+
+.resume-exp-section {
+  padding-left: 1.5%;
+  font-size: 90%;
+  break-inside: avoid-page;
+  display:flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+}
+
+.resume-role-section {
+  padding-left: 1.5%;
+  font-size: 90%;
+  break-inside: avoid-page;
+  display:flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+}
+
 .resume-proj-section {
   padding-left: 1.5%;
   font-size: 90%;

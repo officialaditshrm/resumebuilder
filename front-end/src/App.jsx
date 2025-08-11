@@ -13,8 +13,8 @@ import Footer from './components/Footer.jsx'
 import Profile from './pages/Profile.jsx'
 import Landing from './pages/Landing.jsx'
 
-const url = 'https://resumebuilder-15o2.onrender.com'
-// const url = "http://localhost:6500"
+// const url = 'https://resumebuilder-15o2.onrender.com'
+const url = "http://localhost:6500"
 
 function App() {
   const [darkMode, setDarkMode] = useState(false)

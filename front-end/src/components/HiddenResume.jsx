@@ -260,7 +260,7 @@ function HiddenResume({ resumeInView }) {
 
             {/* SKILLS */}
             {resumeInView.skills.length > 0 && (
-                <section id="skills" className="resume-skills-section">
+                <section id="skills" className="resume-section">
                     <h1 className="resume-section-header resume-section-header-mb">SKILLS</h1>
                     {resumeInView.skills && (
                         <ul className="resume-skills-list">
@@ -277,7 +277,7 @@ function HiddenResume({ resumeInView }) {
 
             {/* EXTRA SECTIONS */}
             {resumeInView.extraSections.map((section, sectionindex) => (
-                <section key={sectionindex} className="resume-extra-section">
+                <section key={sectionindex} className="resume-section">
                     <h1 className="resume-section-header resume-section-header-mb">{section.sectionName.toUpperCase()}</h1>
                     {section.subsections.map((subsection, subsectionindex) => (
                         <section key={subsectionindex} className="resume-extra-section-content">

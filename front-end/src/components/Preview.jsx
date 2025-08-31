@@ -24,6 +24,7 @@ function Preview ({resumeInView}) {
                             {resumeInView.header_urls[headerindex+1] && "  |"}
                         </div>
                     })}
+                    
                 </div>
             </header>
             {resumeInView.resumesummary &&

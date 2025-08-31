@@ -6,9 +6,9 @@ function HiddenResume({ resumeInView }) {
                     {resumeInView.username.toUpperCase()}
                 </h1>
                 <div className="resume-location">
-                    {resumeInView.city}{resumeInView.city && resumeInView.state && ", "}
-                    {resumeInView.state}{resumeInView.state && resumeInView.country && ", "}
-                    {resumeInView.country}{resumeInView.country && resumeInView.pincode && " - "}
+                    {resumeInView.city}{(resumeInView.city && resumeInView.state) && ", "}
+                    {resumeInView.state}{(resumeInView.state && resumeInView.country) && ", "}
+                    {resumeInView.country}{(resumeInView.country && resumeInView.pincode) && " - "}
                     {resumeInView.pincode}
                 </div>
                 <div className="resume-contact">

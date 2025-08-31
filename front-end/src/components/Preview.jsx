@@ -9,9 +9,9 @@ function Preview ({resumeInView}) {
                     {resumeInView.username.toUpperCase()}
                 </h1>
                 <div className = "flex break-inside-avoid-page items-center mb-[1%] text-[90%] justify-center flex-wrap ">
-                    {resumeInView.city}{resumeInView.city && resumeInView.state && ", "}
-                    {resumeInView.state}{resumeInView.state && resumeInView.country && ", "}
-                    {resumeInView.country}{resumeInView.country && resumeInView.pincode && " - "}
+                    {resumeInView.city}{(resumeInView.city && resumeInView.state) && ", "}
+                    {resumeInView.state}{(resumeInView.state && resumeInView.country) && ", "}
+                    {resumeInView.country}{(resumeInView.country && resumeInView.pincode) && " - "}
                     {resumeInView.pincode}
                 </div>
                 <div className = "flex break-inside-avoid-page justify-center flex-wrap text-[85%] gap-2">

@@ -1,5 +1,6 @@
+import { useNavigate } from "react-router-dom";
 function ResumeBegin ({untitledResume, setUntitledResume, createResume, setResumeBegin}) {
-
+    const navigate = useNavigate()
     return (
         <div className = "fixed z-50 top-0 left-0 h-screen w-screen bg-zinc-100/30 dark:bg-zinc-950/30 items-center flex flex-col justify-center backdrop-blur">
             <form
@@ -8,6 +9,7 @@ function ResumeBegin ({untitledResume, setUntitledResume, createResume, setResum
                 createResume(untitledResume);
                 setUntitledResume(null);
                 setResumeBegin(false);
+                navigate("/myresumes")
             }}
             className = "p-4 sm:p-8 min-w-[50%] max-sm:text-sm gap-8 shadow-[0_0_5px_1px_rgba(0,0,0,0.15)] bg-zinc-200 dark:bg-zinc-800 rounded-xl flex flex-col">
                 <div className = "flex flex-col gap-2">

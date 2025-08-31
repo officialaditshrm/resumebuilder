@@ -13,8 +13,8 @@ import Footer from './components/Footer.jsx'
 import Profile from './pages/Profile.jsx'
 import Landing from './pages/Landing.jsx'
 
-// const url = 'https://resumebuilder-15o2.onrender.com'
-const url = "http://localhost:6500"
+const url = 'https://resumebuilder-15o2.onrender.com'
+// const url = "http://localhost:6500"
 
 function App() {
   const [darkMode, setDarkMode] = useState(false)
@@ -150,6 +150,17 @@ function App() {
         setResumeBegin(true)}
     }
 
+  const copyResume = (refResume) => {
+    if (loggedInUser) {
+      const newCopy = {...refResume, name: refResume.name + "_Copy", user_id: loggedInUser._id, username : loggedInUser.name}
+      delete newCopy._id
+      delete newCopy.createdAt
+      delete newCopy.updatedAt
+      setUntitledResume(newCopy)
+      setResumeBegin(true)
+    }
+  }
+
 
   const fetchResumes = async () => {
     try {
@@ -171,7 +182,7 @@ function App() {
   }
 
   const createResume = async (newResume) => {
-      try {
+    try {
       const response = await fetch(`${url}/api/resumes/`, {
           method: "POST",
           headers: {
@@ -179,14 +190,18 @@ function App() {
           },
           body: JSON.stringify(newResume)
       })
-      if (!response.ok) {
-          throw new Error("Could not create new resume")
+      const data = await response.json(); // <-- read JSON from backend
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || "Could not create new resume");
       }
-      fetchResumes()
-    } catch(error) {
-      console.error(error.message)
+
+      console.log(data.message); // log success message
+      fetchResumes();
+    } catch (error) {
+      console.error("Error creating resume:", error.message);
     }
-  }
+  };
 
 
   const updateResume = async (id, newResume) => {
@@ -397,6 +412,7 @@ function App() {
             aiResult = {aiResult}
             setAiResult = {setAiResult}
             jobDescription = {jobDescription}
+            copyResume = {copyResume}
             handleAIAnalysis = {handleAIAnalysis}
             darkMode = {darkMode}
             smallScreen = {smallScreen} 

@@ -24,11 +24,11 @@ const addResume = async (req, res) => {
             message: "Resume Added Successfully",
             data: resume
         })
-    } catch(error){
-        console.log("Error adding resume")
+    } catch(err){
+        console.log("Error adding resume", err.message)
         return res.json({
             success: false,
-            message: error.message
+            message: err.message
         })
     }
 }

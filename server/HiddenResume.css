@@ -103,13 +103,25 @@
   text-decoration: none;
 }
 
+.resume-links {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 0 3px 0 0;
+  font-style: italic;
+  font-weight: bold;
+  align-items: center;
+}
+
+.resume-high-link {
+  display: flex;
+  margin: 0;
+}
+
 .resume-link {
   color: #1e3a8a;
+  margin: 0 3px 0 3px;
   word-break: break-all;
-  font-weight: bold;
   text-decoration: none;
-  font-style: italic;
-  margin: 0;
 }
 
 .resume-section-title {
@@ -163,6 +175,10 @@
   flex-direction: column;
   gap: 2px;
   margin: 0;
+}
+
+.date {
+  display: flex;
 }
 
 .resume-role-section {
@@ -245,6 +261,7 @@
 .resume-edu-qualification-name {
   font-size: 110%;
   margin: 0;
+  font-weight: normal;
 }
 
 .resume-edu-qualification-links {
@@ -307,50 +324,25 @@
 
 .resume-exp-header-main {
   display: flex;
-  gap: 15px;
+  align-items: center;
   margin: 0;
+  flex-wrap: wrap;
 }
 
 .resume-exp-title {
-  font-weight: bold;
   display: flex;
   font-size: 100%;
   align-items: center;
+  overflow-wrap: break-word;
+  font-weight: bold;
   margin: 0;
 }
 
-.resume-exp-links {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 3px;
-  margin-bottom: 0;
-}
-
-.resume-exp-link {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  margin: 0;
-}
 
 .resume-exp-extras {
   font-style: italic;
   display: flex;
   flex-direction: column;
-  max-width: 50%;
-  margin: 0;
-}
-
-.resume-exp-extras-list {
-  display: flex;
-  gap: 5px;
-  flex-wrap: wrap;
-  justify-content: end;
-  margin: 0;
-}
-
-.resume-exp-extras-list p{
   margin: 0;
 }
 
@@ -378,29 +370,18 @@
 .resume-role-header-main {
   display: flex;
   align-items: center;
-  gap: 15px;
   margin: 0;
 }
 
 .resume-role-title {
   font-weight: 600;
   font-size: 100%;
-  margin: 0;
+  margin: 0 3px 0 0;
 }
 
-.resume-role-links {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 3px;
-  margin: 0;
-}
-
-.resume-role-link {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  margin: 0;
+.resume-role-extras {
+  font-style: italic;
+  margin: 0 3px 0 0;
 }
 
 .resume-role-dates {
@@ -450,56 +431,29 @@
 .resume-proj-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: start;
   width: 100%;
   margin: 0;
 }
 
 .resume-proj-header-main {
   display: flex;
-  align-items: center;
-  gap: 15px;
+  flex-wrap: wrap;
+  max-width: 75%;
   margin: 0;
 }
 
 .resume-proj-title {
   font-weight: bold;
   font-size: 110%;
-  display: flex;
-  align-items: center;
-  margin: 0;
-}
-
-.resume-proj-links {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 3px;
-  margin: 0;
-}
-
-.resume-proj-link {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  margin: 0;
-}
-
-.resume-proj-dates {
-  font-style: italic;
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  justify-content: end;
-  max-width: 50%;
-  flex-wrap: wrap;
-  margin: 0;
+  margin: 0 3px 0 0;
+  white-space: nowrap;
 }
 
 .resume-proj-extras {
-  display: flex;
-  gap: 5px;
-  margin: 0;
+  font-style: italic;
+  white-space: nowrap;
+  margin: 0 3px 0 0;
 }
 
 .resume-proj-extras p{

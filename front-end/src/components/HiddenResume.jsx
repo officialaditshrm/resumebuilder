@@ -81,8 +81,8 @@ function HiddenResume({ resumeInView }) {
                                                     <>
                                                         {"("}
                                                         {new Date(qfc.start).toLocaleDateString("en-IN", {
-                                                            year: "long",
-                                                            month: "short",
+                                                            month: "long",
+                                                            year: "numeric",
                                                         })}
                                                         {/* Show dash and end/ongoing only if start exists */}
                                                         {(qfc.end || qfc.ongoing) && (

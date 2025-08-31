@@ -13,32 +13,29 @@ function HiddenResume({ resumeInView }) {
                 </div>
                 <div className="resume-contact">
                     {resumeInView.phonenum !== "" && (
-                        <p className = "date">
-                            <label>Phone: {resumeInView.phonenum}</label>
+                        <p>
+                            <label>{resumeInView.phonenum}</label>
                             <label>{(resumeInView.header_urls?.length > 0 || resumeInView.email || resumeInView.email2) && "  | "}</label>
                         </p>
                     )}
                     {resumeInView.email && (
-                        <p className = "date">
-                            Email: 
+                        <p>
                             <a className="resume-link" href={`mailto:${resumeInView.email}`}>{resumeInView.email}</a>
                             {resumeInView.header_urls?.length > 0 && " |"}
                         </p>
                     )}
                     {resumeInView.email2 && (
-                        <p className = "date">
-                            Alt Email:
+                        <p>
                             <a className="resume-link" href={`mailto:${resumeInView.email2}`}>{resumeInView.email2}</a>
                             {resumeInView.header_urls?.length > 0 && " |"}
                         </p>
                     )}
-                    {resumeInView.header_urls.map((header_url, headerindex) => {
-                        return <div className = "date" key = {headerindex}>
-                            <p>{header_url.name}:</p>
-                            <a href = {header_url.url} target = "_blank" className = "resume-link">{header_url.url}</a>
-                            {resumeInView.header_urls[headerindex+1] && "  |"}
+                    {resumeInView.header_urls.map((header_url, headerindex) => (
+                        <div key={headerindex} className="resume-contact-link">
+                            <a href={header_url.url} target="_blank" rel="noopener noreferrer" className="resume-link">{header_url.name}</a>
+                            {resumeInView.header_urls[headerindex + 1] && "  |"}
                         </div>
-                    })}
+                    ))}
                 </div>
             </header>
             {resumeInView.resumesummary && (
@@ -60,7 +57,20 @@ function HiddenResume({ resumeInView }) {
                                 </div>
                             </header>
                             <section className="resume-edu-qualifications">
-                                {edu.qualifications.map((qfc, qfcindex) => (
+                                {edu.qualifications?.sort((a, b) => {
+                                const aEnd = a.end ? new Date(a.end) : (a.ongoing ? new Date() : null);
+                                const bEnd = b.end ? new Date(b.end) : (b.ongoing ? new Date() : null);
+
+                                if (aEnd && bEnd && aEnd.getTime() !== bEnd.getTime()) {
+                                return bEnd - aEnd; // latest end first
+                                }
+
+                                const aStart = a.start ? new Date(a.start) : null;
+                                const bStart = b.start ? new Date(b.start) : null;
+
+                                if (aStart && bStart) return bStart - aStart;
+                                return 0;
+                            }).map((qfc, qfcindex) => (
                                     <div key={qfcindex}>
                                         <header className="resume-edu-qualification-header">
                                             <div className="resume-edu-qualification-main">
@@ -85,7 +95,7 @@ function HiddenResume({ resumeInView }) {
                                                         {"("}
                                                         {new Date(qfc.start).toLocaleDateString("en-IN", {
                                                             year: "numeric",
-                                                            month: "long",
+                                                            month: "short",
                                                         })}
                                                         {/* Show dash and end/ongoing only if start exists */}
                                                         {(qfc.end || qfc.ongoing) && (
@@ -93,7 +103,7 @@ function HiddenResume({ resumeInView }) {
                                                                 {" - "}
                                                                 {/* Show end date if not ongoing and end exists */}
                                                                 {!qfc.ongoing && qfc.end && new Date(qfc.end).toLocaleDateString("en-IN", {
-                                                                    month: "long",
+                                                                    month: "short",
                                                                     year: "numeric"
                                                                 })}
                                                                 {/* Show 'ongoing' only if ongoing is true */}
@@ -119,15 +129,15 @@ function HiddenResume({ resumeInView }) {
             {resumeInView.experience.length > 0 && (
                 <section id="experience" className="resume-section">
                     <h1 className="resume-section-header resume-section-header-mb">EXPERIENCE</h1>
-                    {resumeInView.experience.map((org, org_index) => (
+                    {resumeInView.experience?.map((org, org_index) => (
                         <section key={org_index} className="resume-exp-section">
                             <header className="resume-exp-header">
                                 <div className="resume-exp-header-main">
                                     <h2 className="resume-exp-title">{org.organization.toUpperCase()}</h2>
                                     <div className = "resume-links">
+                                        {org.urls?.length > 0 && "Links: "}
                                         {org.urls?.map((ss_url, ssurlindex) => (
                                         <span className = "resume-high-link" key={ssurlindex}>
-                                            <p>{ss_url.name}:</p>
                                             <a
                                             href={ss_url.url}
                                             target="_blank"
@@ -146,16 +156,29 @@ function HiddenResume({ resumeInView }) {
                                 </div>
                             </header>
                             <section className="resume-exp-roles">
-                                {org.roles.map((role, roleindex) => (
+                                {org.roles?.sort((a, b) => {
+                                const aEnd = a.end ? new Date(a.end) : (a.ongoing ? new Date() : null);
+                                const bEnd = b.end ? new Date(b.end) : (b.ongoing ? new Date() : null);
+
+                                if (aEnd && bEnd && aEnd.getTime() !== bEnd.getTime()) {
+                                return bEnd - aEnd; // latest end first
+                                }
+
+                                const aStart = a.start ? new Date(a.start) : null;
+                                const bStart = b.start ? new Date(b.start) : null;
+
+                                if (aStart && bStart) return bStart - aStart;
+                                return 0;
+                            }).map((role, roleindex) => (
                                     <div key={roleindex} className="resume-role-section">
                                         <header className="resume-role-header">
                                             <div className="resume-role-header-main">
                                                 <h2 className="resume-role-title">{role.rolename} {"—"}</h2>
                                                 <div className="resume-role-extras">{role.extras?.length > 0 && role.extras.join(", ")}{role.extras?.length > 0 && role.urls?.length > 0 && " —"}</div>    
                                                 <div className = "resume-links">
+                                                    {role.urls?.length > 0 && "Links: "}
                                                     {role.urls?.map((ss_url, ssurlindex) => (
                                                     <span className = "resume-high-link" key={ssurlindex}>
-                                                        <p>{ss_url.name}:</p>
                                                         <a
                                                         href={ss_url.url}
                                                         target="_blank"
@@ -177,7 +200,7 @@ function HiddenResume({ resumeInView }) {
                                                     {"("}
                                                     {new Date(role.start).toLocaleDateString("en-IN", {
                                                         year: "numeric",
-                                                        month: "long"
+                                                        month: "short"
                                                     })}
                                                     {/* Show dash and end/ongoing only if start exists */}
                                                     {(role.end || role.ongoing) && (
@@ -185,7 +208,7 @@ function HiddenResume({ resumeInView }) {
                                                             {" - "}
                                                             {/* Show end date if not ongoing and end exists */}
                                                             {!role.ongoing && role.end && new Date(role.end).toLocaleDateString("en-IN", {
-                                                                month: "long",
+                                                                month: "short",
                                                                 year: "numeric"
                                                             })}
                                                             {/* Show 'ongoing' only if ongoing is true */}
@@ -217,7 +240,20 @@ function HiddenResume({ resumeInView }) {
             {resumeInView.projects.length > 0 && (
                 <section id="projects" className="resume-section resume-section-mt">
                     <h1 className="resume-section-header resume-section-header-mb">PROJECTS</h1>
-                    {resumeInView.projects.map((subsection, subsectionindex) => (
+                    {resumeInView.projects?.sort((a, b) => {
+                                const aEnd = a.end ? new Date(a.end) : (a.ongoing ? new Date() : null);
+                                const bEnd = b.end ? new Date(b.end) : (b.ongoing ? new Date() : null);
+
+                                if (aEnd && bEnd && aEnd.getTime() !== bEnd.getTime()) {
+                                return bEnd - aEnd; // latest end first
+                                }
+
+                                const aStart = a.start ? new Date(a.start) : null;
+                                const bStart = b.start ? new Date(b.start) : null;
+
+                                if (aStart && bStart) return bStart - aStart;
+                                return 0;
+                            }).map((subsection, subsectionindex) => (
                         <section key={subsectionindex} className="resume-proj-section">
                             <header className="resume-proj-header">
                                 <div className="resume-proj-header-main">
@@ -226,9 +262,9 @@ function HiddenResume({ resumeInView }) {
                                     </h1>
                                     <div className="resume-proj-extras">{subsection.extras?.length > 0 && subsection.extras.join(", ")}{subsection.extras?.length > 0 && subsection.urls.length > 0 && " —"}</div>
                                     <div className = "resume-links">
+                                        {subsection.urls?.length > 0 && "Links: "}
                                         {subsection.urls?.map((ss_url, ssurlindex) => (
                                         <span className = "resume-high-link" key={ssurlindex}>
-                                            <p>{ss_url.name}:</p>
                                             <a
                                             href={ss_url.url}
                                             target="_blank"
@@ -250,7 +286,7 @@ function HiddenResume({ resumeInView }) {
                                     {subsection.start && (
                                         <>
                                         {new Date(subsection.start).toLocaleDateString("en-IN", {
-                                            month: "long",
+                                            month: "short",
                                             year: "numeric",
                                         })}
 
@@ -260,7 +296,7 @@ function HiddenResume({ resumeInView }) {
                                             {/* Show end date if not ongoing and end exists */}
                                             {!subsection.ongoing && subsection.end &&
                                                 new Date(subsection.end).toLocaleDateString("en-IN", {
-                                                month: "long",
+                                                month: "short",
                                                 year: "numeric",
                                                 })}
 
@@ -315,7 +351,20 @@ function HiddenResume({ resumeInView }) {
             {resumeInView.extraSections.map((section, sectionindex) => (
                 <section key={sectionindex} className="resume-section">
                     <h1 className="resume-section-header resume-section-header-mb">{section.sectionName.toUpperCase()}</h1>
-                    {section.subsections?.map((subsection, subsectionindex) => (
+                    {section.subsections?.sort((a, b) => {
+                                const aEnd = a.end ? new Date(a.end) : (a.ongoing ? new Date() : null);
+                                const bEnd = b.end ? new Date(b.end) : (b.ongoing ? new Date() : null);
+
+                                if (aEnd && bEnd && aEnd.getTime() !== bEnd.getTime()) {
+                                return bEnd - aEnd; // latest end first
+                                }
+
+                                const aStart = a.start ? new Date(a.start) : null;
+                                const bStart = b.start ? new Date(b.start) : null;
+
+                                if (aStart && bStart) return bStart - aStart;
+                                return 0;
+                            }).map((subsection, subsectionindex) => (
                         <section key={subsectionindex} className="resume-proj-section">
                             <header className="resume-proj-header">
                                 <div className="resume-proj-header-main">
@@ -324,9 +373,9 @@ function HiddenResume({ resumeInView }) {
                                     </h1>
                                     <div className="resume-proj-extras">{subsection.extras?.length > 0 && subsection.extras.join(", ")}{subsection.extras?.length > 0 && subsection.urls.length > 0 && " —"}</div>
                                     <div className = "resume-links">
+                                        {subsection.urls?.length > 0 && "Links: "}
                                         {subsection.urls?.map((ss_url, ssurlindex) => (
                                         <span className = "resume-high-link" key={ssurlindex}>
-                                            <p>{ss_url.name}:</p>
                                             <a
                                             href={ss_url.url}
                                             target="_blank"
@@ -348,7 +397,7 @@ function HiddenResume({ resumeInView }) {
                                     {subsection.start && (
                                         <>
                                         {new Date(subsection.start).toLocaleDateString("en-IN", {
-                                            month: "long",
+                                            month: "short",
                                             year: "numeric",
                                         })}
 
@@ -358,7 +407,7 @@ function HiddenResume({ resumeInView }) {
                                             {/* Show end date if not ongoing and end exists */}
                                             {!subsection.ongoing && subsection.end &&
                                                 new Date(subsection.end).toLocaleDateString("en-IN", {
-                                                month: "long",
+                                                month: "short",
                                                 year: "numeric",
                                                 })}
 

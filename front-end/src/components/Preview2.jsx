@@ -24,6 +24,7 @@ function Preview2 ({resumeInView}) {
                             {resumeInView.header_urls[headerindex+1] && "  |"}
                         </div>
                     })}
+
                 </div>
             </header>
             {resumeInView.resumesummary &&
@@ -192,7 +193,7 @@ function Preview2 ({resumeInView}) {
                                                     {"("}
                                                     {new Date(role.start).toLocaleDateString("en-IN", {
                                                         year: "numeric",
-                                                        month: "long"
+                                                        month: "short"
                                                     })}
                                                     {/* Show dash and end/ongoing only if start exists */}
                                                     {(role.end || role.ongoing) && (
@@ -200,7 +201,7 @@ function Preview2 ({resumeInView}) {
                                                             {" - "}
                                                             {/* Show end date if not ongoing and end exists */}
                                                             {!role.ongoing && role.end && new Date(role.end).toLocaleDateString("en-IN", {
-                                                                month: "long",
+                                                                month: "short",
                                                                 year: "numeric"
                                                             })}
                                                             {/* Show 'ongoing' only if ongoing is true */}
@@ -279,7 +280,7 @@ function Preview2 ({resumeInView}) {
                                     {subsection.start && (
                                         <>
                                         {new Date(subsection.start).toLocaleDateString("en-IN", {
-                                            month: "long",
+                                            month: "short",
                                             year: "numeric",
                                         })}
 
@@ -289,7 +290,7 @@ function Preview2 ({resumeInView}) {
                                             {/* Show end date if not ongoing and end exists */}
                                             {!subsection.ongoing && subsection.end &&
                                                 new Date(subsection.end).toLocaleDateString("en-IN", {
-                                                month: "long",
+                                                month: "short",
                                                 year: "numeric",
                                                 })}
 
@@ -392,7 +393,7 @@ function Preview2 ({resumeInView}) {
                                     {subsection.start && (
                                         <>
                                         {new Date(subsection.start).toLocaleDateString("en-IN", {
-                                            month: "long",
+                                            month: "short",
                                             year: "numeric",
                                         })}
 
@@ -402,7 +403,7 @@ function Preview2 ({resumeInView}) {
                                             {/* Show end date if not ongoing and end exists */}
                                             {!subsection.ongoing && subsection.end &&
                                                 new Date(subsection.end).toLocaleDateString("en-IN", {
-                                                month: "long",
+                                                month: "short",
                                                 year: "numeric",
                                                 })}
 
@@ -444,6 +445,7 @@ function Preview2 ({resumeInView}) {
         </div>
     )
 }
+
 
 
 export default Preview2

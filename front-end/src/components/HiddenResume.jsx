@@ -58,19 +58,19 @@ function HiddenResume({ resumeInView }) {
                             </header>
                             <section className="resume-edu-qualifications">
                                 {edu.qualifications?.sort((a, b) => {
-                                const aEnd = a.end ? new Date(a.end) : (a.ongoing ? new Date() : null);
-                                const bEnd = b.end ? new Date(b.end) : (b.ongoing ? new Date() : null);
+                        const aStart = a.start ? new Date(a.start) : null;
+                        const bStart = b.start ? new Date(b.start) : null;
 
-                                if (aEnd && bEnd && aEnd.getTime() !== bEnd.getTime()) {
-                                return bEnd - aEnd; // latest end first
-                                }
+                        if (aStart && bStart && aStart.getTime() !== bStart.getTime()) {
+                            return bStart - aStart; // latest start first
+                        }
 
-                                const aStart = a.start ? new Date(a.start) : null;
-                                const bStart = b.start ? new Date(b.start) : null;
+                        const aEnd = a.end ? new Date(a.end) : (a.ongoing ? new Date() : null);
+                        const bEnd = b.end ? new Date(b.end) : (b.ongoing ? new Date() : null);
 
-                                if (aStart && bStart) return bStart - aStart;
-                                return 0;
-                            }).map((qfc, qfcindex) => (
+                        if (aEnd && bEnd) return bEnd - aEnd;
+                        return 0;
+                    }).map((qfc, qfcindex) => (
                                     <div key={qfcindex}>
                                         <header className="resume-edu-qualification-header">
                                             <div className="resume-edu-qualification-main">
@@ -95,21 +95,33 @@ function HiddenResume({ resumeInView }) {
                                                         {"("}
                                                         {new Date(qfc.start).toLocaleDateString("en-IN", {
                                                             year: "numeric",
-                                                            month: "short",
+                                                            month: "long",
                                                         })}
                                                         {/* Show dash and end/ongoing only if start exists */}
-                                                        {(qfc.end || qfc.ongoing) && (
-                                                            <>
-                                                                {" - "}
-                                                                {/* Show end date if not ongoing and end exists */}
-                                                                {!qfc.ongoing && qfc.end && new Date(qfc.end).toLocaleDateString("en-IN", {
-                                                                    month: "short",
-                                                                    year: "numeric"
-                                                                })}
-                                                                {/* Show 'ongoing' only if ongoing is true */}
-                                                                {qfc.ongoing && "Present"}
-                                                            </>
-                                                        )}
+                                                        {(qfc.end || qfc.ongoing) && (() => {
+                                                            const startDate = new Date(qfc.start);
+                                                            const endDate = qfc.end ? new Date(qfc.end) : null;
+                                                            const now = new Date();
+                                                            const sameMonthYear = endDate &&
+                                                                startDate.getMonth() === endDate.getMonth() &&
+                                                                startDate.getFullYear() === endDate.getFullYear();
+                                                            const ongoingIsCurrent =
+                                                                qfc.ongoing &&
+                                                                startDate.getMonth() === now.getMonth() &&
+                                                                startDate.getFullYear() === now.getFullYear();
+
+                                                            if (sameMonthYear || ongoingIsCurrent) return null;
+                                                            return (
+                                                                <>
+                                                                    {" - "}
+                                                                    {!qfc.ongoing && qfc.end && endDate.toLocaleDateString("en-IN", {
+                                                                        month: "long",
+                                                                        year: "numeric"
+                                                                    })}
+                                                                    {qfc.ongoing && "Present"}
+                                                                </>
+                                                            );
+                                                        })}
                                                         {")"}
                                                     </>
                                                 )}
@@ -157,19 +169,19 @@ function HiddenResume({ resumeInView }) {
                             </header>
                             <section className="resume-exp-roles">
                                 {org.roles?.sort((a, b) => {
-                                const aEnd = a.end ? new Date(a.end) : (a.ongoing ? new Date() : null);
-                                const bEnd = b.end ? new Date(b.end) : (b.ongoing ? new Date() : null);
+                        const aStart = a.start ? new Date(a.start) : null;
+                        const bStart = b.start ? new Date(b.start) : null;
 
-                                if (aEnd && bEnd && aEnd.getTime() !== bEnd.getTime()) {
-                                return bEnd - aEnd; // latest end first
-                                }
+                        if (aStart && bStart && aStart.getTime() !== bStart.getTime()) {
+                            return bStart - aStart; // latest start first
+                        }
 
-                                const aStart = a.start ? new Date(a.start) : null;
-                                const bStart = b.start ? new Date(b.start) : null;
+                        const aEnd = a.end ? new Date(a.end) : (a.ongoing ? new Date() : null);
+                        const bEnd = b.end ? new Date(b.end) : (b.ongoing ? new Date() : null);
 
-                                if (aStart && bStart) return bStart - aStart;
-                                return 0;
-                            }).map((role, roleindex) => (
+                        if (aEnd && bEnd) return bEnd - aEnd;
+                        return 0;
+                    }).map((role, roleindex) => (
                                     <div key={roleindex} className="resume-role-section">
                                         <header className="resume-role-header">
                                             <div className="resume-role-header-main">
@@ -197,24 +209,34 @@ function HiddenResume({ resumeInView }) {
                                             
                                             {role.start && (
                                                 <>
-                                                    {"("}
                                                     {new Date(role.start).toLocaleDateString("en-IN", {
+                                                        month: "short",
                                                         year: "numeric",
-                                                        month: "short"
                                                     })}
-                                                    {/* Show dash and end/ongoing only if start exists */}
-                                                    {(role.end || role.ongoing) && (
-                                                        <>
-                                                            {" - "}
-                                                            {/* Show end date if not ongoing and end exists */}
-                                                            {!role.ongoing && role.end && new Date(role.end).toLocaleDateString("en-IN", {
-                                                                month: "short",
-                                                                year: "numeric"
-                                                            })}
-                                                            {/* Show 'ongoing' only if ongoing is true */}
-                                                            {role.ongoing && "Present"}
-                                                        </>
-                                                    )}
+                                                    {(role.end || role.ongoing) && (() => {
+                                                        const startDate = new Date(role.start);
+                                                        const endDate = role.end ? new Date(role.end) : null;
+                                                        const now = new Date();
+                                                        const sameMonthYear = endDate &&
+                                                            startDate.getMonth() === endDate.getMonth() &&
+                                                            startDate.getFullYear() === endDate.getFullYear();
+                                                        const ongoingIsCurrent =
+                                                            role.ongoing &&
+                                                            startDate.getMonth() === now.getMonth() &&
+                                                            startDate.getFullYear() === now.getFullYear();
+
+                                                        if (sameMonthYear || ongoingIsCurrent) return null;
+                                                        return (
+                                                            <>
+                                                                {" - "}
+                                                                {!role.ongoing && role.end && endDate.toLocaleDateString("en-IN", {
+                                                                    month: "short",
+                                                                    year: "numeric"
+                                                                })}
+                                                                {role.ongoing && "Present"}
+                                                            </>
+                                                        );
+                                                    })()}
                                                 </>
                                             )}
                                             {")"}
@@ -241,19 +263,19 @@ function HiddenResume({ resumeInView }) {
                 <section id="projects" className="resume-section resume-section-mt">
                     <h1 className="resume-section-header resume-section-header-mb">PROJECTS</h1>
                     {resumeInView.projects?.sort((a, b) => {
-                                const aEnd = a.end ? new Date(a.end) : (a.ongoing ? new Date() : null);
-                                const bEnd = b.end ? new Date(b.end) : (b.ongoing ? new Date() : null);
+                        const aStart = a.start ? new Date(a.start) : null;
+                        const bStart = b.start ? new Date(b.start) : null;
 
-                                if (aEnd && bEnd && aEnd.getTime() !== bEnd.getTime()) {
-                                return bEnd - aEnd; // latest end first
-                                }
+                        if (aStart && bStart && aStart.getTime() !== bStart.getTime()) {
+                            return bStart - aStart; // latest start first
+                        }
 
-                                const aStart = a.start ? new Date(a.start) : null;
-                                const bStart = b.start ? new Date(b.start) : null;
+                        const aEnd = a.end ? new Date(a.end) : (a.ongoing ? new Date() : null);
+                        const bEnd = b.end ? new Date(b.end) : (b.ongoing ? new Date() : null);
 
-                                if (aStart && bStart) return bStart - aStart;
-                                return 0;
-                            }).map((subsection, subsectionindex) => (
+                        if (aEnd && bEnd) return bEnd - aEnd;
+                        return 0;
+                    }).map((subsection, subsectionindex) => (
                         <section key={subsectionindex} className="resume-proj-section">
                             <header className="resume-proj-header">
                                 <div className="resume-proj-header-main">
@@ -290,20 +312,30 @@ function HiddenResume({ resumeInView }) {
                                             year: "numeric",
                                         })}
 
-                                        {(subsection.end || subsection.ongoing) && (
-                                            <>
-                                            {" - "}
-                                            {/* Show end date if not ongoing and end exists */}
-                                            {!subsection.ongoing && subsection.end &&
-                                                new Date(subsection.end).toLocaleDateString("en-IN", {
-                                                month: "short",
-                                                year: "numeric",
-                                                })}
+                                        {(subsection.end || subsection.ongoing) && (() => {
+                                            const startDate = new Date(subsection.start);
+                                            const endDate = subsection.end ? new Date(subsection.end) : null;
+                                            const now = new Date();
+                                            const sameMonthYear = endDate &&
+                                                startDate.getMonth() === endDate.getMonth() &&
+                                                startDate.getFullYear() === endDate.getFullYear();
+                                            const ongoingIsCurrent =
+                                                subsection.ongoing &&
+                                                startDate.getMonth() === now.getMonth() &&
+                                                startDate.getFullYear() === now.getFullYear();
 
-                                            {/* Show 'Present' if ongoing is true */}
-                                            {subsection.ongoing && "Present"}
-                                            </>
-                                        )}
+                                            if (sameMonthYear || ongoingIsCurrent) return null;
+                                            return (
+                                                <>
+                                                    {" - "}
+                                                    {!subsection.ongoing && subsection.end && endDate.toLocaleDateString("en-IN", {
+                                                        month: "short",
+                                                        year: "numeric"
+                                                    })}
+                                                    {subsection.ongoing && "Present"}
+                                                </>
+                                            );
+                                        })()}
                                         </>
                                     )}
                                     {")"}
@@ -352,19 +384,19 @@ function HiddenResume({ resumeInView }) {
                 <section key={sectionindex} className="resume-section">
                     <h1 className="resume-section-header resume-section-header-mb">{section.sectionName.toUpperCase()}</h1>
                     {section.subsections?.sort((a, b) => {
-                                const aEnd = a.end ? new Date(a.end) : (a.ongoing ? new Date() : null);
-                                const bEnd = b.end ? new Date(b.end) : (b.ongoing ? new Date() : null);
+                        const aStart = a.start ? new Date(a.start) : null;
+                        const bStart = b.start ? new Date(b.start) : null;
 
-                                if (aEnd && bEnd && aEnd.getTime() !== bEnd.getTime()) {
-                                return bEnd - aEnd; // latest end first
-                                }
+                        if (aStart && bStart && aStart.getTime() !== bStart.getTime()) {
+                            return bStart - aStart; // latest start first
+                        }
 
-                                const aStart = a.start ? new Date(a.start) : null;
-                                const bStart = b.start ? new Date(b.start) : null;
+                        const aEnd = a.end ? new Date(a.end) : (a.ongoing ? new Date() : null);
+                        const bEnd = b.end ? new Date(b.end) : (b.ongoing ? new Date() : null);
 
-                                if (aStart && bStart) return bStart - aStart;
-                                return 0;
-                            }).map((subsection, subsectionindex) => (
+                        if (aEnd && bEnd) return bEnd - aEnd;
+                        return 0;
+                    }).map((subsection, subsectionindex) => (
                         <section key={subsectionindex} className="resume-proj-section">
                             <header className="resume-proj-header">
                                 <div className="resume-proj-header-main">
@@ -401,20 +433,30 @@ function HiddenResume({ resumeInView }) {
                                             year: "numeric",
                                         })}
 
-                                        {(subsection.end || subsection.ongoing) && (
-                                            <>
-                                            {" - "}
-                                            {/* Show end date if not ongoing and end exists */}
-                                            {!subsection.ongoing && subsection.end &&
-                                                new Date(subsection.end).toLocaleDateString("en-IN", {
-                                                month: "short",
-                                                year: "numeric",
-                                                })}
+                                        {(subsection.end || subsection.ongoing) && (() => {
+                                            const startDate = new Date(subsection.start);
+                                            const endDate = subsection.end ? new Date(subsection.end) : null;
+                                            const now = new Date();
+                                            const sameMonthYear = endDate &&
+                                                startDate.getMonth() === endDate.getMonth() &&
+                                                startDate.getFullYear() === endDate.getFullYear();
+                                            const ongoingIsCurrent =
+                                                subsection.ongoing &&
+                                                startDate.getMonth() === now.getMonth() &&
+                                                startDate.getFullYear() === now.getFullYear();
 
-                                            {/* Show 'Present' if ongoing is true */}
-                                            {subsection.ongoing && "Present"}
-                                            </>
-                                        )}
+                                            if (sameMonthYear || ongoingIsCurrent) return null;
+                                            return (
+                                                <>
+                                                    {" - "}
+                                                    {!subsection.ongoing && subsection.end && endDate.toLocaleDateString("en-IN", {
+                                                        month: "short",
+                                                        year: "numeric"
+                                                    })}
+                                                    {subsection.ongoing && "Present"}
+                                                </>
+                                            );
+                                        })()}
                                         </>
                                     )}
                                     {")"}

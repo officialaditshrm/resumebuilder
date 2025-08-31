@@ -48,20 +48,7 @@ function Preview2 ({resumeInView}) {
                         </header>
                         
                         <section className = "flex flex-col gap-[3px]">
-                            {edu.qualifications?.sort((a, b) => {
-                                const aEnd = a.end ? new Date(a.end) : (a.ongoing ? new Date() : null);
-                                const bEnd = b.end ? new Date(b.end) : (b.ongoing ? new Date() : null);
-
-                                if (aEnd && bEnd && aEnd.getTime() !== bEnd.getTime()) {
-                                return bEnd - aEnd; // latest end first
-                                }
-
-                                const aStart = a.start ? new Date(a.start) : null;
-                                const bStart = b.start ? new Date(b.start) : null;
-
-                                if (aStart && bStart) return bStart - aStart;
-                                return 0;
-                            }).map((qfc, qfcindex) => {
+                            {edu.qualifications?.map((qfc, qfcindex) => {
                                 return <div key = {qfcindex}>
                                     <header className = "flex justify-between items-start italic">
                                         <div className = "flex flex-col max-w-[70%]">
@@ -149,20 +136,7 @@ function Preview2 ({resumeInView}) {
                             </div>
                         </header>
                         <section className = "flex flex-col">
-                            {org.roles?.sort((a, b) => {
-                                const aEnd = a.end ? new Date(a.end) : (a.ongoing ? new Date() : null);
-                                const bEnd = b.end ? new Date(b.end) : (b.ongoing ? new Date() : null);
-
-                                if (aEnd && bEnd && aEnd.getTime() !== bEnd.getTime()) {
-                                return bEnd - aEnd; // latest end first
-                                }
-
-                                const aStart = a.start ? new Date(a.start) : null;
-                                const bStart = b.start ? new Date(b.start) : null;
-
-                                if (aStart && bStart) return bStart - aStart;
-                                return 0;
-                            }).map((role, roleindex) => {
+                            {org.roles?.map((role, roleindex) => {
                                 return <div key = {roleindex} className = "pb-[1%] break-inside-avoid-page">
                                     <header className = "flex justify-between italic">
                                         <div className = "flex flex-wrap items-center max-w-[70%]">
@@ -233,20 +207,7 @@ function Preview2 ({resumeInView}) {
                 {resumeInView.projects.length > 0 && 
                 <section id = "projects" className = "flex flex-col border-t border-black mt-[1.5%]">
                     <h1 className = "font-extrabold mb-[1%] break-inside-avoid-page">PROJECTS</h1>
-                    {resumeInView.projects?.sort((a, b) => {
-                                const aEnd = a.end ? new Date(a.end) : (a.ongoing ? new Date() : null);
-                                const bEnd = b.end ? new Date(b.end) : (b.ongoing ? new Date() : null);
-
-                                if (aEnd && bEnd && aEnd.getTime() !== bEnd.getTime()) {
-                                return bEnd - aEnd; // latest end first
-                                }
-
-                                const aStart = a.start ? new Date(a.start) : null;
-                                const bStart = b.start ? new Date(b.start) : null;
-
-                                if (aStart && bStart) return bStart - aStart;
-                                return 0;
-                            }).map((subsection, subsectionindex) => {
+                    {resumeInView.projects?.map((subsection, subsectionindex) => {
                         return <section key = {subsectionindex} className = "pl-[1.5%] break-inside-avoid-page pb-[1%] text-[90%]">
                             <header className = "relative w-full items-start flex justify-between">
                                 <div className = "flex flex-wrap max-w-[75%]">    
@@ -347,20 +308,7 @@ function Preview2 ({resumeInView}) {
             {resumeInView.extraSections?.map((section, sectionindex) => {
                 return <section key = {sectionindex} className = "border-t border-black mt-[1.5%] break-inside-avoid-page">
                     <h1 className = "font-extrabold break-inside-avoid-page">{section.sectionName.toUpperCase()}</h1>
-                    {section.subsections?.sort((a, b) => {
-                                const aEnd = a.end ? new Date(a.end) : (a.ongoing ? new Date() : null);
-                                const bEnd = b.end ? new Date(b.end) : (b.ongoing ? new Date() : null);
-
-                                if (aEnd && bEnd && aEnd.getTime() !== bEnd.getTime()) {
-                                return bEnd - aEnd; // latest end first
-                                }
-
-                                const aStart = a.start ? new Date(a.start) : null;
-                                const bStart = b.start ? new Date(b.start) : null;
-
-                                if (aStart && bStart) return bStart - aStart;
-                                return 0;
-                            }).map((subsection, subsectionindex) => {
+                    {section.subsections?.map((subsection, subsectionindex) => {
                         return <section key = {subsectionindex} className = "pl-[1.5%] break-inside-avoid-page pb-[1%] text-[90%]">
                             <header className = "relative w-full items-start flex justify-between">
                                 <div className = "flex flex-wrap max-w-[75%]">    

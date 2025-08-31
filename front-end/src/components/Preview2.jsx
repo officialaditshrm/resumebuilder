@@ -15,13 +15,14 @@ function Preview2 ({resumeInView}) {
                     {resumeInView.pincode}
                 </div>
                 <div className = "flex break-inside-avoid-page justify-center flex-wrap text-[85%] gap-2">
-                    {resumeInView.phonenum !== "" && <p className = "bg-black flex items-center font-bold italic gap-[3px]"><label>{resumeInView.phonenum}</label><label>{(resumeInView.header_urls?.length > 0 || resumeInView.email || resumeInView.email2) && "  | "}</label></p>}
-                    {resumeInView.email && <p><a className = "text-blue-900 font-bold italic" href = {`mailto:${resumeInView.email}`}>{resumeInView.email}</a>{resumeInView.header_urls?.length > 0 && " |"}</p>}
-                    {resumeInView.email2 && <p><a className = "text-blue-900 font-bold italic" href = {`mailto:${resumeInView.email2}`}>{resumeInView.email2}</a>{resumeInView.header_urls?.length > 0 && " |"}</p>}
+                    {resumeInView.phonenum !== "" && <p className = "bg-black flex items-center font-bold italic gap-[3px]"><label>Phone: {resumeInView.phonenum}</label><label>{(resumeInView.header_urls?.length > 0 || resumeInView.email || resumeInView.email2) && "  | "}</label></p>}
+                    {resumeInView.email && <p><a className = "text-blue-900 font-bold italic" href = {`mailto:${resumeInView.email}`}>Email: {resumeInView.email}</a>{resumeInView.header_urls?.length > 0 && " |"}</p>}
+                    {resumeInView.email2 && <p><a className = "text-blue-900 font-bold italic" href = {`mailto:${resumeInView.email2}`}>Alt Email: {resumeInView.email2}</a>{resumeInView.header_urls?.length > 0 && " |"}</p>}
                     {resumeInView.header_urls.map((header_url, headerindex) => {
-                        return <div key = {headerindex}>
-                            <a href = {header_url.url} target = "_blank" className = "text-blue-900 break-all font-bold italic">{header_url.name}</a>
-                            {resumeInView.header_urls[headerindex+1] && "  |"}
+                        return <div className = "flex" key = {headerindex}>
+                            <p>{header_url.name}:</p>
+                            <a href = {header_url.url} target = "_blank" className = "mx-[3px] text-blue-900 break-all font-bold italic">{header_url.url}</a>
+                            {resumeInView.header_urls[headerindex+1] && "|"}
                         </div>
                     })}
                 </div>
@@ -73,7 +74,7 @@ function Preview2 ({resumeInView}) {
                                                         {"("}
                                                         {new Date(qfc.start).toLocaleDateString("en-IN", {
                                                             year: "numeric",
-                                                            month: "long",
+                                                            month: "short",
                                                         })}
                                                         {/* Show dash and end/ongoing only if start exists */}
                                                         {(qfc.end || qfc.ongoing) && (
@@ -81,7 +82,7 @@ function Preview2 ({resumeInView}) {
                                                                 {" - "}
                                                                 {/* Show end date if not ongoing and end exists */}
                                                                 {!qfc.ongoing && qfc.end && new Date(qfc.end).toLocaleDateString("en-IN", {
-                                                                    month: "long",
+                                                                    month: "short",
                                                                     year: "numeric"
                                                                 })}
                                                                 {/* Show 'ongoing' only if ongoing is true */}
@@ -114,16 +115,16 @@ function Preview2 ({resumeInView}) {
                                     {org.organization.toUpperCase()}
                                 </h2>
                                 <div className = "flex flex-wrap ml-[3px] italic font-bold items-center">
-                                    {org.urls?.length > 0 && "Links: "}
                                     {org.urls?.map((ss_url, ssurlindex) => (
                                     <span className = "flex" key={ssurlindex}>
+                                        <p>{ss_url.name}:</p>
                                         <a
                                         href={ss_url.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="mx-[3px] text-blue-900 break-all"
                                         >
-                                        {ss_url.name}
+                                        {ss_url.url}
                                         </a>
                                         {ssurlindex < role.urls.length - 1 && "|"}
                                     </span>
@@ -142,16 +143,16 @@ function Preview2 ({resumeInView}) {
                                             <h1 className = "font-semibold mr-[3px]">{role.rolename} {"—"}</h1>
                                             <div className="italic">{role.extras?.length > 0 && role.extras.join(", ")}{role.extras?.length > 0 && role.urls?.length > 0 && " —"}</div>        
                                             <div className = "flex flex-wrap ml-[3px] italic font-bold items-center">
-                                                {role.urls?.length > 0 && "Links: "}
                                                 {role.urls?.map((ss_url, ssurlindex) => (
                                                 <span className = "flex" key={ssurlindex}>
+                                                    <p>{ss_url.name}:</p>
                                                     <a
                                                     href={ss_url.url}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     className="mx-[3px] text-blue-900 break-all"
                                                     >
-                                                    {ss_url.name}
+                                                    {ss_url.url}
                                                     </a>
                                                     {ssurlindex < role.urls.length - 1 && "|"}
                                                 </span>
@@ -216,9 +217,9 @@ function Preview2 ({resumeInView}) {
                                     {/* extras list */}
                                     <div className="italic mr-[3px] text-nowrap">{subsection.extras?.length > 0 && subsection.extras.join(", ")}{subsection.extras?.length > 0 && subsection.urls.length > 0 && " —"}</div>
                                     <div className = "flex italic text-nowrap font-bold items-center">
-                                        {subsection.urls?.length > 0 && "Links: "}
                                         {subsection.urls?.map((ss_url, ssurlindex) => (
                                         <span className = "flex" key={ssurlindex}>
+                                            <p>{ss_url.name}:</p>
                                             <a
                                             href={ss_url.url}
                                             target="_blank"
@@ -265,7 +266,7 @@ function Preview2 ({resumeInView}) {
                             </header>
                             {subsection.stack &&
                                 <div className = "italic">
-                                    <div className = "">
+                                    <div>
                                         {subsection.stack.head && <b>{subsection.stack.head}:{"\t"}</b>}{subsection.stack.content && subsection.stack.content}
                                     </div>
                                 </div>
@@ -316,9 +317,9 @@ function Preview2 ({resumeInView}) {
                                     </h1>
                                     <div className="italic text-nowrap mx-[3px]">{subsection.extras?.length > 0 && subsection.extras.join(", ")}{subsection.extras?.length > 0 && " —"}</div>
                                     <div className = "flex italic font-bold items-center">
-                                        {subsection.urls?.length > 0 && "Links: "}
                                         {subsection.urls?.map((ss_url, ssurlindex) => (
                                         <span className = "flex" key={ssurlindex}>
+                                            <p>{ss_url.name}:</p>
                                             <a
                                             href={ss_url.url}
                                             target="_blank"
@@ -362,6 +363,8 @@ function Preview2 ({resumeInView}) {
                                     )}
                                     {")"}
                                 </div>
+                            
+
                             </header>
                             
                             {subsection.stack &&

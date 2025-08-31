@@ -13,29 +13,32 @@ function HiddenResume({ resumeInView }) {
                 </div>
                 <div className="resume-contact">
                     {resumeInView.phonenum !== "" && (
-                        <p>
-                            <label>{resumeInView.phonenum}</label>
+                        <p className = "date">
+                            <label>Phone: {resumeInView.phonenum}</label>
                             <label>{(resumeInView.header_urls?.length > 0 || resumeInView.email || resumeInView.email2) && "  | "}</label>
                         </p>
                     )}
                     {resumeInView.email && (
-                        <p>
+                        <p className = "date">
+                            Email: 
                             <a className="resume-link" href={`mailto:${resumeInView.email}`}>{resumeInView.email}</a>
                             {resumeInView.header_urls?.length > 0 && " |"}
                         </p>
                     )}
                     {resumeInView.email2 && (
-                        <p>
+                        <p className = "date">
+                            Alt Email:
                             <a className="resume-link" href={`mailto:${resumeInView.email2}`}>{resumeInView.email2}</a>
                             {resumeInView.header_urls?.length > 0 && " |"}
                         </p>
                     )}
-                    {resumeInView.header_urls.map((header_url, headerindex) => (
-                        <div key={headerindex} className="resume-contact-link">
-                            <a href={header_url.url} target="_blank" rel="noopener noreferrer" className="resume-link">{header_url.name}</a>
-                            {resumeInView.header_urls[headerindex + 1] && "  |"}
+                    {resumeInView.header_urls.map((header_url, headerindex) => {
+                        return <div className = "date" key = {headerindex}>
+                            <p>{header_url.name}:</p>
+                            <a href = {header_url.url} target = "_blank" className = "resume-link">{header_url.url}</a>
+                            {resumeInView.header_urls[headerindex+1] && "  |"}
                         </div>
-                    ))}
+                    })}
                 </div>
             </header>
             {resumeInView.resumesummary && (
@@ -122,9 +125,9 @@ function HiddenResume({ resumeInView }) {
                                 <div className="resume-exp-header-main">
                                     <h2 className="resume-exp-title">{org.organization.toUpperCase()}</h2>
                                     <div className = "resume-links">
-                                        {org.urls?.length > 0 && "Links: "}
                                         {org.urls?.map((ss_url, ssurlindex) => (
                                         <span className = "resume-high-link" key={ssurlindex}>
+                                            <p>{ss_url.name}:</p>
                                             <a
                                             href={ss_url.url}
                                             target="_blank"
@@ -150,9 +153,9 @@ function HiddenResume({ resumeInView }) {
                                                 <h2 className="resume-role-title">{role.rolename} {"—"}</h2>
                                                 <div className="resume-role-extras">{role.extras?.length > 0 && role.extras.join(", ")}{role.extras?.length > 0 && role.urls?.length > 0 && " —"}</div>    
                                                 <div className = "resume-links">
-                                                    {role.urls?.length > 0 && "Links: "}
                                                     {role.urls?.map((ss_url, ssurlindex) => (
                                                     <span className = "resume-high-link" key={ssurlindex}>
+                                                        <p>{ss_url.name}:</p>
                                                         <a
                                                         href={ss_url.url}
                                                         target="_blank"
@@ -223,9 +226,9 @@ function HiddenResume({ resumeInView }) {
                                     </h1>
                                     <div className="resume-proj-extras">{subsection.extras?.length > 0 && subsection.extras.join(", ")}{subsection.extras?.length > 0 && subsection.urls.length > 0 && " —"}</div>
                                     <div className = "resume-links">
-                                        {subsection.urls?.length > 0 && "Links: "}
                                         {subsection.urls?.map((ss_url, ssurlindex) => (
                                         <span className = "resume-high-link" key={ssurlindex}>
+                                            <p>{ss_url.name}:</p>
                                             <a
                                             href={ss_url.url}
                                             target="_blank"
@@ -321,9 +324,9 @@ function HiddenResume({ resumeInView }) {
                                     </h1>
                                     <div className="resume-proj-extras">{subsection.extras?.length > 0 && subsection.extras.join(", ")}{subsection.extras?.length > 0 && subsection.urls.length > 0 && " —"}</div>
                                     <div className = "resume-links">
-                                        {subsection.urls?.length > 0 && "Links: "}
                                         {subsection.urls?.map((ss_url, ssurlindex) => (
                                         <span className = "resume-high-link" key={ssurlindex}>
+                                            <p>{ss_url.name}:</p>
                                             <a
                                             href={ss_url.url}
                                             target="_blank"

@@ -14,18 +14,20 @@ function HiddenResume({ resumeInView }) {
                 <div className="resume-contact">
                     {resumeInView.phonenum !== "" && (
                         <p>
-                            <label>{resumeInView.phonenum}</label>
-                            <label>{(resumeInView.header_urls?.length > 0 || resumeInView.email || resumeInView.email2) && "  | "}</label>
+                            <label>Phone: {resumeInView.phonenum}</label>
+                            <label>{(resumeInView.header_urls?.length > 0 || resumeInView.email || resumeInView.email2) && "|"}</label>
                         </p>
                     )}
                     {resumeInView.email && (
                         <p>
+                            <label>Email: </label>
                             <a className="resume-link" href={`mailto:${resumeInView.email}`}>{resumeInView.email}</a>
-                            {resumeInView.header_urls?.length > 0 && " |"}
+                            {resumeInView.header_urls?.length > 0 && "|"}
                         </p>
                     )}
                     {resumeInView.email2 && (
                         <p>
+                            <label>Alt Email:</label>
                             <a className="resume-link" href={`mailto:${resumeInView.email2}`}>{resumeInView.email2}</a>
                             {resumeInView.header_urls?.length > 0 && " |"}
                         </p>

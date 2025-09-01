@@ -73,13 +73,12 @@
   flex-wrap: wrap;
   font-size: 85%;
   align-items: center;
-  gap: 0.5rem;
   break-inside: avoid-page;
   margin: 0;
 }
 
 .resume-contact p {
-  margin: 0
+  margin: 0 3px 0 3px;
 }
 
 .resume-contact-link {

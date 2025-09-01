@@ -9,7 +9,7 @@ function HiddenResume({ resumeInView }) {
                     {resumeInView.city}{(resumeInView.city && resumeInView.state) && ", "}
                     {resumeInView.state}{(resumeInView.state && resumeInView.country) && ", "}
                     {resumeInView.country}{(resumeInView.country && resumeInView.pincode) && " - "}
-                    {resumeInView.pincode}
+                    {resumeInView.pincode && "("+resumeInView.pincode+")"}
                 </div>
                 <div className="resume-contact">
                     {resumeInView.phonenum !== "" && (

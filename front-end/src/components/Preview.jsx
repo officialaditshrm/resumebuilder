@@ -12,7 +12,7 @@ function Preview ({resumeInView}) {
                     {resumeInView.city}{(resumeInView.city && resumeInView.state) && ", "}
                     {resumeInView.state}{(resumeInView.state && resumeInView.country) && ", "}
                     {resumeInView.country}{(resumeInView.country && resumeInView.pincode) && " - "}
-                    {resumeInView.pincode}
+                    {resumeInView.pincode && "("+resumeInView.pincode+")"}
                 </div>
                 <div className = "flex break-inside-avoid-page justify-center flex-wrap text-[85%]">
                     {resumeInView.phonenum !== "" && <p className = "bg-black flex items-center font-bold italic gap-[3px]">{resumeInView.phonenum} {(resumeInView.header_urls?.length > 0 || resumeInView.email || resumeInView.email2) && "|"}</p>}

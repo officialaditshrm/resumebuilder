@@ -1,7 +1,7 @@
 function Footer () {
     return (
         <div className = "sm:p-10 dark:text-black text-center dark:bg-sky-200 max-sm:text-sm p-4 bg-sky-950 text-neutral-100 gap-4 flex flex-col justify-center items-center shadow-[0_-2px_5px_1px_rgba(0,0,0,0.15)]">
-            <p>Version 1.2.2</p>
+            <p>Version 1.2.3</p>
             <p>Provide your feedback at <a className = "font-bold hover:underline" href = "https://docs.google.com/forms/d/1nrMo-pQyDj7xVBtlR6fEyH4dOeR_JL1UXcFht_b6rFc/preview" target = "_blank">Feedback</a></p>
             <p className = "break-words">
                 &copy; Aditya Sharma {new Date().toLocaleDateString("en-IN", {

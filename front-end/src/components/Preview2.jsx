@@ -15,9 +15,9 @@ function Preview2 ({resumeInView}) {
                     {resumeInView.pincode}
                 </div>
                 <div className = "flex break-inside-avoid-page justify-center flex-wrap text-[85%]">
-                    {resumeInView.phonenum !== "" && <p className = "bg-black flex items-center font-bold italic gap-[3px]">Phone: {resumeInView.phonenum} {(resumeInView.header_urls?.length > 0 || resumeInView.email || resumeInView.email2) && "|"}</p>}
-                    {resumeInView.email && <p className = "font-bold italic mx-[3px]">Email: <a className = "text-blue-900 font-bold italic" href = {`mailto:${resumeInView.email}`}>{resumeInView.email}</a>{resumeInView.header_urls?.length > 0 && " |"}</p>}
-                    {resumeInView.email2 && <p className = "font-bold italic mx-[3px]">Alt Email: <a className = "text-blue-900 font-bold italic" href = {`mailto:${resumeInView.email2}`}>{resumeInView.email2}</a>{resumeInView.header_urls?.length > 0 && " |"}</p>}
+                    {resumeInView.phonenum !== "" && <p className = "bg-black flex items-center font-bold italic gap-[3px]">{resumeInView.phonenum} {(resumeInView.header_urls?.length > 0 || resumeInView.email || resumeInView.email2) && "|"}</p>}
+                    {resumeInView.email && <p className = "font-bold italic mx-[3px]"><a className = "text-blue-900 font-bold italic" href = {`mailto:${resumeInView.email}`}>{resumeInView.email}</a>{resumeInView.header_urls?.length > 0 && " |"}</p>}
+                    {resumeInView.email2 && <p className = "font-bold italic mx-[3px]"><a className = "text-blue-900 font-bold italic" href = {`mailto:${resumeInView.email2}`}>{resumeInView.email2}</a>{resumeInView.header_urls?.length > 0 && " |"}</p>}
                     <div className = "flex">
                         {resumeInView.header_urls.map((header_url, headerindex) => {
                         return <div key = {headerindex}>

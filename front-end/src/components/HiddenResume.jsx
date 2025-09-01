@@ -22,22 +22,24 @@ function HiddenResume({ resumeInView }) {
                         <p>
                             <label>Email: </label>
                             <a className="resume-link" href={`mailto:${resumeInView.email}`}>{resumeInView.email}</a>
-                            {resumeInView.header_urls?.length > 0 && "|"}
+                            <label>{resumeInView.header_urls?.length > 0 && "|"}</label>
                         </p>
                     )}
                     {resumeInView.email2 && (
                         <p>
                             <label>Alt Email:</label>
                             <a className="resume-link" href={`mailto:${resumeInView.email2}`}>{resumeInView.email2}</a>
-                            {resumeInView.header_urls?.length > 0 && " |"}
+                            <label>{resumeInView.header_urls?.length > 0 && "|"}</label>
                         </p>
                     )}
-                    {resumeInView.header_urls.map((header_url, headerindex) => (
-                        <div key={headerindex} className="resume-contact-link">
-                            <a href={header_url.url} target="_blank" rel="noopener noreferrer" className="resume-link">{header_url.name}</a>
-                            {resumeInView.header_urls[headerindex + 1] && "  |"}
-                        </div>
-                    ))}
+                    <div className = "date">
+                        {resumeInView.header_urls.map((header_url, headerindex) => (
+                            <div key={headerindex} className="resume-contact-link">
+                                <a href={header_url.url} target="_blank" rel="noopener noreferrer" className="resume-link">{header_url.name}</a>
+                                {resumeInView.header_urls[headerindex + 1] && "|"}
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </header>
             {resumeInView.resumesummary && (

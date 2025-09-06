@@ -141,7 +141,7 @@ function HiddenResume({ resumeInView }) {
                                     </div>
                                 </div>
                                 <div className = "resume-exp-extras">
-                                    ({org.extras?.length > 0 && org.extras.join(", ")})
+                                    {org.extras?.length > 0 && (org.extras.join(", "))}
                                 </div>
                             </header>
                             <section className="resume-exp-roles">
@@ -378,7 +378,7 @@ function HiddenResume({ resumeInView }) {
                                     </div>
                                 </div>
                             )}
-                            {subsection.projectsummary && <p className="resume-italic">{subsection.projectsummary}</p>}
+                            {subsection.summary && <p className="resume-italic">{subsection.summary}</p>}
                             {subsection.points && (
                                 <ul className="resume-points">
                                     {subsection.points.map((sspoint, sspointindex) => (

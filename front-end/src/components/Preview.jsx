@@ -129,7 +129,7 @@ function Preview ({resumeInView}) {
                                         >
                                         {ss_url.name}
                                         </a>
-                                        {ssurlindex < role.urls.length - 1 && "|"}
+                                        {ssurlindex < org.urls.length - 1 && "|"}
                                     </span>
                                     ))}
                                 </div>

@@ -86,14 +86,16 @@ const handleExportPDFPuppeteer = async () => {
                                     </label>
                                 </div>
                             )}
-                            {loggedInUser && loggedInUser._id === currResumeData.user_id && (
+                            {loggedInUser && (
                                 <div className = "flex gap-4">
+                                {loggedInUser._id === currResumeData.user_id &&
                                     <button
                                     onClick = {() => {navigate("/editResume")}}
                                     className="max-sm:text-xs items-center text-white py-2 px-3 font-extrabold flex gap-1 rounded-md bg-blue-900">
                                         <img src="/edit.svg" alt="edit" />
                                         EDIT RESUME
                                     </button>
+                                } 
                                     <button
                                     onClick = {() => {copyResume(currResumeData)}}
                                     className="max-sm:text-xs items-center text-white py-2 px-3 font-extrabold flex gap-1 rounded-md bg-amber-600">

@@ -15,7 +15,7 @@ function Preview ({resumeInView}) {
                     {resumeInView.pincode && "("+resumeInView.pincode+")"}
                 </div>
                 <div className = "flex break-inside-avoid-page justify-center flex-wrap text-[85%]">
-                    {resumeInView.phonenum !== "" && <p className = "bg-black flex items-center font-bold italic gap-[3px]">{resumeInView.phonenum} {(resumeInView.header_urls?.length > 0 || resumeInView.email || resumeInView.email2) && "|"}</p>}
+                    {resumeInView.phonenum !== "" && <p className = "bg-black flex items-center font-bold italic gap-[3px]">XXXXXXXXXX {(resumeInView.header_urls?.length > 0 || resumeInView.email || resumeInView.email2) && "|"}</p>}
                     {resumeInView.email && <p className = "font-bold italic mx-[3px]"><a className = "text-blue-900 font-bold italic" href = {`mailto:${resumeInView.email}`}>{resumeInView.email}</a>{resumeInView.header_urls?.length > 0 && " |"}</p>}
                     {resumeInView.email2 && <p className = "font-bold italic mx-[3px]"><a className = "text-blue-900 font-bold italic" href = {`mailto:${resumeInView.email2}`}>{resumeInView.email2}</a>{resumeInView.header_urls?.length > 0 && " |"}</p>}
                     <div className = "flex">
@@ -134,9 +134,9 @@ function Preview ({resumeInView}) {
                                     ))}
                                 </div>
                             </div>
-                            <div className = "italic flex flex-col">
+                            {org.extras?.length > 0 && <div className = "italic flex flex-col">
                                 ({org.extras?.length > 0 && org.extras.join(", ")})
-                            </div>
+                            </div>}
                         </header>
                         <section className = "flex flex-col">
                             {org.roles?.map((role, roleindex) => {
@@ -164,7 +164,6 @@ function Preview ({resumeInView}) {
                                         </div>
                                         <div className = "flex">
                                             {/* Show start date if present */}
-                                            
                                             {role.start && (
                                                 <>
                                                     {"("}
@@ -214,9 +213,9 @@ function Preview ({resumeInView}) {
                         return <section key = {subsectionindex} className = "pl-[1.5%] break-inside-avoid-page pb-[1%] text-[90%]">
                             <header className = "relative w-full items-start flex justify-between">
                                 <div className = "flex flex-wrap max-w-[75%]">    
-                                    <h1 className = "text-nowrap mr-[3px] font-bold text-[110%]">
+                                    {subsection.projectname && <h1 className = "text-nowrap mr-[3px] font-bold text-[110%]">
                                         {subsection.projectname} {" —"}
-                                    </h1>
+                                    </h1>}
                                     {/* extras list */}
                                     <div className="italic mr-[3px] text-nowrap">{subsection.extras?.length > 0 && subsection.extras.join(", ")}{subsection.extras?.length > 0 && subsection.urls.length > 0 && " —"}</div>
                                     <div className = "flex italic text-nowrap font-bold items-center">
@@ -315,9 +314,9 @@ function Preview ({resumeInView}) {
                         return <section key = {subsectionindex} className = "pl-[1.5%] break-inside-avoid-page pb-[1%] text-[90%]">
                             <header className = "relative w-full items-start flex justify-between">
                                 <div className = "flex flex-wrap max-w-[75%]">    
-                                    <h1 className = "font-bold text-nowrap items-center text-[110%]">
+                                    {subsection.urls?.length > 0 && <h1 className = "font-bold text-nowrap items-center text-[110%]">
                                         {subsection.title} {"—"}
-                                    </h1>
+                                    </h1>}
                                     <div className="italic text-nowrap mx-[3px]">{subsection.extras?.length > 0 && subsection.extras.join(", ")}{subsection.extras?.length > 0 && " —"}</div>
                                     <div className = "flex italic font-bold items-center">
                                         {subsection.urls?.length > 0 && "Links: "}

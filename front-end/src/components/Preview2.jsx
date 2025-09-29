@@ -314,10 +314,10 @@ function Preview2 ({resumeInView}) {
                         return <section key = {subsectionindex} className = "pl-[1.5%] break-inside-avoid-page pb-[1%] text-[90%]">
                             <header className = "relative w-full items-start flex justify-between">
                                 <div className = "flex flex-wrap max-w-[75%]">    
-                                    {subsection.urls?.length > 0 && <h1 className = "font-bold text-nowrap items-center text-[110%]">
-                                        {subsection.title} {"—"}
-                                    </h1>}
-                                    <div className="italic text-nowrap mx-[3px]">{subsection.extras?.length > 0 && subsection.extras.join(", ")}{subsection.extras?.length > 0 && " —"}</div>
+                                    <h1 className = "font-bold text-nowrap items-center text-[110%]">
+                                        {subsection.title} {(subsection.extras?.length > 0 || subsection.urls?.length> 0 )&& "—"}
+                                    </h1>
+                                    <div className="italic text-nowrap mx-[3px]">{subsection.extras?.length > 0 && subsection.extras.join(", ")}{(subsection.urls?.length > 0 && subsection.extras?.length > 0 )&& " —"}</div>
                                     <div className = "flex italic font-bold items-center">
                                         {subsection.urls?.length > 0 && "Links: "}
                                         {subsection.urls?.map((ss_url, ssurlindex) => (
@@ -376,8 +376,8 @@ function Preview2 ({resumeInView}) {
                                     </div>
                                 </div>
                             }
-                            {subsection.projectsummary && 
-                                <p className = "italic">{subsection.projectsummary}</p>
+                            {subsection.summary && 
+                                <p className = "italic">{subsection.summary}</p>
                             }
                             {subsection.points && 
                                 <ul className = "pl-[1%]">
@@ -395,6 +395,5 @@ function Preview2 ({resumeInView}) {
         </div>
     )
 }
-
 
 export default Preview2

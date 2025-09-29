@@ -319,9 +319,9 @@ function HiddenResume({ resumeInView }) {
                             <header className="resume-proj-header">
                                 <div className="resume-proj-header-main">
                                     {subsection.urls?.length > 0 && <h1 className = "resume-proj-title">
-                                        {subsection.title} {" —"}
+                                        {subsection.title} {(subsection.extras?.length > 0 || subsection.urls?.length> 0 )&& " —"}
                                     </h1>}
-                                    <div className="resume-proj-extras">{subsection.extras?.length > 0 && subsection.extras.join(", ")}{subsection.extras?.length > 0 && subsection.urls.length > 0 && " —"}</div>
+                                    <div className="resume-proj-extras">{subsection.extras?.length > 0 && subsection.extras.join(", ")}{subsection.extras?.length > 0 && subsection.urls?.length > 0 && " —"}</div>
                                     <div className = "resume-links">
                                         {subsection.urls?.length > 0 && "Links: "}
                                         {subsection.urls?.map((ss_url, ssurlindex) => (

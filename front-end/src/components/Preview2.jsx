@@ -118,7 +118,7 @@ function Preview2 ({resumeInView}) {
                                     {org.organization.toUpperCase()}
                                 </h2>
                                 <div className = "flex flex-wrap ml-[3px] italic font-bold items-center">
-                                    {org.urls?.length > 0 && "Links: "}
+                                    {org.urls?.length > 0 && "Link(s): "}
                                     {org.urls?.map((ss_url, ssurlindex) => (
                                     <span className = "flex" key={ssurlindex}>
                                         <a
@@ -146,7 +146,7 @@ function Preview2 ({resumeInView}) {
                                             <h1 className = "font-semibold mr-[3px]">{role.rolename} {"—"}</h1>
                                             <div className="italic">{role.extras?.length > 0 && role.extras.join(", ")}{role.extras?.length > 0 && role.urls?.length > 0 && " —"}</div>        
                                             <div className = "flex flex-wrap ml-[3px] italic font-bold items-center">
-                                                {role.urls?.length > 0 && "Links: "}
+                                                {role.urls?.length > 0 && "Link(s): "}
                                                 {role.urls?.map((ss_url, ssurlindex) => (
                                                 <span className = "flex" key={ssurlindex}>
                                                     <a
@@ -219,7 +219,7 @@ function Preview2 ({resumeInView}) {
                                     {/* extras list */}
                                     <div className="italic mr-[3px] text-nowrap">{subsection.extras?.length > 0 && subsection.extras.join(", ")}{subsection.extras?.length > 0 && subsection.urls.length > 0 && " —"}</div>
                                     <div className = "flex italic text-nowrap font-bold items-center">
-                                        {subsection.urls?.length > 0 && "Links: "}
+                                        {subsection.urls?.length > 0 && "Link(s): "}
                                         {subsection.urls?.map((ss_url, ssurlindex) => (
                                         <span className = "flex" key={ssurlindex}>
                                             <a
@@ -319,7 +319,7 @@ function Preview2 ({resumeInView}) {
                                     </h1>
                                     <div className="italic text-nowrap mx-[3px]">{subsection.extras?.length > 0 && subsection.extras.join(", ")}{(subsection.urls?.length > 0 && subsection.extras?.length > 0 )&& " —"}</div>
                                     <div className = "flex italic font-bold items-center">
-                                        {subsection.urls?.length > 0 && "Links: "}
+                                        {subsection.urls?.length > 0 && "Link(s): "}
                                         {subsection.urls?.map((ss_url, ssurlindex) => (
                                         <span className = "flex" key={ssurlindex}>
                                             <a

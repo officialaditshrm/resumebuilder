@@ -124,7 +124,7 @@ function HiddenResume({ resumeInView }) {
                                 <div className="resume-exp-header-main">
                                     <h2 className="resume-exp-title">{org.organization.toUpperCase()}</h2>
                                     <div className = "resume-links">
-                                        {org.urls?.length > 0 && "Links: "}
+                                        {org.urls?.length > 0 && "Link(s): "}
                                         {org.urls?.map((ss_url, ssurlindex) => (
                                         <span className = "resume-high-link" key={ssurlindex}>
                                             <a
@@ -152,7 +152,7 @@ function HiddenResume({ resumeInView }) {
                                                 <h2 className="resume-role-title">{role.rolename} {"—"}</h2>
                                                 <div className="resume-role-extras">{role.extras?.length > 0 && role.extras.join(", ")}{role.extras?.length > 0 && role.urls?.length > 0 && " —"}</div>    
                                                 <div className = "resume-links">
-                                                    {role.urls?.length > 0 && "Links: "}
+                                                    {role.urls?.length > 0 && "Link(s): "}
                                                     {role.urls?.map((ss_url, ssurlindex) => (
                                                     <span className = "resume-high-link" key={ssurlindex}>
                                                         <a
@@ -225,7 +225,7 @@ function HiddenResume({ resumeInView }) {
                                     </h1>}
                                     <div className="resume-proj-extras">{subsection.extras?.length > 0 && subsection.extras.join(", ")}{subsection.extras?.length > 0 && subsection.urls.length > 0 && " —"}</div>
                                     <div className = "resume-links">
-                                        {subsection.urls?.length > 0 && "Links: "}
+                                        {subsection.urls?.length > 0 && "Link(s): "}
                                         {subsection.urls?.map((ss_url, ssurlindex) => (
                                         <span className = "resume-high-link" key={ssurlindex}>
                                             <a
@@ -323,7 +323,7 @@ function HiddenResume({ resumeInView }) {
                                     </h1>
                                     <div className="resume-proj-extras">{subsection.extras?.length > 0 && subsection.extras.join(", ")}{subsection.extras?.length > 0 && subsection.urls?.length > 0 && " —"}</div>
                                     <div className = "resume-links">
-                                        {subsection.urls?.length > 0 && "Links: "}
+                                        {subsection.urls?.length > 0 && "Link(s): "}
                                         {subsection.urls?.map((ss_url, ssurlindex) => (
                                         <span className = "resume-high-link" key={ssurlindex}>
                                             <a

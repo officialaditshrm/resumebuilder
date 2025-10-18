@@ -1020,6 +1020,33 @@ function ProjectDetails ({setResumeToEdit, resumeToEdit, setProjectsEdit}) {
                             className = "absolute top-2 right-2 rounded-full bg-red-700">
                                 <img src = "/closewhite.svg" />
                             </button>
+                            <div className = "flex gap-2">
+                                {index != 0 && <button
+                                type = "button"
+                                onClick = {() => {
+                                    const copy = {...resumeToEdit}
+                                    const newer = copy.projects[index]
+                                    copy.projects[index] = copy.projects[index-1]
+                                    copy.projects[index-1] = newer
+                                    setResumeToEdit(copy)
+                                }}
+                                className = "rounded-xl bg-blue-400 p-4 font-bold hover:bg-blue-500">
+                                    MOVE UP
+                                </button>}
+
+                                {(index != resumeToEdit.projects.length - 1) && <button
+                                type = "button"
+                                onClick = {() => {
+                                    const copy = {...resumeToEdit}
+                                    const newer = copy.projects[index]
+                                    copy.projects[index] = copy.projects[index+1]
+                                    copy.projects[index+1] = newer
+                                    setResumeToEdit(copy)
+                                }}
+                                className = "p-4 rounded-xl bg-indigo-400 font-bold hover:bg-indigo-500">
+                                    MOVE DOWN
+                                </button>}
+                            </div>
                             <h2 className= "text-center font-extrabold text-xl">Project Number {index+1}</h2>
                             <input
                             value = {project.projectname}

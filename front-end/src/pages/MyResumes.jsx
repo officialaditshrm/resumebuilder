@@ -46,7 +46,9 @@ function MyResumes ({buildResume, setShowLogin, smallScreen, allResumes, loggedI
                                     <label className = "text-neutral-500">Last updated: {new Date(resume.updatedAt).toLocaleDateString("en-IN", ({
                                         month: "long",
                                         day : "2-digit",
-                                        year : "numeric"
+                                        year : "numeric",
+                                        hour: "numeric",
+                                        minute: "numeric"
                                     }))}
                                     </label>
                                 </div>

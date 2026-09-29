@@ -1,10 +1,55 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import imageCompression from 'browser-image-compression'
+import { Avatar, Field, Notice, PasswordChecklist, PasswordInput, Spinner, Title } from '../components/ui.jsx'
+import { friendlyAuthMessage, isStrongPassword } from '../lib/auth.js'
 
-function Profile ({smallScreen, setPfp, darkMode, setToken, displayLoggedInUser, loggedInUser, url, pfp, setShowLogin, updateUser, flashNameAlert, nameAlert, setNameAlert, setLoggedInUser}) {
+const longDate = (value) => value ? new Date(value).toLocaleDateString("en-IN", { month: "long", day: "numeric", year: "numeric" }) : "-"
+
+// Messages from the server and from this page, rewritten for people.
+const STATUS_TEXT = {
+    "Profile updated successfully": "Saved.",
+    "Profile picture deleted": "Photo removed.",
+    "No Changes made in Name": "That's already your name.",
+    "No Changes made in Email": "That's already your email.",
+    "No Changes made in bio": "Your bio is unchanged.",
+    "Please add a name.": "Add a name before saving.",
+    "Email cannot be empty": "Add an email before saving.",
+    "Please enter a valid Password": "Enter your current password and a new one.",
+    "Incorrect Password": "Your current password isn't right. Try again.",
+}
+const statusFor = (message) => {
+    if (!message) return null
+    const text = STATUS_TEXT[message] || friendlyAuthMessage(message)?.text || message
+    const good = /success|deleted/i.test(message)
+    return { text, tone: good ? 'success' : 'error' }
+}
+
+function Row({ label, children, action }) {
+    return (
+        <div className="grid sm:grid-cols-[11rem_minmax(0,1fr)_auto] gap-x-6 gap-y-2 px-5 sm:px-6 py-5 items-start">
+            <div className="text-sm font-semibold text-graphite sm:pt-2">{label}</div>
+            <div className="min-w-0 sm:pt-1.5">{children}</div>
+            {action && <div className="sm:justify-self-end">{action}</div>}
+        </div>
+    )
+}
+
+function Profile ({setPfp, setToken, loggedInUser, url, pfp, openLogin, signingIn, updateUser, flashNameAlert, nameAlert, setNameAlert, setLoggedInUser, setCurrResumeData}) {
     const [userToShow, setUserToShow] = useState(null)
     const [showDeleteUser, setShowDeleteUser] = useState(false)
+    const [uploading, setUploading] = useState(false)
+    // Which change is being sent to the server right now ('name', 'email', ...). One at a time.
+    const [saving, setSaving] = useState(null)
+    const save = async (field, formData, onSaved) => {
+        if (saving) return
+        setSaving(field)
+        const ok = await updateUser(userToShow._id, formData)
+        setSaving(null)
+        if (ok) onSaved()   // keep the form open if the server said no, so nothing typed is lost
+    }
+    const saveLabel = (field, label) => saving === field ? <><Spinner />Saving…</> : label
+    const [newPassword, setNewPassword] = useState('')
     const navigate = useNavigate()
 
     const deletePfp = async (id)  => {
@@ -26,7 +71,6 @@ function Profile ({smallScreen, setPfp, darkMode, setToken, displayLoggedInUser,
 
     const deleteUser = async (id, user) => {
         try {
-            console.log(user)
             const response = await fetch(`${url}/api/users/${id}`, {
                 method: 'DELETE',
                 headers: {
@@ -38,11 +82,19 @@ function Profile ({smallScreen, setPfp, darkMode, setToken, displayLoggedInUser,
                 throw new Error("couldn't delete user")
             }
             const actualresponse = await response.json()
+            if (actualresponse.success === false) {
+                // Wrong password: the account still exists, so stay signed in.
+                setDeletionAlert(/incorrect password/i.test(actualresponse.message || '') ? "That password isn't right." : actualresponse.message)
+                flashDeletionAlert()
+                return
+            }
             localStorage.removeItem("resoluteToken")
             setToken("")
+            setPfp(null)
+            setCurrResumeData(null)
             navigate("/")
         } catch (error) {
-            setDeletionAlert(error.message)
+            setDeletionAlert("Couldn't delete your account. Check your connection and try again.")
             flashDeletionAlert()
         }
     }
@@ -60,74 +112,71 @@ function Profile ({smallScreen, setPfp, darkMode, setToken, displayLoggedInUser,
         setUserToShow(loggedInUser)
     }, [loggedInUser])
 
-    const [showUpload, setShowUpload] = useState(false)
-
     const [editName, setEditName] = useState(false)
     const [editEmail, setEditEmail] = useState(false)
     const [editPassword, setEditPassword] = useState(false)
     const [editBio, setEditBio] = useState(false)
 
+    const status = statusFor(nameAlert)
+
     if (userToShow) {
         return (
-            <div className = {`${!smallScreen ? "ml-64 mt-[25vh]" : "mt-[10vh]"} p-5 min-h-screen gap-10 flex flex-col items-center`}>
-                {nameAlert && <p className = "text-xs text-red-600">{nameAlert}</p>}
-                <div className = "flex w-full px-10 max-sm:flex-col items-center max-sm:gap-10">
-                    <div className = "sm:w-[50%] flex items-center justify-center flex-col gap-4">
-                        <div
-                        onMouseOver = {()=> setShowUpload(true)}
-                        onMouseLeave = {()=> setShowUpload(false)}
-                        className = "relative flex flex-col items-center justify-center bg-violet-300 rounded-full h-[30vh] w-[30vh]">    
-                            
-                            {pfp ?
-                                <img src = {pfp} className ="w-full h-full object-cover rounded-full"/>
-                                :
-                                <img src = "/addphotoblack.svg" className = "w-[60%] h-[60%]" />
-                            }
-                            {showUpload && <div className = "absolute flex items-center justify-center w-full h-full rounded-full bg-black/30">
-                                <img src = "/edit.svg"/>
-                                <input
-                                type="file"
-                                className = "absolute h-full w-full rounded-full cursor-pointer opacity-0"
-                                accept="image/*"
-                                onChange={async (e) => {
-                                    const file = e.target.files[0]
-                                    if (!file) return
-
-                                    try {
-                                        const compressedFile = await imageCompression(file, {
-                                        maxSizeMB: 0.1,
-                                        maxWidthOrHeight: 500,
-                                        useWebWorker: true
-                                        })
-
-                                        const formData = new FormData()
-                                        formData.append("profileimg", compressedFile)
-
-                                        // If you're allowing name/email/bio changes, append them too:
-                                        // formData.append("name", updatedName)
-                                        // formData.append("bio", updatedBio)
-
-                                        await updateUser(userToShow._id, formData)
-
-                                    } catch (error) {
-                                        console.error("Image compression failed:", error)
-                                    }
-                                    }}
-                                    />
-                            </div>}
-                        </div>
-                        {pfp && 
-                        <button
-                        onClick = {() => {deletePfp(loggedInUser._id)}}
-                        className = "font-bold hover:text-red-900 text-red-700 ">
-                            DELETE IMAGE
-                        </button>}
+            <main className="ui ui-page md:ml-72 min-h-screen px-5 sm:px-8 lg:px-14 pt-10 md:pt-20 pb-24">
+                <div className="max-w-3xl flex flex-col gap-10">
+                    <div className="flex flex-col gap-3">
+                        <Title>Profile</Title>
+                        <p className="ui-lede">Your name, photo and bio appear in Community next to your public resumes. Your email is never shown.</p>
                     </div>
-                    <div className = "sm:w-[50%] flex flex-col gap-5">
-                        <div className = "flex flex-col w-full">
-                            <label className = "font-bold text-neutral-500">
-                                Name:
-                            </label>
+
+                    <div aria-live="polite">
+                        {status && <Notice tone={status.tone}>{status.text}</Notice>}
+                    </div>
+
+                    <section aria-label="Account details" className="ui-sheet ui-divide">
+                        <Row label="Photo">
+                            <div className="flex flex-wrap items-center gap-4">
+                                <Avatar src={pfp} name={userToShow.name} size={72} />
+                                <div className="flex flex-wrap gap-2">
+                                    <label className={`ui-btn ui-btn-secondary ui-btn-sm relative focus-within:outline focus-within:outline-2 focus-within:outline-ink focus-within:outline-offset-2 ${uploading ? 'opacity-60 pointer-events-none' : ''}`}>
+                                        {uploading ? <><Spinner />Uploading…</> : pfp ? 'Change photo' : 'Add photo'}
+                                        <input
+                                        type="file"
+                                        className = "sr-only"
+                                        accept="image/*"
+                                        disabled={uploading || !!saving}
+                                        onChange={async (e) => {
+                                            const file = e.target.files[0]
+                                            if (!file || uploading || saving) return
+                                            setUploading(true)
+                                            try {
+                                                const compressedFile = await imageCompression(file, {
+                                                maxSizeMB: 0.1,
+                                                maxWidthOrHeight: 500,
+                                                useWebWorker: true
+                                                })
+
+                                                const formData = new FormData()
+                                                formData.append("profileimg", compressedFile)
+
+                                                await updateUser(userToShow._id, formData)
+
+                                            } catch (error) {
+                                                console.error("Image compression failed:", error)
+                                            } finally {
+                                                setUploading(false)
+                                                e.target.value = ''
+                                            }
+                                        }}
+                                        />
+                                    </label>
+                                    {pfp &&
+                                        <button type="button" disabled={uploading || !!saving} onClick = {async () => {setSaving('photo'); await deletePfp(loggedInUser._id); setSaving(null)}} className="ui-btn ui-btn-ghost ui-btn-sm">{saving === 'photo' ? <><Spinner />Removing…</> : 'Remove'}</button>
+                                    }
+                                </div>
+                            </div>
+                        </Row>
+
+                        <Row label="Name" action={!editName && <button type="button" disabled={!!saving} className="ui-btn ui-btn-secondary ui-btn-sm" onClick = {() => {setEditName(true)}}>Edit</button>}>
                             {editName ?
                                 <form
                                 onSubmit = {(event) => {
@@ -145,55 +194,36 @@ function Profile ({smallScreen, setPfp, darkMode, setToken, displayLoggedInUser,
                                         flashNameAlert()
                                         return
                                     }
-                                    updateUser(userToShow._id, formData)
-                                    setEditName(false)
+                                    save('name', formData, () => setEditName(false))
                                 }} 
-                                className = "flex flex-col flex-wrap gap-2">
-                                    <div className = "flex items-center max-sm:flex-col gap-2">
-                                        <input 
-                                        type = "text"
-                                        name = "name" 
-                                        autoFocus
-                                        onChange={(event) => {
-                                            const newName = event.target.value
-                                            const copyLog = {...userToShow}
-                                            copyLog.name = newName
-                                            setUserToShow(copyLog)
-                                        }}
-                                        value = {userToShow.name}
-                                        className = {`p-2 border text-black border-black rounded-xl`}
-                                        />
-                                        <div className = "flex w-full justify-evenly">
-                                            <button 
-                                            type = "submit"
-                                            className = "text-white bg-blue-900 py-2 px-3 rounded-xl"
-                                            >
-                                                Save
-                                            </button>
-                                            <button 
-                                            type = "button"
-                                            onClick = {() => {setUserToShow(loggedInUser); setNameAlert(null); setEditName(false)}}
-                                            className = "text-white bg-neutral-700 py-2 px-3 rounded-xl"
-                                            >
-                                                Cancel
-                                            </button>
-                                        </div>
+                                className="flex flex-col gap-3 max-w-md">
+                                    <label htmlFor="profile-name" className="sr-only">Name</label>
+                                    <input 
+                                    id="profile-name"
+                                    type = "text"
+                                    name = "name" 
+                                    autoFocus
+                                    autoComplete="name"
+                                    onChange={(event) => {
+                                        const newName = event.target.value
+                                        const copyLog = {...userToShow}
+                                        copyLog.name = newName
+                                        setUserToShow(copyLog)
+                                    }}
+                                    value = {userToShow.name}
+                                    className="ui-input"
+                                    />
+                                    <div className="flex gap-2">
+                                        <button type = "submit" disabled={!!saving} className="ui-btn ui-btn-primary ui-btn-sm">{saveLabel('name', 'Save name')}</button>
+                                        <button type = "button" disabled={!!saving} onClick = {() => {setUserToShow(loggedInUser); setNameAlert(null); setEditName(false)}} className="ui-btn ui-btn-ghost ui-btn-sm">Cancel</button>
                                     </div>
-                                    {nameAlert && <p className = "text-xs text-red-600">{nameAlert}</p>}
                                 </form>
                                 :
-                                <div className = "flex items-center gap-2">
-                                    <p className = "break-all">{userToShow.name}</p>
-                                    <button type = "button" onClick = {() => {setEditName(true)}}>
-                                        <img src = {darkMode ? "edit.svg" : "/editblack.svg"}/>
-                                    </button>
-                                </div>
+                                <p className="font-semibold break-words">{userToShow.name}</p>
                             }
-                        </div>
-                        <div className = "flex flex-col w-full">
-                            <label className = "font-bold text-neutral-500">
-                                Email:
-                            </label>
+                        </Row>
+
+                        <Row label="Email" action={!editEmail && <button type="button" disabled={!!saving} className="ui-btn ui-btn-secondary ui-btn-sm" onClick = {() => {setEditEmail(true)}}>Edit</button>}>
                             {editEmail ?
                                 <form
                                 onSubmit = {(event) => {
@@ -211,263 +241,212 @@ function Profile ({smallScreen, setPfp, darkMode, setToken, displayLoggedInUser,
                                         flashNameAlert()
                                         return
                                     }
-                                    updateUser(userToShow._id, formData)
-                                    setEditEmail(false)
+                                    save('email', formData, () => setEditEmail(false))
                                 }} 
-                                className = "flex flex-col flex-wrap gap-2">
-                                    <div className = "flex items-center max-sm:flex-col gap-2">
-                                        <input 
-                                        type = "text"
-                                        name = "email" 
-                                        autoFocus
-                                        onChange={(event) => {
-                                            const newEmail = event.target.value
-                                            const copyLog = {...userToShow}
-                                            copyLog.email = newEmail
-                                            setUserToShow(copyLog)
-                                        }}
-                                        value = {userToShow.email}
-                                        className = {`p-2 text-black border border-black rounded-xl`}
-                                        />
-                                        <div className = "flex sm:w-full gap-4 justify-evenly">
-                                            <button 
-                                            type = "submit"
-                                            className = "text-white bg-blue-900 py-2 px-3 rounded-xl"
-                                            >
-                                                Save
-                                            </button>
-                                            <button 
-                                            type = "button"
-                                            onClick = {() => {setEditEmail(false); setNameAlert(null); setUserToShow(loggedInUser)}}
-                                            className = "text-white bg-neutral-700 py-2 px-3 rounded-xl"
-                                            >
-                                                Cancel
-                                            </button>
-                                        </div>
+                                className="flex flex-col gap-3 max-w-md">
+                                    <label htmlFor="profile-email" className="sr-only">Email</label>
+                                    <input 
+                                    id="profile-email"
+                                    type = "email"
+                                    name = "email" 
+                                    autoFocus
+                                    autoComplete="email"
+                                    onChange={(event) => {
+                                        const newEmail = event.target.value
+                                        const copyLog = {...userToShow}
+                                        copyLog.email = newEmail
+                                        setUserToShow(copyLog)
+                                    }}
+                                    value = {userToShow.email}
+                                    className="ui-input"
+                                    />
+                                    <p className="ui-help">You'll use this to log in.</p>
+                                    <div className="flex gap-2">
+                                        <button type = "submit" disabled={!!saving} className="ui-btn ui-btn-primary ui-btn-sm">{saveLabel('email', 'Save email')}</button>
+                                        <button type = "button" disabled={!!saving} onClick = {() => {setEditEmail(false); setNameAlert(null); setUserToShow(loggedInUser)}} className="ui-btn ui-btn-ghost ui-btn-sm">Cancel</button>
                                     </div>
-                                    {nameAlert && <p className = "text-xs text-red-600">{nameAlert}</p>}
                                 </form>
                                 :
-                                <div className = "flex items-center gap-2">
-                                    <p>{userToShow.email}</p>
-                                    <button type = "button" onClick = {() => {setEditEmail(true)}}>
-                                        <img src = {darkMode ? "edit.svg" : "/editblack.svg"}/>
-                                    </button>
-                                </div>
+                                <p className="break-all">{userToShow.email}</p>
                             }
-                        </div>
-                        <div className = "flex flex-col">
-                            <label className = "font-bold text-neutral-500">
-                                Password:
-                            </label>
+                        </Row>
+
+                        <Row label="Password" action={!editPassword && <button type="button" disabled={!!saving} className="ui-btn ui-btn-secondary ui-btn-sm" onClick = {() => {setEditPassword(true)}}>Change</button>}>
                             {editPassword ?
+                                <div className="flex flex-col gap-5 max-w-md">
+                                    <form
+                                    noValidate
+                                    onSubmit = {(event) => {
+                                        event.preventDefault()
+                                        const formPassword = event.target.elements.password.value
+                                        const formNewPassword = event.target.elements.newPassword.value
+                                        const formData = new FormData();
+                                        formData.append("password", formPassword);
+                                        formData.append("newPassword", formNewPassword);
+                                        if (formNewPassword.trim() != "" && formPassword.trim() != "") {
+                                            if (!isStrongPassword(formNewPassword)) {
+                                                setNameAlert("Password must contain atleast 8 characters")
+                                                flashNameAlert()
+                                                return
+                                            }
+                                            save('password', formData, () => { setEditPassword(false); setNewPassword('') })
+                                        } else {
+                                            setNameAlert("Please enter a valid Password")
+                                            flashNameAlert()
+                                        }
+                                    }} 
+                                    className="flex flex-col gap-4">
+                                        <input type="email" name="username" autoComplete="username" value={userToShow.email} readOnly hidden />
+                                        <div>
+                                            <label className="ui-label" htmlFor="profile-current-password">Current password</label>
+                                            <PasswordInput id="profile-current-password" name="password" autoFocus />
+                                        </div>
+                                        <div>
+                                            <label className="ui-label" htmlFor="profile-new-password">New password</label>
+                                            <PasswordInput id="profile-new-password" name="newPassword" autoComplete="new-password" describedBy="profile-rules"
+                                            value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+                                            <PasswordChecklist id="profile-rules" password={newPassword} />
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <button type = "submit" disabled={!!saving} className="ui-btn ui-btn-primary ui-btn-sm">{saveLabel('password', 'Save password')}</button>
+                                            <button type = "button" disabled={!!saving} onClick = {() => {setEditPassword(false); setNewPassword('')}} className="ui-btn ui-btn-ghost ui-btn-sm">Cancel</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                :
+                                <p aria-label="Hidden" className="tracking-[0.2em] text-graphite">••••••••</p>
+                            }
+                        </Row>
+
+                        <Row label="Bio" action={!editBio && <button type="button" disabled={!!saving} className="ui-btn ui-btn-secondary ui-btn-sm" onClick = {() => {setEditBio(true)}}>Edit</button>}>
+                            {editBio ?
                                 <form
                                 onSubmit = {(event) => {
                                     event.preventDefault()
-                                    const formPassword = event.target.elements.password.value
-                                    const formNewPassword = event.target.elements.newPassword.value
+                                    const newBio = event.target.elements.bio.value
                                     const formData = new FormData();
-                                    formData.append("password", formPassword);
-                                    formData.append("newPassword", formNewPassword);
-                                    if (formNewPassword.trim() != "" && formPassword.trim() != "") {  
-                                        updateUser(userToShow._id, formData)
-                                        setEditPassword(false)
-                                    } else {
-                                        setNameAlert("Please enter a valid Password")
+                                    formData.append("bio", newBio);
+                                    if (newBio === loggedInUser.bio) {
+                                        setNameAlert("No Changes made in bio")
                                         flashNameAlert()
+                                        return
                                     }
+                                    if (newBio.trim() === "") {
+                                        formData.bio = " "
+                                    }
+                                    save('bio', formData, () => setEditBio(false))
                                 }} 
-                                className = "flex flex-col items-start gap-3">
-                                    <div className = "flex-col flex gap-2 w-full">
-                                        <label>Enter Current Password: </label>
-                                        <input 
-                                        type = "password"
-                                        name = "password" 
-                                        autoFocus
-                                        className = {`p-2 border text-black border-black rounded-xl`}
-                                        />
-                                    </div>
-                                    <div className = "flex gap-2 flex-col w-full">
-                                        <label>Enter New Password: </label>
-                                        <input 
-                                        type = "password"
-                                        name = "newPassword"
-                                        className = {`p-2 text-black border border-black rounded-xl`}
-                                        />
-                                    </div>
-                                    <div className = "flex w-full justify-evenly">
-                                        <button 
-                                        type = "submit"
-                                        className = "text-white bg-blue-900 py-2 px-3 rounded-xl"
-                                        >
-                                            Save
-                                        </button>
-                                        <button 
-                                        type = "button"
-                                        onClick = {() => setEditPassword(false)}
-                                        className = "text-white bg-neutral-700 py-2 px-3 rounded-xl"
-                                        >
-                                            Cancel
-                                        </button>
+                                className="flex flex-col gap-3">
+                                    <label htmlFor="profile-bio" className="sr-only">Bio</label>
+                                    <textarea
+                                    id="profile-bio"
+                                    name = "bio" 
+                                    autoFocus
+                                    rows={4}
+                                    onChange={(event) => {
+                                        const newBio = event.target.value
+                                        const copyLog = {...userToShow}
+                                        copyLog.bio = newBio
+                                        setUserToShow(copyLog)
+                                    }}
+                                    value = {userToShow.bio || ''}
+                                    placeholder="What you do and what you're looking for, in a sentence or two."
+                                    className="ui-input"
+                                    />
+                                    <div className="flex gap-2">
+                                        <button type = "submit" disabled={!!saving} className="ui-btn ui-btn-primary ui-btn-sm">{saveLabel('bio', 'Save bio')}</button>
+                                        <button type = "button" disabled={!!saving} onClick = {() => {setEditBio(false); setUserToShow(loggedInUser); setNameAlert(null)}} className="ui-btn ui-btn-ghost ui-btn-sm">Cancel</button>
                                     </div>
                                 </form>
                                 :
-                                <div className = "flex items-center gap-2">
-                                    <p>**********</p>
-                                    <button type = "button" onClick = {() => {setEditPassword(true)}}>
-                                        <img src = {darkMode ? "edit.svg" : "/editblack.svg"}/>
-                                    </button>
-                                </div>
+                                (userToShow.bio ? <p className="whitespace-pre-line break-words">{userToShow.bio}</p> : <p className="text-graphite">No bio yet. Add one so people in Community know who you are.</p>)
                             }
-                        </div>
-                        <label className = "font-bold text-neutral-500">
-                            Created At: {userToShow.createdAt ? 
-                                new Date(userToShow.createdAt).toLocaleDateString("en-IN", ({
-                                    month: "long",
-                                    day: "2-digit",
-                                    year: "numeric"
-                                }))
-                                :
-                                "-"
-                            }
-                        </label>
-                        <label className = "font-bold text-neutral-500">
-                            Last Updated: {userToShow.updatedAt ? 
-                                new Date(userToShow.updatedAt).toLocaleDateString("en-IN", ({
-                                    month: "long",
-                                    day: "2-digit",
-                                    year: "numeric"
-                                }))
-                                :
-                                "-"
-                            }
-                        </label>
-                    </div>
-                </div>
-                <div className = "flex flex-col text-center w-full sm:px-16 px-8">
-                    <label className = "font-bold w-full text-xl text-neutral-500">
-                        BIO
-                    </label>
-                    {editBio ?
-                        <form
-                        onSubmit = {(event) => {
-                            event.preventDefault()
-                            const newBio = event.target.elements.bio.value
-                            const formData = new FormData();
-                            formData.append("bio", newBio);
-                            if (newBio === loggedInUser.bio) {
-                                setNameAlert("No Changes made in bio")
-                                flashNameAlert()
-                                return
-                            }
-                            if (newBio.trim() === "") {
-                                formData.bio = " "
-                            }
-                            updateUser(userToShow._id, formData)
-                            setEditBio(false)
-                        }} 
-                        className = "flex flex-col flex-wrap gap-2">
-                            <div className = "flex w-full flex-wrap flex-col gap-2">
-                                <textarea
-                                type = "text"
-                                name = "bio" 
-                                autoFocus
-                                onChange={(event) => {
-                                    const newBio = event.target.value
-                                    const copyLog = {...userToShow}
-                                    copyLog.bio = newBio
-                                    setUserToShow(copyLog)
-                                }}
-                                value = {userToShow.bio}
-                                className = {`text-black p-2 w-full border border-black rounded-xl`}
-                                />
-                                <div className = "flex w-full justify-evenly">
-                                    <button 
-                                    type = "submit"
-                                    className = "text-white bg-blue-900 py-2 px-3 rounded-xl"
-                                    >
-                                        Save
-                                    </button>
-                                    <button 
-                                    type = "button"
-                                    onClick = {() => {setEditBio(false); setUserToShow(loggedInUser); setNameAlert(null)}}
-                                    className = "text-white bg-neutral-700 py-2 px-3 rounded-xl"
-                                    >
-                                        Cancel
-                                    </button>
-                                </div>
-                            </div>
-                            {nameAlert && <p className = "text-xs text-red-600">{nameAlert}</p>}
-                        </form>
-                        :
-                        <div className = "flex w-full flex-col items-center text-sm text-neutral-500 gap-2">
-                            {userToShow.bio ? <p className = "w-full break-words overflow-auto whitespace-normal">{userToShow.bio}</p> : <p className = "text-neutral-400 italic">No bio</p>}
-                            <button type = "button" onClick = {() => {setEditBio(true)}}>
-                                <img src = {darkMode ? "edit.svg" : "/editblack.svg"}/>
-                            </button>
-                        </div>
-                    }
-                </div>
-                <button
-                onClick = {() => {setToken(""); localStorage.removeItem("resoluteToken"); navigate("/")}}
-                className = "px-3 py-2 flex gap-2 rounded-md bg-red-900 text-white font-bold">
-                    <img src = "/logout.svg" />LOGOUT
-                </button>
-                <div className = "w-full sm:w-4/5 md:w-3/5">
-                    {!showDeleteUser ? 
-                        <button
-                        onClick = {() => setShowDeleteUser(true)}
-                        className = "font-bold text-red-800/70 px-3 py-2 rounded-md text-xs">
-                            DELETE PROFILE
-                        </button>
-                        :
-                        <form
-                        onSubmit = {(event) => {
-                            event.preventDefault()
-                            const password = event.target.elements.password.value
-                            if (password === "") {
-                                setDeletionAlert("Please enter a valid password")
-                                flashDeletionAlert()
-                                return
-                            }
-                            if (event.target.elements.verifier.value !== "I am going to regret this") {
-                                setDeletionAlert("Invalid verification input")
-                                flashDeletionAlert()
-                                return
-                            }
-                            console.log("Password is", password)
-                            deleteUser(loggedInUser._id, {password: password})
+                        </Row>
 
-                        }}
-                        className = "w-full dark:bg-zinc-800 bg-zinc-200 p-5 rounded-xl dark:text-white flex flex-col gap-3">
-                            <h1 className = "font-bold text-red-600">PROFILE DELETION</h1>
-                            <div className = "flex flex-col gap-2">
-                                <label className = "text-sm">Enter your Password:</label>
-                                <input type = "password" className = "text-black border border-black p-2 rounded-xl" name = "password"/>
-                            </div>
-                            <div className = "flex flex-col gap-2">
-                                <label className = "text-sm">Write "<b>I am going to regret this</b>"</label>
-                                <input type = "text" className = "text-black border border-black p-2 rounded-xl" name = "verifier"/>
-                            </div>
-                            {deletionAlert && <p className = "text-xs text-red-600">{deletionAlert}</p>}
-                            <div className = "flex gap-3">
-                                <button onClick = {() => {setShowDeleteUser(false)}} type = "button" className = "font-bold rounded-md px-3 py-2 text-white text-xs bg-neutral-600">CANCEL</button>
-                                <button type = "submit" className = "font-bold rounded-md px-3 py-2 text-white text-xs bg-red-800">DELETE</button>
-                            </div>
-                        </form>
-                    }
+                        <Row label="Account">
+                            <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
+                                <dt className="text-graphite">Joined</dt><dd>{longDate(userToShow.createdAt)}</dd>
+                                <dt className="text-graphite">Last updated</dt><dd>{longDate(userToShow.updatedAt)}</dd>
+                            </dl>
+                        </Row>
+                    </section>
+
+                    <div>
+                        <button
+                        type="button"
+                        disabled={!!saving || uploading}
+                        onClick = {() => {setToken(""); localStorage.removeItem("resoluteToken"); setPfp(null); setCurrResumeData(null); navigate("/")}}
+                        className="ui-btn ui-btn-secondary">
+                            Log out
+                        </button>
+                    </div>
+
+                    <section aria-labelledby="danger-heading" className="rounded-[14px] border border-danger/40 p-5 sm:p-6 flex flex-col gap-4">
+                        <div>
+                            <h2 id="danger-heading" className="font-bold text-lg">Delete account</h2>
+                            <p className="text-graphite mt-1">Deletes your profile and every resume you've made, including public ones. This can't be undone.</p>
+                        </div>
+                        {!showDeleteUser ? 
+                            <button type="button" disabled={!!saving} onClick = {() => setShowDeleteUser(true)} className="ui-btn ui-btn-danger-quiet self-start">
+                                Delete my account
+                            </button>
+                            :
+                            <form
+                            onSubmit = {(event) => {
+                                event.preventDefault()
+                                const password = event.target.elements.password.value
+                                if (password === "") {
+                                    setDeletionAlert("Enter your password.")
+                                    flashDeletionAlert()
+                                    return
+                                }
+                                if (event.target.elements.verifier.value !== "I am going to regret this") {
+                                    setDeletionAlert("Type the sentence exactly as shown.")
+                                    flashDeletionAlert()
+                                    return
+                                }
+                                if (saving) return
+                                setSaving('delete')
+                                deleteUser(loggedInUser._id, {password: password}).finally(() => setSaving(null))
+
+                            }}
+                            className="flex flex-col gap-4 max-w-md">
+                                <input type="email" name="username" autoComplete="username" value={userToShow.email} readOnly hidden />
+                                <div>
+                                    <label className="ui-label" htmlFor="delete-password">Your password</label>
+                                    <PasswordInput id="delete-password" name="password" autoFocus />
+                                </div>
+                                <Field label={<>Type <span className="font-bold">I am going to regret this</span></>} htmlFor="delete-verifier">
+                                    <input id="delete-verifier" type = "text" className="ui-input" name = "verifier" autoComplete="off" spellCheck={false}/>
+                                </Field>
+                                {deletionAlert && <Notice tone="error">{deletionAlert}</Notice>}
+                                <div className="flex flex-wrap gap-2">
+                                    <button type = "submit" disabled={!!saving} className="ui-btn ui-btn-danger">{saving === 'delete' ? <><Spinner />Deleting…</> : 'Delete account for good'}</button>
+                                    <button onClick = {() => {setShowDeleteUser(false)}} disabled={saving === 'delete'} type = "button" className="ui-btn ui-btn-ghost">Cancel</button>
+                                </div>
+                            </form>
+                        }
+                    </section>
                 </div>
-            </div>
+            </main>
         )
     } else {
         return (
-            <div className = {`${!smallScreen ? "ml-64 mt-[25vh]" : "mt-[20vh]"} min-h-screen gap-10 flex flex-col items-center`}>
-                <h1 className = "font-bold gap-2 flex max-sm:flex-col max-sm:items-center">
-                    <button
-                    onClick = {() => setShowLogin(true)}
-                    className = "underline text-blue-900">LOG-IN</button>to build or view your resumes.
-                </h1>
-            </div>
+            <main className="ui ui-page md:ml-72 min-h-screen px-5 sm:px-8 lg:px-14 pt-10 md:pt-20 pb-24">
+                <div className="max-w-xl flex flex-col gap-6">
+                    <Title>Profile</Title>
+                    {signingIn ?
+                        <p className="ui-lede" role="status">Signing you in…</p>
+                        :
+                        <>
+                            <p className="ui-lede">Log in to edit your name, photo, bio and password.</p>
+                            <div className="flex flex-wrap gap-3">
+                                <button type="button" onClick={() => openLogin('login')} className="ui-btn ui-btn-primary">Log in</button>
+                            </div>
+                        </>
+                    }
+                </div>
+            </main>
         )
     }
 }

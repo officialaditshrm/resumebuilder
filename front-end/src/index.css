@@ -1,6 +1,6 @@
 @tailwind base;
-@tailwind utilities;
 @tailwind components;
+@tailwind utilities;
 
 
 @font-face {
@@ -44,4 +44,204 @@
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+/* ------------------------------------------------------------------
+   Design tokens for the app interface (not the resume).
+   Values are RGB triplets so Tailwind opacity modifiers work.
+   ------------------------------------------------------------------ */
+:root {
+  --canvas: 244 244 245;
+  --sheet: 255 255 255;
+  --ink: 0 0 0;
+  --graphite: 82 82 91;
+  --rule: 228 228 231;
+  --edge: 212 212 216;
+  --field: 255 255 255;
+  --field-edge: 142 142 150;
+  --wash: 244 244 245;
+  --stop: 255 65 54;
+  --danger: 180 35 24;
+  --on-ink: 255 255 255;
+}
+.dark {
+  --canvas: 24 24 27;
+  --sheet: 39 39 42;
+  --ink: 255 255 255;
+  --graphite: 161 161 170;
+  --rule: 63 63 70;
+  --edge: 63 63 70;
+  --field: 24 24 27;
+  --field-edge: 113 113 122;
+  --wash: 32 32 36;
+  --danger: 249 112 102;
+  --on-ink: 0 0 0;
+}
+
+@layer components {
+  /* Everything new opts in with .ui. The resume (Preview / HiddenResume) never sits inside it. */
+  .ui {
+    font-family: "Schibsted Grotesk", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: rgb(var(--ink));
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  /* Put the resume back to how it renders everywhere else when it is shown inside .ui */
+  .legacy {
+    font-family: courier;
+    line-height: 1.5;
+    -webkit-font-smoothing: auto;
+    -moz-osx-font-smoothing: auto;
+    letter-spacing: normal;
+  }
+  /* Snappier, consistent motion inside the app interface (the resume keeps its own timing). */
+  .ui, .ui * {
+    transition-duration: 160ms;
+    transition-timing-function: cubic-bezier(.2, .8, .2, 1);
+  }
+  .ui-drawer {
+    transition-property: transform, box-shadow;
+    transition-duration: 280ms;
+  }
+  .ui :focus-visible {
+    outline: 2px solid rgb(var(--ink));
+    outline-offset: 2px;
+  }
+  .ui-title {
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    font-size: clamp(2.5rem, 1.6rem + 3vw, 4rem);
+    overflow-wrap: anywhere;
+  }
+  .ui-h2 {
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    font-size: 1.375rem;
+  }
+  .ui-lede {
+    color: rgb(var(--graphite));
+    font-size: 1.0625rem;
+    max-width: 38rem;
+  }
+  .ui-sheet {
+    background: rgb(var(--sheet));
+    border: 1px solid rgb(var(--rule));
+    border-radius: 14px;
+  }
+  .ui-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0 1.125rem;
+    border-radius: 8px;
+    font-weight: 650;
+    font-size: 0.9375rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition-property: background-color, border-color, color, opacity, transform;
+    transition-duration: 150ms;
+  }
+  .ui-btn:active:not(:disabled) { transform: scale(0.97); }
+  .ui-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .ui-btn-sm { min-height: 2.25rem; padding: 0 0.75rem; font-size: 0.875rem; }
+  .ui-btn-primary { background: rgb(var(--ink)); color: rgb(var(--on-ink)); }
+  .ui-btn-primary:hover:not(:disabled) { background: rgb(var(--ink) / 0.82); }
+  .ui-btn-secondary { background: rgb(var(--sheet)); color: rgb(var(--ink)); border-color: rgb(var(--edge)); }
+  .ui-btn-secondary:hover:not(:disabled) { background: rgb(var(--wash)); border-color: rgb(var(--field-edge)); }
+  .ui-btn-ghost { background: transparent; color: rgb(var(--ink)); }
+  .ui-btn-ghost:hover:not(:disabled) { background: rgb(var(--ink) / 0.06); }
+  .ui-btn-danger { background: rgb(var(--danger)); color: rgb(var(--sheet)); }
+  .ui-btn-danger:hover:not(:disabled) { background: rgb(var(--danger) / 0.85); }
+  .ui-btn-danger-quiet { background: transparent; color: rgb(var(--danger)); border-color: rgb(var(--danger) / 0.45); }
+  .ui-btn-danger-quiet:hover:not(:disabled) { background: rgb(var(--danger) / 0.08); }
+  .ui-link {
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+  .ui-link:hover { text-decoration-thickness: 2px; }
+
+  .ui-label { display: block; font-size: 0.875rem; font-weight: 650; margin-bottom: 0.375rem; }
+  .ui-help { font-size: 0.875rem; color: rgb(var(--graphite)); }
+  .ui-input {
+    display: block;
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    background: rgb(var(--field));
+    color: rgb(var(--ink));
+    border: 1px solid rgb(var(--field-edge));
+    font-size: 1rem;
+    line-height: 1.4;
+    transition-property: border-color, box-shadow;
+    transition-duration: 120ms;
+  }
+  textarea.ui-input { min-height: 5.5rem; resize: vertical; }
+  .ui-input::placeholder { color: rgb(var(--graphite) / 0.8); }
+  .ui-input:hover { border-color: rgb(var(--ink) / 0.6); }
+  .ui-input:focus { outline: none; border-color: rgb(var(--ink)); box-shadow: 0 0 0 1px rgb(var(--ink)); }
+  .ui-input[aria-invalid="true"] { border-color: rgb(var(--danger)); }
+  .dark .ui-input { color-scheme: dark; }
+  .ui input[type="checkbox"] { accent-color: rgb(var(--ink)); width: 1.125rem; height: 1.125rem; }
+
+  .ui-divide > * + * { border-top: 1px solid rgb(var(--rule)); }
+}
+
+
+
+/* ---- Motion ------------------------------------------------------ */
+@keyframes ui-page-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes ui-sheet-up { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes ui-sheet-down { from { transform: none; } to { transform: translateY(100%); } }
+@keyframes ui-pop-in { from { opacity: 0; transform: translateY(10px) scale(.97); } to { opacity: 1; transform: none; } }
+@keyframes ui-pop-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(6px) scale(.98); } }
+@keyframes ui-fade-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes ui-item-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+@keyframes ui-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+/* Page content settles in on navigation */
+.ui-page { animation: ui-page-in 320ms cubic-bezier(.2, .8, .2, 1) both; }
+/* Dialogs: slide up from the bottom on phones, lift in on larger screens */
+.ui-dialog-in { animation: ui-sheet-up 320ms cubic-bezier(.2, .8, .2, 1) both; }
+.ui-dialog-out { animation: ui-sheet-down 200ms cubic-bezier(.4, 0, 1, 1) both; }
+@media (min-width: 640px) {
+  .ui-dialog-in { animation: ui-pop-in 220ms cubic-bezier(.2, .8, .2, 1) both; }
+  .ui-dialog-out { animation: ui-pop-out 150ms cubic-bezier(.4, 0, 1, 1) both; }
+}
+.ui-fade-out { animation: ui-fade-out 180ms ease-in both; }
+/* Newly added entries in the editors */
+.ui-item-in { animation: ui-item-in 220ms cubic-bezier(.2, .8, .2, 1) both; }
+/* Loading placeholders */
+.ui-skeleton {
+  border-radius: 6px;
+  background: linear-gradient(90deg, rgb(var(--ink) / 0.06) 25%, rgb(var(--ink) / 0.11) 50%, rgb(var(--ink) / 0.06) 75%);
+  background-size: 200% 100%;
+  animation: ui-shimmer 1.4s linear infinite;
+}
+
+@keyframes ui-rise {
+  from { transform: translateY(24px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes ui-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ui-slide-in { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+@keyframes ui-progress { from { transform: translateX(-100%); } to { transform: translateX(250%); } }
+.ui-rise { animation: ui-rise 700ms cubic-bezier(.2,.7,.1,1) both; }
+.ui-fade { animation: ui-fade 160ms ease-out both; }
+.ui-progress { animation: ui-progress 1.2s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ui, .ui *, .ui-motion { transition: none !important; animation: none !important; }
+  .ui-skeleton { animation: none !important; }
 }

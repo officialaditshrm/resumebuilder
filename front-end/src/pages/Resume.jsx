@@ -1,12 +1,18 @@
 import { useEffect, useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Preview from '../components/Preview.jsx';
 import HiddenResume from '../components/HiddenResume.jsx'
 import ReactDOMServer from "react-dom/server"
+import AtsPanel from '../components/AtsPanel.jsx'
+import { Dialog, Icon, Notice, Spinner } from '../components/ui.jsx'
 
-function Resume({currResumeData, setAiResult, url, copyResume, showAllSuggestions, setShowAllSuggestions, handleAIAnalysis, setJobDescription, setCurrResumeData, aiError, aiLoading, aiResult, jobDescription, loggedInUser, updateResume, deleteResume, fetchResumes }) {
+const edited = (value) => value ? new Date(value).toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" }) : null
+
+function Resume({currResumeData, setAiResult, url, copyResume, showAllSuggestions, setShowAllSuggestions, handleAIAnalysis, setJobDescription, setCurrResumeData, aiError, aiLoading, aiResult, jobDescription, loggedInUser, updateResume, deleteResume, fetchResumes, openLogin, signingIn }) {
     
     const [showDeleteWarning, setShowDeleteWarning] = useState(false);
+    const [exporting, setExporting] = useState(false);
+    const [exportError, setExportError] = useState(null);
     const navigate = useNavigate();
     const printRef = useRef();
 
@@ -44,6 +50,7 @@ const handleExportPDFPuppeteer = async () => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ html: fullHtml }),
   });
+  if (!res.ok) throw new Error("Export failed");
 
   const blob = await res.blob();
   const url2 = window.URL.createObjectURL(blob);
@@ -53,62 +60,98 @@ const handleExportPDFPuppeteer = async () => {
   a.click();
 };
 
+    // One export at a time; the server can take a while to render the PDF.
+    const exportPdf = async () => {
+        if (exporting) return
+        setExporting(true)
+        setExportError(null)
+        try {
+            await handleExportPDFPuppeteer()
+        } catch (error) {
+            setExportError("Couldn't create the PDF. Check your connection and try again.")
+        } finally {
+            setExporting(false)
+        }
+    }
 
+    const setPrivacy = (makePrivate) => {
+        if (Boolean(currResumeData.private) === makePrivate) return
+        const resumeCopy = { ...currResumeData };
+        resumeCopy.private = makePrivate;
+        updateResume(currResumeData._id, resumeCopy);
+        fetchResumes();
+        setCurrResumeData(resumeCopy);
+    }
+
+    const isOwner = Boolean(loggedInUser && currResumeData && loggedInUser._id === currResumeData.user_id)
 
     return (
-        <div className={`md:ml-72 md:mt-[25vh] mt-[20vh] min-h-screen flex flex-col items-center`}>
+        <main className="md:ml-72 min-h-screen px-5 lg:px-10 xl:px-14 pt-8 md:pt-16 pb-24">
             {currResumeData && (
-                <div className="w-full flex flex-col items-center gap-10 p-5">
-                    <div className="w-full relative flex flex-col justify-center items-center">
-                        <h1 className="font-extrabold break-all text-3xl max-sm:text-sm">{currResumeData.name}</h1>
-                            {loggedInUser && loggedInUser._id === currResumeData.user_id && (
-                                <div className="flex items-center p-5 justify-center gap-2">
-                                    <button
-                                        onClick={() => {
-                                            const resumeCopy = { ...currResumeData };
-                                            resumeCopy.private = !currResumeData.private;
-                                            updateResume(currResumeData._id, resumeCopy);
-                                            fetchResumes();
-                                            setCurrResumeData(resumeCopy);
-                                        }}
-                                        className={`w-[50px] shadow-[0_0_3px_1px_rgba(0,0,0,0.25)] rounded-full h-[30px] flex ${
-                                            currResumeData.private ? 'bg-green-500' : 'bg-red-500'
-                                        } items-center`}
-                                    >
-                                        <div
-                                            className={`${
-                                                currResumeData.private && 'translate-x-[20px]'
-                                            } rounded-full w-[26px] ml-[2px] h-[26px] bg-white shadow-[0_0_3px_1px_rgba(0,0,0,0.15)]`}
-                                        ></div>
-                                    </button>
-                                    <label className="font-bold text-sm text-neutral-500">
-                                        {currResumeData.private ? 'PRIVATE' : 'PUBLIC'}
-                                    </label>
-                                </div>
-                            )}
-                            {loggedInUser && (
-                                <div className = "flex gap-4">
-                                {loggedInUser._id === currResumeData.user_id &&
-                                    <button
-                                    onClick = {() => {navigate("/editResume")}}
-                                    className="max-sm:text-xs items-center text-white py-2 px-3 font-extrabold flex gap-1 rounded-md bg-blue-900">
-                                        <img src="/edit.svg" alt="edit" />
-                                        EDIT RESUME
-                                    </button>
-                                } 
-                                    <button
-                                    onClick = {() => {copyResume(currResumeData)}}
-                                    className="max-sm:text-xs items-center text-white py-2 px-3 font-extrabold flex gap-1 rounded-md bg-amber-600">
-                                        <img src="/editdoc.svg" alt="edit" />
-                                        COPY RESUME
-                                    </button>
-                                </div>
-                            )}
-                    </div>
+                <>
+                    <header className="ui ui-page max-w-6xl flex flex-col gap-6">
+                        <Link to={isOwner ? "/myresumes" : "/community"} className="self-start inline-flex items-center gap-1.5 text-sm font-semibold text-graphite hover:text-ink">
+                            <Icon name="chevron" size={14} className="rotate-180" />{isOwner ? 'My resumes' : 'Community'}
+                        </Link>
 
-                    <label className="text-sm text-neutral-500 font-extrabold">{currResumeData._id}</label>
+                        <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-5">
+                            <div className="min-w-0 max-w-3xl">
+                                <h1 className="ui-title text-[clamp(2rem,1.3rem+2.2vw,3.25rem)] break-words">{currResumeData.name}</h1>
+                                <p className="ui-lede mt-3">
+                                    {currResumeData.username}
+                                    {edited(currResumeData.updatedAt) && <>, edited {edited(currResumeData.updatedAt)}</>}
+                                </p>
+                            </div>
 
-                    <div className = "hidden">
+                            <div className="flex flex-wrap gap-2.5">
+                                {isOwner &&
+                                    <button type="button" onClick={() => {navigate("/editResume")}} className="ui-btn ui-btn-primary">
+                                        <Icon name="edit" size={18} />Edit
+                                    </button>
+                                }
+                                {loggedInUser &&
+                                    <button type="button" onClick={() => {copyResume(currResumeData)}} className="ui-btn ui-btn-secondary">
+                                        <Icon name="add" size={18} />Make a copy
+                                    </button>
+                                }
+                                {isOwner &&
+                                    <button type="button" onClick={exportPdf} disabled={exporting} className="ui-btn ui-btn-secondary min-w-[10.5rem]">
+                                        {exporting ? <><Spinner />Creating PDF…</> : <><Icon name="down" size={18} />Download PDF</>}
+                                    </button>
+                                }
+                                {!loggedInUser && !signingIn &&
+                                    <button type="button" onClick={() => openLogin?.('login')} className="ui-btn ui-btn-secondary">Log in to make a copy</button>
+                                }
+                            </div>
+                        </div>
+
+                        {exportError && <Notice tone="error">{exportError}</Notice>}
+
+                        {isOwner &&
+                            <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                                <div role="group" aria-label="Visibility" className="inline-grid grid-cols-2 gap-1 p-1 rounded-[10px] bg-ink/[0.06]">
+                                    {[{ value: false, label: 'Public', icon: 'globe' }, { value: true, label: 'Private', icon: 'lock' }].map(option => {
+                                        const selected = Boolean(currResumeData.private) === option.value
+                                        return (
+                                            <button
+                                            key={option.label}
+                                            type="button"
+                                            aria-pressed={selected}
+                                            onClick={() => setPrivacy(option.value)}
+                                            className={`h-9 px-4 inline-flex items-center justify-center gap-1.5 rounded-lg text-sm font-semibold ${selected ? 'bg-sheet text-ink shadow-[0_1px_3px_rgba(0,0,0,0.18)]' : 'text-graphite hover:text-ink'}`}>
+                                                <Icon name={option.icon} size={15} />{option.label}
+                                            </button>
+                                        )
+                                    })}
+                                </div>
+                                <p className="ui-help">
+                                    {currResumeData.private ? "Only you can see this resume." : "Listed in Community, where anyone can view and copy it."}
+                                </p>
+                            </div>
+                        }
+                    </header>
+
+                    <div className="hidden">
                         <div
                             ref={printRef}
                             style={{
@@ -119,143 +162,50 @@ const handleExportPDFPuppeteer = async () => {
                         >
                             <HiddenResume resumeInView={currResumeData} />
                         </div>
-
-                        
                     </div>
-                    <div>
-                        <div
-                            style={{
-                                fontFamily: "'Times New Roman', Times, serif",
-                                backgroundColor: 'white',
-                                boxSizing: 'border-box',
-                            }}
-                        >
-                            <Preview resumeInView={currResumeData} />
-                        </div>
 
-                        
-                    </div>
-                    
-                    {/* ATS Analysis Section */}
-                    <div className="w-full max-w-2xl bg-zinc-200 dark:bg-zinc-800 rounded-xl shadow p-4 max-sm:p-2 flex flex-col gap-3 border border-blue-200">
-                        <h2 className="font-bold text-lg dark:text-blue-200 text-blue-900">ATS & AI Resume Analysis</h2>
-                        <textarea
-                            className="w-full border p-2 text-black rounded mb-2 text-sm"
-                            rows={3}
-                            placeholder="Paste job description or title here..."
-                            value={jobDescription}
-                            onChange={e => setJobDescription(e.target.value)}
-                        />
-                        <button
-                            className="bg-blue-700 text-white px-4 py-2 rounded font-bold disabled:opacity-60"
-                            onClick={() => handleAIAnalysis(currResumeData, jobDescription)}
-                            disabled={aiLoading || !jobDescription.trim()}
-                        >
-                            {aiLoading ? 'Analyzing...' : 'Analyze with AI'}
-                        </button>
-                        {aiError && <div className="text-red-600 text-sm">{aiError}</div>}
-                        {aiResult && (
-                            <div className="mt-2 text-sm max-sm:text-xs flex flex-col gap-3 items-center w-full">
-                                {aiResult.score !== undefined && (
-                                    <div className="flex flex-col items-center mb-2 w-full">
-                                        <div className="relative w-24 h-24 sm:w-32 sm:h-32">
-                                            <svg viewBox="0 0 100 100" className="w-full h-full">
-                                                <circle cx="50" cy="50" r="45" fill="none" stroke="#e5e7eb" strokeWidth="10" />
-                                                <circle
-                                                    cx="50" cy="50" r="45" fill="none"
-                                                    stroke="#2563eb"
-                                                    strokeWidth="10"
-                                                    strokeDasharray={2 * Math.PI * 45}
-                                                    strokeDashoffset={2 * Math.PI * 45 * (1 - aiResult.score / 100)}
-                                                    strokeLinecap="round"
-                                                    style={{ transition: 'stroke-dashoffset 0.7s' }}
-                                                />
-                                                <text x="50" y="56" textAnchor="middle" fontSize="2.2em" fontWeight="bold" fill="#2563eb">{aiResult.score}</text>
-                                            </svg>
-                                        </div>
-                                        <div className="font-bold text-lg mt-1">ATS Score</div>
-                                    </div>
-                                )}
-                                {/* Individual Category Scores */}
-                                {aiResult.individual_category_score && aiResult.individual_category_score.length > 0 && (
-                                    <div className="w-full bg-white/70 dark:bg-zinc-900/70 rounded p-2 border border-blue-100 dark:border-zinc-700">
-                                        <b>Category Breakdown:</b>
-                                        <ul className="list-disc pl-5">
-                                            {aiResult.individual_category_score.map((cat, i) => (
-                                                <li key={i} className="mb-1">
-                                                    <span className="font-bold">{cat.category}:</span> <span className="text-blue-700">{cat.score}</span>
-                                                    <br />
-                                                    <span className="text-gray-700 dark:text-gray-300">{cat.short_explanation}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                )}
-                                {aiResult.summary && (
-                                    <div className="w-full bg-white/70 dark:bg-zinc-900/70 rounded p-2 border border-blue-100 dark:border-zinc-700">
-                                        <b>AI Summary:</b>
-                                        <div className="whitespace-pre-line">{aiResult.summary}</div>
-                                    </div>
-                                )}
-                                {aiResult.missingKeywords && aiResult.missingKeywords.length > 0 && (
-                                    <div className="w-full bg-white/70 dark:bg-zinc-900/70 rounded p-2 border border-blue-100 dark:border-zinc-700">
-                                        <b>Missing/Weak Keywords:</b> {aiResult.missingKeywords.join(', ')}
-                                    </div>
-                                )}
-                                {aiResult.rewrites && aiResult.rewrites.length > 0 && (
-                                    <div className="w-full bg-white/70 dark:bg-zinc-900/70 rounded p-2 border border-blue-100 dark:border-zinc-700">
-                                        <b>Suggested Rewrites:</b>
-                                        <ul className="list-disc pl-5">
-                                            {aiResult.rewrites.map((rw, i) => (
-                                                <li key={i}>
-                                                    <span className="text-red-600">Old:</span> {rw.old}<br />
-                                                    <span className="text-green-700">New:</span> {rw.new}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                )}
-                                {aiResult.suggestions && aiResult.suggestions.length > 0 && (
-                                    <div className="w-full bg-white/70 dark:bg-zinc-900/70 rounded p-2 border border-blue-100 dark:border-zinc-700">
-                                        <b>Suggestions:</b>
-                                        <ul className="list-disc pl-5">
-                                            {aiResult.suggestions.map((s, i) => <li key={i}>{s}</li>)}
-                                        </ul>
-                                    </div>
-                                )}
-                                {aiResult.raw && (
-                                    <div className="w-full bg-white/70 dark:bg-zinc-900/70 rounded p-2 border border-blue-100 dark:border-zinc-700 text-xs text-gray-500 whitespace-pre-wrap">
-                                        {aiResult.raw}
-                                    </div>
-                                )}
+                    <div className="mt-10 max-w-6xl grid gap-10 min-[1400px]:grid-cols-[auto_minmax(0,1fr)] items-start">
+                        {/* The resume itself: same component, same fixed sizes per screen width as before */}
+                        <div className="flex [justify-content:safe_center] min-[1400px]:justify-start min-w-0">
+                            <div>
+                                <div
+                                    style={{
+                                        fontFamily: "'Times New Roman', Times, serif",
+                                        backgroundColor: 'white',
+                                        boxSizing: 'border-box',
+                                    }}
+                                >
+                                    <Preview resumeInView={currResumeData} />
+                                </div>
                             </div>
-                        )}
-                    </div>
-
-                    {loggedInUser?._id === currResumeData.user_id && (
-                        <div className="w-full flex flex-col gap-4 bg-sky-900 p-5 rounded-xl items-center">
-                            <h1 className="text-2xl text-sky-100 font-extrabold">Download</h1>
-                            <button
-                                onClick={handleExportPDFPuppeteer}
-                                className="mt-4 font-bold bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                            >
-                                ATS-Friendly PDF Export
-                            </button>
                         </div>
-                    )}
 
+                        <div className="flex flex-col gap-6 min-[1400px]:sticky min-[1400px]:top-8 min-w-0 w-full max-w-2xl mx-auto min-[1400px]:mx-0">
+                            <AtsPanel
+                                jobDescription={jobDescription}
+                                setJobDescription={setJobDescription}
+                                aiLoading={aiLoading}
+                                aiError={aiError}
+                                aiResult={aiResult}
+                                onAnalyze={() => handleAIAnalysis(currResumeData, jobDescription)}
+                            />
 
-                    
+                            {isOwner &&
+                                <section aria-labelledby="delete-heading" className="ui rounded-[14px] border border-danger/40 p-5 sm:p-6 flex flex-wrap items-center justify-between gap-4">
+                                    <div>
+                                        <h2 id="delete-heading" className="font-bold">Delete this resume</h2>
+                                        <p className="ui-help mt-0.5">This can't be undone.</p>
+                                    </div>
+                                    <button type="button" onClick={() => setShowDeleteWarning(true)} className="ui-btn ui-btn-danger-quiet">
+                                        <Icon name="delete" size={18} />Delete
+                                    </button>
+                                </section>
+                            }
 
-                    {loggedInUser?._id === currResumeData.user_id && (
-                        <button
-                            onClick={() => setShowDeleteWarning(true)}
-                            className="max-sm:text-xs text-white py-2 px-3 font-extrabold flex gap-1 rounded-md bg-red-900"
-                        >
-                            DELETE RESUME
-                        </button>
-                    )}
-                </div>
+                            <p className="ui text-xs text-graphite break-all">Resume ID: {currResumeData._id}</p>
+                        </div>
+                    </div>
+                </>
             )}
 
             {showDeleteWarning && (
@@ -263,39 +213,44 @@ const handleExportPDFPuppeteer = async () => {
                     navigate={navigate}
                     deleteResume={deleteResume}
                     id={currResumeData._id}
+                    name={currResumeData.name}
                     setShowDeleteWarning={setShowDeleteWarning}
                 />
             )}
-        </div>
+        </main>
     );
 }
 
 export default Resume;
 
-function DeleteWarning({ deleteResume, navigate, setShowDeleteWarning, id }) {
+function DeleteWarning({ deleteResume, navigate, setShowDeleteWarning, id, name }) {
+    const [pending, setPending] = useState(false)
+    const [failed, setFailed] = useState(false)
+    const confirm = async () => {
+        if (pending) return
+        setPending(true)
+        setFailed(false)
+        const deleted = await deleteResume(id);
+        if (deleted) {
+            setShowDeleteWarning(false);
+            navigate('/myresumes');
+        } else {
+            setPending(false)
+            setFailed(true)
+        }
+    }
     return (
-        <div className="bg-neutral-100/50 backdrop-blur-sm fixed top-0 bottom-0 left-0 right-0 z-50 flex flex-col items-center justify-center">
-            <div className="rounded-xl flex flex-col gap-8 bg-neutral-100 p-10 shadow-[0_0_10px_1px_rgba(0,0,0,0.25)]">
-                <p className="text-xl">Are you sure you want to delete this Resume?</p>
-                <div className="w-full flex justify-evenly items-center">
-                    <button
-                        onClick={() => {
-                            deleteResume(id);
-                            navigate('/myresumes');
-                            setShowDeleteWarning(false);
-                        }}
-                        className="rounded-md bg-red-600 text-white px-3 py-2 font-bold"
-                    >
-                        DELETE
-                    </button>
-                    <button
-                        onClick={() => setShowDeleteWarning(false)}
-                        className="rounded-md bg-neutral-600 text-white px-3 py-2 font-bold"
-                    >
-                        CANCEL
-                    </button>
-                </div>
+        <Dialog title="Delete this resume?" onClose={() => setShowDeleteWarning(false)} size="sm" dismissible={!pending}>
+            <p className="text-graphite">
+                <span className="font-semibold text-ink break-words">{name}</span> will be deleted for good. If it's public, it also disappears from Community.
+            </p>
+            {failed && <Notice tone="error" className="mt-4">Couldn't delete it. Check your connection and try again.</Notice>}
+            <div className="mt-6 flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
+                <button type="button" onClick={() => setShowDeleteWarning(false)} disabled={pending} className="ui-btn ui-btn-secondary" autoFocus>Keep it</button>
+                <button type="button" onClick={confirm} disabled={pending} className="ui-btn ui-btn-danger min-w-[9.5rem]">
+                    {pending ? <><Spinner />Deleting…</> : 'Delete resume'}
+                </button>
             </div>
-        </div>
-    );
+        </Dialog>
+    )
 }

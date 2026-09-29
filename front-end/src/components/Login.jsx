@@ -1,116 +1,132 @@
 import { useState } from 'react'
+import { Dialog, Field, Notice, PasswordChecklist, PasswordInput, Spinner } from './ui.jsx'
+import { friendlyAuthMessage, isStrongPassword, useSlowHint, SLOW_SERVER_TEXT } from '../lib/auth.js'
 
+const TITLES = {
+    login: { title: 'Log in to Resolute', description: 'Pick up where you left off.' },
+    signup: { title: 'Create your account', description: 'Free. Build as many resumes as you need.' },
+}
 
-function Login ({setLoggedInUser, fetchResumes, darkMode, setShowLogin, url, setToken}) {
-    const [showSignUp, setShowSignUp] = useState(false)
-    const [alertmessage, setalertmessage] = useState(null)
+function Login ({setLoggedInUser, fetchResumes, setShowLogin, url, setToken, mode = 'login', setMode}) {
+    const [alert, setAlert] = useState(null)       // { text, action }
+    const [pending, setPending] = useState(false)
+    const [email, setEmail] = useState('')
+    const [name, setName] = useState('')
+    const [password, setPassword] = useState('')
+    const [signupPassword, setSignupPassword] = useState('')
+    const slow = useSlowHint(pending)
 
+    const switchMode = (next) => { setAlert(null); setMode(next) }
+    const close = () => setShowLogin(false)
 
-    const loginUser = async (email, password) => {
-        try{
-            const response = await fetch(`${url}/api/users/login`, {
-                method: "POST",
-                body: JSON.stringify({email, password}),
-                headers: {
-                    "Content-Type" : "application/json"
-                }
-            })
-            const actualresponse = await response.json()
-            setToken(actualresponse.token)
-            setalertmessage(actualresponse.message)
+    // Only keep a token the server actually issued.
+    const finish = (actualresponse) => {
+        if (actualresponse.success === true && actualresponse.token) {
             localStorage.setItem("resoluteToken", actualresponse.token)
-            if (actualresponse.success === true) { 
-                setShowLogin(false)
-                setShowSignUp(false)
-                fetchResumes()
-            }
+            setToken(actualresponse.token)
+            setShowLogin(false)
+            fetchResumes()
+            return
+        }
+        setAlert(friendlyAuthMessage(actualresponse.message) || { text: 'Something went wrong. Try again.' })
+    }
+
+    const send = async (path, body) => {
+        if (pending) return   // one request at a time
+        setPending(true)
+        setAlert(null)
+        try {
+            const response = await fetch(`${url}/api/users/${path}`, {
+                method: "POST",
+                body: JSON.stringify(body),
+                headers: { "Content-Type" : "application/json" }
+            })
+            finish(await response.json())
         } catch (error) {
-            setToken("")
-            setalertmessage(error.message)
+            setAlert(friendlyAuthMessage(error.message))
+        } finally {
+            setPending(false)
         }
     }
 
-    const registerUser = async (name, email, password) => {
-        try{
-            const response = await fetch(`${url}/api/users/register`, {
-                method: "POST",
-                body: JSON.stringify({name, email, password}),
-                headers: {
-                    "Content-Type" : "application/json"
-                }
-            })
-            const actualresponse = await response.json()
-            setToken(actualresponse.token)
-            setalertmessage(actualresponse.message)
-            localStorage.setItem("resoluteToken", actualresponse.token)
-            if (actualresponse.success === true) { 
-                setalertmessage(null)
-                setShowLogin(false)
-                setShowSignUp(false)
-                fetchResumes()
-            }
-        } catch (error) {
-            setToken("")
-            setalertmessage(error.message)
-        }
-    }
+    const alertBlock = alert &&
+        <Notice tone="error">
+            {alert.text}{' '}
+            {alert.action === 'login' && <button type="button" className="ui-link" onClick={() => switchMode('login')}>Log in instead</button>}
+            {alert.action === 'signup' && <button type="button" className="ui-link" onClick={() => switchMode('signup')}>Create an account</button>}
+        </Notice>
 
-    const handleLogin = (event) => {
-        const email = event.target.elements.email.value
-        const password = event.target.elements.password.value
-        loginUser(email, password)
-    }
-
-    const handleSignUp = (event) => {
-        const name = event.target.elements.signupname.value
-        const email = event.target.elements.signupemail.value
-        const password = event.target.elements.signuppassword.value
-        registerUser(name, email, password)
-    }
+    const { title, description } = TITLES[mode] || TITLES.login
 
     return (
-        <div className = "dark:bg-zinc-950/50 p-5 sm:p-10 bg-zinc-100/50 backdrop-blur-sm flex items-center justify-center fixed top-0 z-50 left-0 h-screen w-screen">
-            <div className = "max-[480px]:w-full w-4/5 lg:w-1/3 md:w-3/5 bg-zinc-100 dark:bg-zinc-800 relative p-5 sm:p-10 rounded-xl items-center shadow-[0_0_5px_1px_rgba(0,0,0,0.25)] flex flex-col">
-                <button
-                onClick = {() => {setShowLogin(false); setShowSignUp(false)}}
-                className = "absolute right-5 top-5"><img src = {darkMode ? "/closewhite.svg" : "/close.svg"}/></button>
-                {!showSignUp &&
-                    <form onSubmit = {(event) => {event.preventDefault(); handleLogin(event)}} className = "w-full flex flex-col gap-4 items-center">
-                        <h1 className = "font-extrabold text-3xl text-neutral-500">LOGIN</h1>
-                        <div className = "flex flex-col gap-2 w-full">
-                            <label className = "font-semibold">Email:</label>
-                            <input name = "email" autoComplete='email' type = "text" className = "text-black p-1 sm:p-2 rounded-lg shadow-[0_0_5px_1px_rgba(0,0,0,0.15)] border border-neutral-950/30 w-full"/>
-                        </div>
-                        <div className = "flex flex-col sm:text-lg gap-2 w-full">
-                            <label className = "font-semibold">Password:</label>
-                            <input name = "password" autoComplete='current-password' type = "password" className = "text-black p-1 sm:p-2 rounded-lg shadow-[0_0_5px_1px_rgba(0,0,0,0.15)] border border-neutral-950/30 w-full"/>
-                        </div>
-                        <input type = "submit" value = "LOGIN" className = "cursor-pointer bg-blue-900 text-white py-2 px-4 font-bold rounded-md "/>
-                        <button type = "button" className = "hover:text-blue-600" onClick = {() => setShowSignUp(true)}>Sign-up Instead?</button>
-                    </form>
-                }
-                {showSignUp &&
-                    <form onSubmit = {(event) => {event.preventDefault(); handleSignUp(event)}} className = "w-full flex flex-col gap-4 items-center">
-                        <h1 className = "font-extrabold text-3xl text-neutral-500">SIGNUP</h1>
-                        <div className = "flex flex-col gap-2 w-full">
-                            <label className = "font-semibold">Name:</label>
-                            <input name = "signupname" autoComplete='name' type = "text" className = "text-black p-1 sm:p-2 rounded-lg shadow-[0_0_5px_1px_rgba(0,0,0,0.15)] border border-neutral-950/30 w-full"/>
-                        </div>
-                        <div className = "flex flex-col sm:text-lg gap-2 w-full">
-                            <label className = "font-semibold">Email:</label>
-                            <input name = "signupemail" autoComplete='email' type = "text" className = "text-black p-1 sm:p-2 rounded-lg shadow-[0_0_5px_1px_rgba(0,0,0,0.15)] border border-neutral-950/30 w-full"/>
-                        </div>
-                        <div className = "flex flex-col sm:text-lg gap-2 w-full">
-                            <label className = "font-semibold">Password:</label>
-                            <input name = "signuppassword" autoComplete='new-password' type = "password" className = "text-black p-1 sm:p-2 rounded-lg shadow-[0_0_5px_1px_rgba(0,0,0,0.15)] border border-neutral-950/30 w-full"/>
-                        </div>
-                        <input type = "submit" value = "SIGNUP" className = "cursor-pointer bg-green-900 text-white py-2 px-4 font-bold rounded-md "/>
-                        <button type = "button" className = "hover:text-blue-600" onClick = {() => setShowSignUp(false)}>Log-in Instead?</button>
-                    </form>
-                }
-                <p className = "flex flex-wrap text-red-500 text-xs">{alertmessage}</p>
-            </div>
-        </div>
+        <Dialog title={title} description={description} onClose={close} size="sm">
+            {mode === 'login' &&
+                <form
+                noValidate
+                onSubmit={(event) => {
+                    event.preventDefault()
+                    if (!email.trim() || !password) { setAlert({ text: 'Enter your email and password.' }); return }
+                    send('login', { email: email.trim(), password })
+                }}
+                className="flex flex-col gap-4">
+                    <fieldset disabled={pending} className="contents">
+                    <Field label="Email" htmlFor="login-email">
+                        <input id="login-email" name="email" type="email" autoComplete="email" className="ui-input" autoFocus
+                        value={email} onChange={(e) => setEmail(e.target.value)} />
+                    </Field>
+                    <div>
+                        <label className="ui-label" htmlFor="login-password">Password</label>
+                        <PasswordInput id="login-password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    </div>
+                    </fieldset>
+                    {alertBlock}
+                    {slow && <Notice>{SLOW_SERVER_TEXT}</Notice>}
+                    <button type="submit" className="ui-btn ui-btn-primary w-full mt-1" disabled={pending}>
+                        {pending ? <><Spinner />Logging in…</> : 'Log in'}
+                    </button>
+                    <p className="text-sm text-graphite text-center">
+                        New to Resolute? <button type="button" className="ui-link text-ink" onClick={() => switchMode('signup')}>Create an account</button>
+                    </p>
+                </form>
+            }
+
+            {mode === 'signup' &&
+                <form
+                noValidate
+                onSubmit={(event) => {
+                    event.preventDefault()
+                    if (!name.trim()) { setAlert({ text: 'Add your name. It appears on your profile.' }); return }
+                    if (!email.trim()) { setAlert({ text: 'Enter your email address.' }); return }
+                    if (!isStrongPassword(signupPassword)) { setAlert({ text: "That password doesn't meet the rules listed below the field." }); return }
+                    send('register', { name: name.trim(), email: email.trim(), password: signupPassword })
+                }}
+                className="flex flex-col gap-4">
+                    <Field label="Name" htmlFor="signup-name">
+                        <input id="signup-name" name="signupname" type="text" autoComplete="name" className="ui-input" autoFocus
+                        value={name} onChange={(e) => setName(e.target.value)} />
+                    </Field>
+                    <Field label="Email" htmlFor="signup-email">
+                        <input id="signup-email" name="signupemail" type="email" autoComplete="email" className="ui-input"
+                        value={email} onChange={(e) => setEmail(e.target.value)} />
+                    </Field>
+                    <div>
+                        <label className="ui-label" htmlFor="signup-password">Password</label>
+                        <PasswordInput id="signup-password" name="signuppassword" autoComplete="new-password" describedBy="signup-rules"
+                        value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} />
+                        <PasswordChecklist id="signup-rules" password={signupPassword} />
+                    </div>
+                    {alertBlock}
+                    {slow && <Notice>{SLOW_SERVER_TEXT}</Notice>}
+                    <button type="submit" className="ui-btn ui-btn-primary w-full mt-1" disabled={pending}>
+                        {pending ? <><Spinner />Creating account…</> : 'Create account'}
+                    </button>
+                    <p className="text-sm text-graphite text-center">
+                        Already have an account? <button type="button" className="ui-link text-ink" onClick={() => switchMode('login')}>Log in</button>
+                    </p>
+                </form>
+            }
+
+        </Dialog>
     )
 }
 

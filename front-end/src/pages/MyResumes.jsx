@@ -1,110 +1,148 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { Dialog, Icon, ListSkeleton, Notice, Spinner, Title } from '../components/ui.jsx'
 
-function MyResumes ({buildResume, setShowLogin, smallScreen, allResumes, loggedInUser, fetchResumes, setCurrResumeData, createResume, currResumeData, deleteResume}) {
-    const navigate = useNavigate()
+const formatDate = (value, withTime) => new Date(value).toLocaleDateString("en-IN", {
+    month: "short",
+    day : "numeric",
+    year : "numeric",
+    ...(withTime ? { hour: "numeric", minute: "2-digit" } : {})
+})
+
+function MyResumes ({buildResume, openLogin, signingIn, allResumes, loggedInUser, fetchResumes, setCurrResumeData, currResumeData, deleteResume}) {
     const [showDeleteWarning, setShowDeleteWarning] = useState(false)
-
 
     useEffect (() => {
         fetchResumes()
     }, [])
 
-    
-
     if (loggedInUser) {
+        const mine = allResumes ? allResumes.filter(oneresume => oneresume.user_id === loggedInUser._id)
+            .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)) : null
         return (
-            <div className = {`${!smallScreen ? "ml-64 mt-[25vh]" : "mt-[10vh]"} min-h-screen flex flex-col items-center`}>
-                <div className = "flex max-[540px]:flex-col max-[540px]:gap-6 items-center justify-evenly w-full">   
-                    <h1 className = "text-3xl font-extrabold max-sm:text-2xl">YOUR RESUMES</h1>
-                    <button
-                    onClick = {() => buildResume()}
-                    className = "flex items-center gap-1 bg-blue-900 text-white max-sm:text-xs font-bold px-3 py-2 rounded-md">
-                        <img src = "/edit.svg"/>
-                        BUILD NEW
-                    </button>
-                </div>
-                <div className = {`flex flex-col gap-10 items-center md:px-10 py-10 w-full`}>
-                    {allResumes &&  allResumes
-                    .filter(oneresume => oneresume.user_id === loggedInUser._id).length > 0 ?
-                    allResumes.filter(oneresume => oneresume.user_id === loggedInUser._id)
-                    .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
-                    .map((resume, index) => {
-                        return <div key = {index} className = {`max-md:flex-col p-3 flex w-4/5 bg-zinc-200 dark:bg-zinc-800 shadow-[0_2px_5px_1px_rgba(0,0,0,0.25)] rounded-xl`}>
-                            <div className = "flex flex-1 flex-col gap-5 p-2">
-                                <div className = {`flex flex-1 justify-center md:items-center gap-2 sm:gap-5 flex-col text-wrap`}>
-                                    <h1 className = "font-bold text-sm sm:text-xl break-all line-clamp-1 md:max-w-[70%]">{resume.name.toUpperCase()}</h1>
-                                    <label className = "max-md:text-xs text-neutral-500 line-clamp-1 break-all">{resume.username}</label>
-                                </div>
-                                <div className = {`max-lg:flex-col text-xs sm:text-sm gap-2 flex flex-1 items-center justify-evenly w-full`}>
-                                    <label className = "text-neutral-500">Created at: {new Date(resume.createdAt).toLocaleDateString("en-IN", ({
-                                        month: "long",
-                                        day : "2-digit",
-                                        year : "numeric"
-                                    }))}
-                                    </label>
-                                    <label className = "text-neutral-500">Last updated: {new Date(resume.updatedAt).toLocaleDateString("en-IN", ({
-                                        month: "long",
-                                        day : "2-digit",
-                                        year : "numeric",
-                                        hour: "numeric",
-                                        minute: "numeric"
-                                    }))}
-                                    </label>
-                                </div>
-                            </div>
-                            <div className = {`flex max-sm:flex-col max-sm:text-xs max-md:flex-row flex-col gap-2 sm:gap-5 p-5 md:border-l h-full items-center justify-center dark:border-zinc-100/30 border-zinc-900/30`}>
-                                <label className = "text-neutral-500 font-bold">{resume.private ? "PRIVATE" : "PUBLIC"}</label>
-                                <button
-                                onClick = {() => {navigate("/resume"); setCurrResumeData(resume)}}
-                                className = "text-white font-bold bg-green-900 flex justify-center px-3 py-1 rounded-md">VIEW</button>
-                                <button
-                                onClick = {() => {setCurrResumeData(resume); setShowDeleteWarning(true)}}
-                                className = "text-white font-bold bg-red-900 flex justify-center px-3 py-1 rounded-md">DELETE</button>
-                            </div>
+            <main className="ui ui-page md:ml-72 min-h-screen px-5 sm:px-8 lg:px-14 pt-10 md:pt-20 pb-24">
+                <div className="max-w-4xl flex flex-col gap-10">
+                    <div className="flex flex-wrap items-end justify-between gap-6">
+                        <div className="flex flex-col gap-3">
+                            <Title>Your resumes</Title>
+                            {mine && mine.length > 0 &&
+                                <p className="ui-lede">{mine.length} {mine.length === 1 ? 'resume' : 'resumes'}, most recently edited first.</p>
+                            }
+                        </div>
+                        <button type="button" onClick={() => buildResume()} className="ui-btn ui-btn-primary">
+                            <Icon name="add" />New resume
+                        </button>
+                    </div>
+
+                    {!mine && <ListSkeleton rows={3} label="Loading your resumes" />}
+
+                    {mine && mine.length === 0 &&
+                        <div className="ui-sheet px-6 py-12 sm:px-10 flex flex-col items-start gap-4">
+                            <h2 className="ui-h2">Start your first resume</h2>
+                            <p className="text-graphite max-w-md">Give it a name, fill in the sections you need and see the resume update as you type.</p>
+                            <button type="button" onClick={() => buildResume()} className="ui-btn ui-btn-primary"><Icon name="add" />New resume</button>
                         </div>
                     }
-                    )
-                    :
-                    <p className = "font-bold italic text-zinc-500">No resumes yet.</p>
+
+                    {mine && mine.length > 0 &&
+                        <ul className="ui-sheet ui-divide overflow-hidden">
+                            {mine.map((resume) => (
+                                <li key={resume._id} data-resume-id={resume._id} className="flex flex-col sm:flex-row sm:items-center gap-4 px-5 sm:px-6 py-5">
+                                    <span aria-hidden="true" className="hidden sm:flex h-14 w-11 shrink-0 rounded-[4px] border border-edge bg-white flex-col gap-[3px] p-1.5 pt-2">
+                                        <span className="h-[3px] w-2/3 mx-auto rounded bg-zinc-900" />
+                                        <span className="h-[2px] w-full rounded bg-zinc-300" />
+                                        <span className="h-[2px] w-full rounded bg-zinc-300" />
+                                        <span className="h-[2px] w-4/5 rounded bg-zinc-300" />
+                                        <span className="h-[2px] w-full rounded bg-zinc-300" />
+                                    </span>
+                                    <div className="min-w-0 flex-1">
+                                        <div className="flex items-center gap-2 min-w-0">
+                                            <h2 className="font-bold text-lg leading-snug truncate" title={resume.name}>{resume.name}</h2>
+                                            <span className={`shrink-0 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold ${resume.private ? 'bg-ink/[0.07] text-graphite' : 'border border-edge text-ink'}`}>
+                                                <Icon name={resume.private ? 'lock' : 'globe'} size={13} />{resume.private ? 'Private' : 'Public'}
+                                            </span>
+                                        </div>
+                                        <p className="text-sm text-graphite truncate">{resume.username}</p>
+                                        <p className="text-sm text-graphite mt-1">
+                                            Edited {formatDate(resume.updatedAt, true)}<span className="hidden sm:inline">, created {formatDate(resume.createdAt)}</span>
+                                        </p>
+                                    </div>
+                                    <div className="flex gap-2 shrink-0">
+                                        <Link
+                                        to="/resume"
+                                        onClick={() => setCurrResumeData(resume)}
+                                        className="ui-btn ui-btn-secondary ui-btn-sm flex-1 sm:flex-none">Open</Link>
+                                        <button
+                                        type="button"
+                                        onClick = {() => {setCurrResumeData(resume); setShowDeleteWarning(true)}}
+                                        aria-label={`Delete ${resume.name}`}
+                                        className="ui-btn ui-btn-ghost ui-btn-sm text-danger px-3">
+                                            <Icon name="delete" size={18} />Delete
+                                        </button>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
                     }
                 </div>
-                {showDeleteWarning &&
-                    <DeleteWarning navigate = {navigate} deleteResume = {deleteResume} id = {currResumeData._id} setShowDeleteWarning = {setShowDeleteWarning}/>
+                {showDeleteWarning && currResumeData &&
+                    <DeleteWarning
+                    name={currResumeData.name}
+                    onConfirm={async () => {
+                        const deleted = await deleteResume(currResumeData._id)
+                        if (deleted) { setShowDeleteWarning(false); setCurrResumeData(null) }
+                        return deleted
+                    }}
+                    onCancel={() => setShowDeleteWarning(false)} />
+                }
+            </main>
+        )
+    }
+    return (
+        <main className="ui ui-page md:ml-72 min-h-screen px-5 sm:px-8 lg:px-14 pt-10 md:pt-20 pb-24">
+            <div className="max-w-xl flex flex-col gap-6">
+                <Title>Your resumes</Title>
+                {signingIn ?
+                    <p className="ui-lede" role="status">Signing you in…</p>
+                    :
+                    <>
+                        <p className="ui-lede">Log in to build a resume or open the ones you've saved.</p>
+                        <div className="flex flex-wrap gap-3">
+                            <button type="button" onClick={() => openLogin('login')} className="ui-btn ui-btn-primary">Log in</button>
+                            <button type="button" onClick={() => openLogin('signup')} className="ui-btn ui-btn-secondary">Create an account</button>
+                        </div>
+                    </>
                 }
             </div>
-        )
-    }
-    else {
-        return (
-            <h1 className = {`${!smallScreen ? "ml-64 mt-[25vh]" : "mt-[20vh]"} min-h-screen p-5 sm:p-10 max-sm:flex-col max-sm:items-cene max-sm:text-sm gap-2 font-extrabold text-2xl flex items-start`}>
-                <button
-                onClick = {() => setShowLogin(true)}
-                className = "underline text-blue-900">LOG-IN
-                </button>
-                to build or view your resumes.
-            </h1>
-        )
-    }
+        </main>
+    )
 }
 
 export default MyResumes
 
 
-function DeleteWarning ({deleteResume, setShowDeleteWarning, navigate, id}) {
+function DeleteWarning ({name, onConfirm, onCancel}) {
+    const [pending, setPending] = useState(false)
+    const [failed, setFailed] = useState(false)
+    const confirm = async () => {
+        if (pending) return
+        setPending(true)
+        setFailed(false)
+        const ok = await onConfirm()
+        if (!ok) { setPending(false); setFailed(true) }
+    }
     return (
-        <div className = "bg-neutral-100/50 backdrop-blur-sm fixed top-0 bottom-0 left-0 right-0 z-50 flex flex-col items-center justify-center">
-            <div className = "rounded-xl max-w-[80%] flex flex-col gap-8 bg-neutral-100 p-10 shadow-[0_0_10px_1px_rgba(0,0,0,0.25)]">
-                <p className = "text-xl max-sm:text-sm">Are you sure you want to delete this Resume?</p>
-                <div className = "w-full max-sm:flex-col gap-3 flex justify-evenly items-center">
-                    <button
-                    onClick = {() => {deleteResume(id); setShowDeleteWarning(false); navigate("/")}}
-                    className = "rounded-md bg-red-600 text-white px-3 py-2 font-bold">DELETE</button>
-                    <button
-                    onClick = {() => {setShowDeleteWarning(false)}}
-                    className = "rounded-md bg-neutral-600 text-white px-3 py-2 font-bold">CANCEL</button>
-                </div>
+        <Dialog title="Delete this resume?" onClose={onCancel} size="sm" dismissible={!pending}>
+            <p className="text-graphite">
+                <span className="font-semibold text-ink break-words">{name}</span> will be deleted for good. If it's public, it also disappears from Community.
+            </p>
+            {failed && <Notice tone="error" className="mt-4">Couldn't delete it. Check your connection and try again.</Notice>}
+            <div className="mt-6 flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
+                <button type="button" onClick={onCancel} disabled={pending} className="ui-btn ui-btn-secondary" autoFocus>Keep it</button>
+                <button type="button" onClick={confirm} disabled={pending} className="ui-btn ui-btn-danger min-w-[9.5rem]">
+                    {pending ? <><Spinner />Deleting…</> : 'Delete resume'}
+                </button>
             </div>
-        </div>
+        </Dialog>
     )
 }
